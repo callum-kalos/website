@@ -66,7 +66,7 @@ export default function DEXAAccuracy() {
                   </div>
                 </div>
 
-                <blockquote className="text-[15px] text-text-secondary italic leading-[1.7] border-l-2 border-accent/30 pl-5">
+                <blockquote className="text-[15px] text-text-secondary italic leading-[1.7] border-l border-warm-border pl-5">
                   "{expert.quote}"
                 </blockquote>
               </div>
