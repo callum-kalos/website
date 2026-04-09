@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useFadeIn } from '../hooks/useFadeIn'
-import { TrendingUp, TrendingDown, ArrowRight, BarChart3, Database, Users, Target, RotateCcw } from 'lucide-react'
+import { TrendingUp, TrendingDown, ArrowRight, BarChart3, Database, Users, RotateCcw } from 'lucide-react'
 
 // ── Types ──
 
