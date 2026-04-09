@@ -1,5 +1,14 @@
 import { useFadeIn } from '../hooks/useFadeIn'
-import { ScanLine, Users, Compass } from 'lucide-react'
+import { ScanLine, Users, Compass, Activity, Heart, Dumbbell, Bone, Scale, ArrowLeftRight } from 'lucide-react'
+
+const metrics = [
+  { icon: Activity, title: 'Body Fat %', desc: 'Total and regional fat distribution' },
+  { icon: Heart, title: 'Visceral Fat', desc: 'Hidden fat around your organs' },
+  { icon: Dumbbell, title: 'Lean Tissue', desc: 'Muscle by arms, legs, and trunk' },
+  { icon: Scale, title: 'ALMI', desc: 'Muscle mass relative to height' },
+  { icon: Bone, title: 'Bone Density', desc: 'Full skeletal bone map' },
+  { icon: ArrowLeftRight, title: 'Imbalances', desc: 'Side-to-side asymmetries' },
+]
 
 const steps = [
   {
@@ -7,7 +16,7 @@ const steps = [
     icon: ScanLine,
     title: 'Scan',
     time: '10 minutes',
-    description: 'Lie down. The DEXA scanner maps every gram of muscle, fat, and bone in your body. Clinical-grade precision in 6 minutes.',
+    description: 'Lie down. The DEXA scanner maps every gram of muscle, fat, and bone in your body. Clinical-grade precision in 10 minutes.',
   },
   {
     num: '02',
@@ -21,7 +30,7 @@ const steps = [
     icon: Compass,
     title: 'Decide',
     time: 'Your call',
-    description: 'Some people leave with clarity and a plan. Others want us to build the plan and hold them accountable. Both paths are right.',
+    description: 'Some people leave with clarity and a plan. Others want us to build the plan and hold them accountable. Choose the best path for you.',
   },
 ]
 
@@ -86,7 +95,28 @@ export default function HowItWorksA() {
           </div>
         </div>
 
-        <div className="text-center mt-14">
+        {/* What your scan measures */}
+        <div className="mt-16">
+          <div className="grid grid-cols-3 lg:grid-cols-6 gap-4 lg:gap-6">
+            {metrics.map((m) => (
+              <div
+                key={m.title}
+                className="bg-cream-light rounded-2xl border border-warm-border p-5 text-center hover:-translate-y-1 hover:shadow-[0_12px_32px_rgba(0,0,0,0.06)] transition-all duration-300"
+              >
+                <div className="w-10 h-10 rounded-xl bg-accent/8 flex items-center justify-center mx-auto mb-3">
+                  <m.icon size={18} className="text-accent" strokeWidth={1.5} />
+                </div>
+                <h3 className="text-[14px] font-bold mb-1">{m.title}</h3>
+                <p className="text-[12px] text-text-tertiary leading-[1.5]">{m.desc}</p>
+              </div>
+            ))}
+          </div>
+          <p className="text-center text-[14px] italic text-text-tertiary mt-8 leading-[1.6]">
+            Every number is explained in person by your Kalos analyst. Not emailed. Not left for you to Google.
+          </p>
+        </div>
+
+        <div className="text-center mt-12">
           <a
             href="#pricing"
             className="inline-flex items-center px-9 py-4 bg-accent text-white text-[15px] font-semibold rounded-full hover:bg-accent-hover transition-all duration-300 shadow-[0_2px_12px_rgba(184,92,56,0.25)]"

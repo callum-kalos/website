@@ -112,9 +112,12 @@ export default function Pricing() {
           </div>
         </div>
 
-        <p className="text-center text-[14px] text-text-tertiary mt-12">
-          Already a member? Book your monthly scan through the app.
-        </p>
+        <div className="mt-10 max-w-[1200px] mx-auto bg-cream-light rounded-2xl border border-warm-border px-10 py-8 text-center">
+          <h3 className="text-[22px] md:text-[26px] font-heading font-bold text-text-primary mb-3">The Kalos Guarantee</h3>
+          <p className="text-[16px] md:text-[17px] text-text-secondary leading-[1.7] max-w-2xl mx-auto">
+            If you complete a premium scan and don't walk away having learned something AI couldn't have told you, we'll refund your scan. No questions asked.
+          </p>
+        </div>
       </div>
     </section>
   )

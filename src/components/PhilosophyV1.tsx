@@ -62,7 +62,7 @@ export default function PhilosophyV1() {
   const [videoPlaying, setVideoPlaying] = useState(false)
 
   return (
-    <section className="bg-cream py-28 md:py-36">
+    <section className="bg-cream pt-16 md:pt-20 pb-28 md:pb-36">
       <div className="w-full max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16">
 
         {/* Header: Video left, text right */}

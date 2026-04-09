@@ -425,7 +425,7 @@ function FlipCard({ study, onViewModal: _onViewModal }: { study: CaseStudy; onVi
           <blockquote className="pt-5 border-t border-warm-border text-[14px] text-text-secondary leading-[1.65] mb-5 flex-1">"{study.quote}"</blockquote>
 
           <div
-            className="mt-auto w-full flex items-center justify-center gap-2 px-6 py-3 bg-accent/10 text-[13px] font-bold text-accent rounded-full group-hover/card:bg-accent group-hover/card:text-white transition-all duration-300"
+            className="mt-auto w-full flex items-center justify-center gap-2 px-6 py-3 bg-accent text-[13px] font-bold text-white rounded-full shadow-[0_2px_12px_rgba(184,92,56,0.25)] group-hover/card:bg-accent-hover transition-all duration-300"
           >
             <BarChart3 size={15} />
             View Full Approach
@@ -615,7 +615,7 @@ function MemberResults() {
       </div>
 
       <p className="text-center text-[13px] text-text-tertiary mt-10 font-medium">
-        Real results from real Kalos members. No stock photos. No inflated numbers.
+        Real results from real Kalos members. No inflated numbers.
       </p>
 
       {/* CTA linking to projection */}

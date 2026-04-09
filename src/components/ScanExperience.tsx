@@ -18,7 +18,7 @@ export default function ScanExperience() {
     <section className="bg-cream-light py-16 md:py-20">
       <div className="w-full max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16">
         <div ref={headRef} className="text-center mb-12">
-          <p className="text-[13px] font-semibold uppercase tracking-[0.2em] text-accent mb-4">Your report</p>
+          <p className="text-[13px] font-semibold uppercase tracking-[0.2em] text-accent mb-4">Your first Kalos DEXA scan</p>
           <h2 className="text-[32px] md:text-[40px] font-heading font-bold text-text-primary leading-[1.1]">
             From data to direction. Fast.
           </h2>
