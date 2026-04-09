@@ -1,0 +1,434 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* Kalos defaults (warm cream) */
+  --color-cream: #F5EEE1;
+  --color-cream-light: #FAF7F2;
+  --color-cream-dark: #EDE5D4;
+  --color-warm-border: rgba(0, 0, 0, 0.08);
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: rgba(26, 26, 26, 0.6);
+  --color-text-tertiary: rgba(26, 26, 26, 0.4);
+  --color-accent: #B85C38;
+  --color-accent-hover: #A04E2E;
+  --color-green: #2D7A4F;
+  --color-red: #C0544A;
+
+  --font-heading: 'PT Serif', serif;
+  --font-body: 'Open Sans', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-cream);
+  color: var(--color-text-primary);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  line-height: 1.15;
+}
+
+/* ─── Eight Sleep Theme Overrides ─── */
+
+[data-theme="eightsleep"] {
+  --color-cream: #000000;
+  --color-cream-light: #0A0A0A;
+  --color-cream-dark: #141414;
+  --color-warm-border: rgba(255, 255, 255, 0.1);
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: rgba(255, 255, 255, 0.6);
+  --color-text-tertiary: rgba(255, 255, 255, 0.35);
+  --color-accent: #4A4AF4;
+  --color-accent-hover: #3838D9;
+  --color-green: #66BB6A;
+  --color-red: #EF5350;
+
+  --font-heading: 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+[data-theme="eightsleep"] body {
+  font-family: 'Inter', sans-serif;
+  background-color: #000000;
+  color: #FFFFFF;
+}
+
+[data-theme="eightsleep"] h1,
+[data-theme="eightsleep"] h2,
+[data-theme="eightsleep"] h3,
+[data-theme="eightsleep"] h4 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+}
+
+/* ── Core background overrides ── */
+[data-theme="eightsleep"] .bg-cream { background-color: #000000 !important; }
+[data-theme="eightsleep"] .bg-cream-light { background-color: #0A0A0A !important; }
+[data-theme="eightsleep"] .bg-cream-dark { background-color: #141414 !important; }
+[data-theme="eightsleep"] .bg-white { background-color: #111111 !important; }
+
+/* ── Borders ── */
+[data-theme="eightsleep"] .border-warm-border { border-color: rgba(255, 255, 255, 0.1) !important; }
+[data-theme="eightsleep"] .border-y { border-color: rgba(255, 255, 255, 0.08) !important; }
+
+/* ── Text colors ── */
+[data-theme="eightsleep"] .text-text-primary { color: #FFFFFF !important; }
+[data-theme="eightsleep"] .text-text-secondary { color: rgba(255, 255, 255, 0.6) !important; }
+[data-theme="eightsleep"] .text-text-tertiary { color: rgba(255, 255, 255, 0.35) !important; }
+[data-theme="eightsleep"] .text-accent { color: #4A4AF4 !important; }
+[data-theme="eightsleep"] .text-text-primary\/50 { color: rgba(255, 255, 255, 0.5) !important; }
+[data-theme="eightsleep"] .text-text-primary\/60 { color: rgba(255, 255, 255, 0.6) !important; }
+[data-theme="eightsleep"] .text-text-primary\/70 { color: rgba(255, 255, 255, 0.7) !important; }
+[data-theme="eightsleep"] .text-text-primary\/8 { color: rgba(255, 255, 255, 0.08) !important; }
+
+/* ── Accent backgrounds (all must be blue) ── */
+[data-theme="eightsleep"] .bg-accent { background-color: #4A4AF4 !important; }
+[data-theme="eightsleep"] .hover\:bg-accent-hover:hover { background-color: #3838D9 !important; }
+[data-theme="eightsleep"] .bg-accent\/10 { background-color: rgba(74, 74, 244, 0.1) !important; }
+[data-theme="eightsleep"] .bg-accent\/15 { background-color: rgba(74, 74, 244, 0.15) !important; }
+[data-theme="eightsleep"] .bg-accent\/20 { background-color: rgba(74, 74, 244, 0.2) !important; }
+[data-theme="eightsleep"] .text-accent\/50 { color: rgba(74, 74, 244, 0.5) !important; }
+
+/* ── Accent borders (all must be blue) ── */
+[data-theme="eightsleep"] .border-accent { border-color: #4A4AF4 !important; }
+[data-theme="eightsleep"] .border-accent\/40 { border-color: rgba(74, 74, 244, 0.4) !important; }
+[data-theme="eightsleep"] .border-accent\/20 { border-color: rgba(74, 74, 244, 0.2) !important; }
+[data-theme="eightsleep"] .hover\:border-accent:hover { border-color: #4A4AF4 !important; }
+[data-theme="eightsleep"] .hover\:border-text-tertiary:hover { border-color: rgba(255, 255, 255, 0.3) !important; }
+
+/* ── Accent hover text (all must be blue) ── */
+[data-theme="eightsleep"] .hover\:text-accent-hover:hover { color: #3838D9 !important; }
+[data-theme="eightsleep"] .hover\:text-accent:hover { color: #4A4AF4 !important; }
+[data-theme="eightsleep"] .hover\:bg-accent-hover:hover { background-color: #3838D9 !important; }
+
+/* ── CTA button shadows (blue glow instead of orange) ── */
+[data-theme="eightsleep"] .shadow-\[0_2px_12px_rgba\(184\,92\,56\,0\.35\)\] {
+  box-shadow: 0 2px 12px rgba(74, 74, 244, 0.35) !important;
+}
+[data-theme="eightsleep"] .shadow-\[0_2px_12px_rgba\(184\,92\,56\,0\.25\)\] {
+  box-shadow: 0 2px 12px rgba(74, 74, 244, 0.25) !important;
+}
+[data-theme="eightsleep"] .shadow-\[0_2px_8px_rgba\(184\,92\,56\,0\.2\)\] {
+  box-shadow: 0 2px 8px rgba(74, 74, 244, 0.2) !important;
+}
+[data-theme="eightsleep"] .shadow-\[0_0_20px_rgba\(184\,92\,56\,0\.3\)\] {
+  box-shadow: 0 0 20px rgba(74, 74, 244, 0.3) !important;
+}
+
+/* ── Card surfaces & shadows ── */
+[data-theme="eightsleep"] .shadow-\[0_8px_32px_rgba\(0\,0\,0\,0\.04\)\] {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+}
+[data-theme="eightsleep"] .shadow-\[0_12px_40px_rgba\(0\,0\,0\,0\.06\)\] {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4) !important;
+}
+[data-theme="eightsleep"] .shadow-\[0_24px_80px_rgba\(0\,0\,0\,0\.08\)\] {
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5) !important;
+}
+[data-theme="eightsleep"] .shadow-\[0_4px_20px_rgba\(0\,0\,0\,0\.08\)\] {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* ── Button radius: squarer (8px) ── */
+[data-theme="eightsleep"] .rounded-full {
+  border-radius: 8px !important;
+}
+/* Keep circles for dots/icons/avatars */
+[data-theme="eightsleep"] .w-2.rounded-full,
+[data-theme="eightsleep"] .w-2\.5.rounded-full,
+[data-theme="eightsleep"] .w-6.rounded-full,
+[data-theme="eightsleep"] .w-8.rounded-full,
+[data-theme="eightsleep"] .w-11.rounded-full,
+[data-theme="eightsleep"] .w-12.rounded-full,
+[data-theme="eightsleep"] .w-14.rounded-full,
+[data-theme="eightsleep"] .w-20.rounded-full,
+[data-theme="eightsleep"] .h-2.rounded-full,
+[data-theme="eightsleep"] .h-2\.5.rounded-full {
+  border-radius: 9999px !important;
+}
+
+/* ── Navigation ── */
+[data-theme="eightsleep"] .bg-cream\/92 {
+  background-color: rgba(0, 0, 0, 0.88) !important;
+}
+[data-theme="eightsleep"] .shadow-\[0_1px_0_rgba\(0\,0\,0\,0\.06\)\] {
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+}
+[data-theme="eightsleep"] nav .text-text-primary\/50 { color: rgba(255, 255, 255, 0.5) !important; }
+[data-theme="eightsleep"] nav .hover\:text-text-primary:hover { color: #FFFFFF !important; }
+
+/* ── Logo: always white on dark ── */
+[data-theme="eightsleep"] .brightness-0 {
+  filter: brightness(0) invert(1) !important;
+}
+[data-theme="eightsleep"] .brightness-0.invert {
+  filter: brightness(0) invert(1) !important;
+}
+
+/* ── Green text: more vibrant for dark bg ── */
+[data-theme="eightsleep"] .text-green { color: #66BB6A !important; }
+[data-theme="eightsleep"] .text-green-600 { color: #66BB6A !important; }
+[data-theme="eightsleep"] .text-\[\#2D7A4F\] { color: #66BB6A !important; }
+
+/* ── Star/fill accent ── */
+[data-theme="eightsleep"] .fill-accent { fill: #4A4AF4 !important; }
+
+/* ── Gradients ── */
+[data-theme="eightsleep"] .from-\[\#1A1A1A\] { --tw-gradient-from: #000000 !important; }
+[data-theme="eightsleep"] .to-\[\#1A1A1A\] { --tw-gradient-to: #000000 !important; }
+[data-theme="eightsleep"] .via-\[\#2a2420\] { --tw-gradient-via: #0A0A14 !important; }
+[data-theme="eightsleep"] .from-\[\#2a2420\] { --tw-gradient-from: #0A0A14 !important; }
+[data-theme="eightsleep"] .from-cream { --tw-gradient-from: #000000 !important; }
+[data-theme="eightsleep"] .to-cream { --tw-gradient-to: #000000 !important; }
+[data-theme="eightsleep"] .from-cream-dark { --tw-gradient-from: #141414 !important; }
+[data-theme="eightsleep"] .to-cream-dark { --tw-gradient-to: #141414 !important; }
+
+/* ── Footer ── */
+[data-theme="eightsleep"] .bg-\[\#1A1A1A\] { background-color: #050505 !important; }
+[data-theme="eightsleep"] .border-white\/8 { border-color: rgba(255, 255, 255, 0.08) !important; }
+
+/* ── Mobile menu ── */
+[data-theme="eightsleep"] .md\:hidden.bg-cream { background-color: #0A0A0A !important; }
+
+/* ── Social proof bar ── */
+[data-theme="eightsleep"] .bg-cream-light.border-y {
+  background-color: #0A0A0A !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* ── How It Works video: darken ── */
+[data-theme="eightsleep"] #how-it-works video {
+  filter: brightness(0.7) !important;
+}
+
+/* ── Philosophy timeline: icon bg fix ── */
+[data-theme="eightsleep"] .bg-cream.border-warm-border {
+  background-color: #111111 !important;
+}
+
+/* ── Philosophy timeline: track line visible on dark ── */
+[data-theme="eightsleep"] .bg-warm-border {
+  background-color: rgba(255, 255, 255, 0.25) !important;
+}
+/* ── Philosophy timeline: border on step circles visible on dark ── */
+[data-theme="eightsleep"] .border-warm-border {
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* ── ScanExperience: icon card backgrounds ── */
+[data-theme="eightsleep"] .hover\:bg-cream:hover { background-color: #111111 !important; }
+
+/* ── Team section: darker placeholder cards ── */
+[data-theme="eightsleep"] .bg-gradient-to-b.from-cream.to-cream-dark {
+  background: linear-gradient(to bottom, #111111, #1A1A1A) !important;
+}
+
+/* ── Pricing: border accent override ── */
+[data-theme="eightsleep"] .border-2.border-accent {
+  border-color: #4A4AF4 !important;
+}
+
+/* ── Pricing: line-through old price ── */
+[data-theme="eightsleep"] .line-through { color: rgba(255, 255, 255, 0.35) !important; }
+
+/* ── View Full Results button: more visible ── */
+[data-theme="eightsleep"] .bg-accent\/8 { background-color: rgba(74, 74, 244, 0.12) !important; }
+[data-theme="eightsleep"] .hover\:bg-accent\/15:hover { background-color: rgba(74, 74, 244, 0.2) !important; }
+
+/* ── FAQ: hover states ── */
+[data-theme="eightsleep"] .hover\:text-accent:hover { color: #4A4AF4 !important; }
+[data-theme="eightsleep"] .group-hover\:text-accent:hover { color: #4A4AF4 !important; }
+[data-theme="eightsleep"] .group:hover .group-hover\:text-accent { color: #4A4AF4 !important; }
+
+/* ── Location cards: darker placeholders ── */
+[data-theme="eightsleep"] .aspect-\[4\/3\].bg-cream-dark {
+  background-color: #111111 !important;
+}
+
+/* ── All remaining inline orange shadows/glows ── */
+[data-theme="eightsleep"] [style*="rgba(184,92,56"] {
+  box-shadow: none !important;
+}
+
+/* ── Reviews: tag filter pills ── */
+[data-theme="eightsleep"] .bg-\[\#1A1A1A\] { background-color: #111111 !important; }
+[data-theme="eightsleep"] .text-\[\#1A1A1A\] { color: #FFFFFF !important; }
+
+/* ── Font weight: lighter headings ── */
+[data-theme="eightsleep"] .font-heading.font-bold {
+  font-weight: 500 !important;
+}
+
+/* ── Ensure section alternation ── */
+[data-theme="eightsleep"] section {
+  border-color: rgba(255, 255, 255, 0.04);
+}
+
+/* ── Hover lift cards ── */
+[data-theme="eightsleep"] .hover\:shadow-\[0_12px_48px_rgba\(0\,0\,0\,0\.1\)\]:hover {
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* ── Pricing card shadows (orange → blue) ── */
+[data-theme="eightsleep"] .shadow-\[0_8px_32px_rgba\(184\,92\,56\,0\.08\)\] {
+  box-shadow: 0 8px 32px rgba(74, 74, 244, 0.12) !important;
+}
+[data-theme="eightsleep"] .hover\:shadow-\[0_24px_64px_rgba\(184\,92\,56\,0\.16\)\]:hover {
+  box-shadow: 0 24px 64px rgba(74, 74, 244, 0.2) !important;
+}
+[data-theme="eightsleep"] .hover\:border-accent\/40:hover {
+  border-color: rgba(74, 74, 244, 0.4) !important;
+}
+[data-theme="eightsleep"] .hover\:bg-accent:hover {
+  background-color: #4A4AF4 !important;
+}
+
+/* ── Inline style overrides for accent colors in JS components ── */
+[data-theme="eightsleep"] .bg-accent\/40 { background-color: rgba(74, 74, 244, 0.4) !important; }
+
+/* ── Physician endorsement card ── */
+[data-theme="eightsleep"] .bg-cream-light { background-color: #0A0A0A !important; }
+
+/* ── Review tags ── */
+[data-theme="eightsleep"] .bg-cream.text-text-secondary {
+  background-color: #1A1A1A !important;
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* ── Review tags: accent text/bg ── */
+[data-theme="eightsleep"] .text-accent\/60 { color: rgba(74, 74, 244, 0.6) !important; }
+[data-theme="eightsleep"] .bg-accent\/6 { background-color: rgba(74, 74, 244, 0.08) !important; }
+[data-theme="eightsleep"] .text-accent\/70 { color: rgba(74, 74, 244, 0.7) !important; }
+[data-theme="eightsleep"] .bg-accent\/5 { background-color: rgba(74, 74, 244, 0.06) !important; }
+
+/* ── ScanExperience: icon background ── */
+[data-theme="eightsleep"] .bg-accent\/8 { background-color: rgba(74, 74, 244, 0.1) !important; }
+
+/* ── Location cards: darker placeholder gradient ── */
+[data-theme="eightsleep"] .from-cream.to-cream-dark {
+  --tw-gradient-from: #111111 !important;
+  --tw-gradient-to: #1A1A1A !important;
+}
+[data-theme="eightsleep"] .hover\:shadow-\[0_16px_48px_rgba\(0\,0\,0\,0\.06\)\]:hover {
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* ── Team: muted heading text (not too bright) ── */
+[data-theme="eightsleep"] #team h2 {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+[data-theme="eightsleep"] #team p {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* ── Results tab toggle: active state needs visible contrast ── */
+[data-theme="eightsleep"] .bg-text-primary {
+  background-color: #4A4AF4 !important;
+}
+[data-theme="eightsleep"] .bg-text-primary.text-white {
+  color: #FFFFFF !important;
+}
+[data-theme="eightsleep"] .shadow-\[0_4px_12px_rgba\(0\,0\,0\,0\.15\)\] {
+  box-shadow: 0 4px 12px rgba(74, 74, 244, 0.3) !important;
+}
+
+/* ── All remaining hover:bg-accent overrides ── */
+[data-theme="eightsleep"] button.hover\:bg-accent:hover { background-color: #4A4AF4 !important; }
+[data-theme="eightsleep"] a.hover\:bg-accent:hover { background-color: #4A4AF4 !important; }
+
+/* ── How It Works step card hover on dark ── */
+[data-theme="eightsleep"] .hover\:shadow-\[0_12px_32px_rgba\(0\,0\,0\,0\.06\)\]:hover {
+  box-shadow: 0 12px 32px rgba(74, 74, 244, 0.1) !important;
+}
+
+/* ── Flip card & group hover on dark ── */
+[data-theme="eightsleep"] .group-hover\/card\:shadow-\[0_16px_48px_rgba\(0\,0\,0\,0\.08\)\]:is(:where(.group\/card):hover *) {
+  box-shadow: 0 16px 48px rgba(74, 74, 244, 0.12) !important;
+}
+[data-theme="eightsleep"] .group\/card:hover .group-hover\/card\:border-accent\/30 {
+  border-color: rgba(74, 74, 244, 0.3) !important;
+}
+[data-theme="eightsleep"] .group\/card:hover .group-hover\/card\:bg-accent {
+  background-color: #4A4AF4 !important;
+}
+[data-theme="eightsleep"] .group\/card:hover .group-hover\/card\:text-white {
+  color: #FFFFFF !important;
+}
+
+/* ── Flip card front hover shadow on dark ── */
+[data-theme="eightsleep"] .hover\:shadow-\[0_16px_48px_rgba\(0\,0\,0\,0\.08\)\]:hover {
+  box-shadow: 0 16px 48px rgba(74, 74, 244, 0.12) !important;
+}
+[data-theme="eightsleep"] .hover\:border-accent\/30:hover { border-color: rgba(74, 74, 244, 0.3) !important; }
+
+/* ── Filter pill hover: accent tint on dark ── */
+[data-theme="eightsleep"] .hover\:bg-accent\/5:hover { background-color: rgba(74, 74, 244, 0.08) !important; }
+[data-theme="eightsleep"] .hover\:border-accent\/30:hover { border-color: rgba(74, 74, 244, 0.3) !important; }
+
+/* ── Book Basic Scan: ensure white text on blue hover ── */
+[data-theme="eightsleep"] .hover\:text-white:hover { color: #FFFFFF !important; }
+[data-theme="eightsleep"] a.hover\:bg-accent:hover.hover\:text-white:hover { color: #FFFFFF !important; }
+
+/* ─── Card flip animation ─── */
+.flip-card-inner {
+  transition: transform 0.6s ease;
+  transform-style: preserve-3d;
+}
+.flip-card-inner.flipped {
+  transform: rotateY(180deg);
+}
+.flip-card-front,
+.flip-card-back {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.flip-card-back {
+  transform: rotateY(180deg);
+}
+
+/* ─── Fade-in on scroll ─── */
+.fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger grid children */
+.stagger > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.stagger.visible > *:nth-child(1) { transition-delay: 0ms; opacity: 1; transform: none; }
+.stagger.visible > *:nth-child(2) { transition-delay: 120ms; opacity: 1; transform: none; }
+.stagger.visible > *:nth-child(3) { transition-delay: 240ms; opacity: 1; transform: none; }
+.stagger.visible > *:nth-child(4) { transition-delay: 360ms; opacity: 1; transform: none; }
+.stagger.visible > *:nth-child(5) { transition-delay: 480ms; opacity: 1; transform: none; }
+.stagger.visible > *:nth-child(6) { transition-delay: 600ms; opacity: 1; transform: none; }
+
+/* FAQ accordion */
+.faq-answer {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s ease;
+}
+.faq-answer.open {
+  grid-template-rows: 1fr;
+}
+.faq-answer > div {
+  overflow: hidden;
+}
