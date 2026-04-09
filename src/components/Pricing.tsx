@@ -6,7 +6,7 @@ export default function Pricing() {
   const gridRef = useFadeIn('stagger')
 
   return (
-    <section id="pricing" className="bg-cream py-28 md:py-36">
+    <section className="bg-cream py-28 md:py-36">
       <div className="w-full max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16">
         <div ref={headRef} className="text-center mb-20">
           <p className="text-[13px] font-semibold uppercase tracking-[0.2em] text-accent mb-4">Pricing</p>
@@ -19,6 +19,7 @@ export default function Pricing() {
           </div>
         </div>
 
+        <div id="pricing" className="scroll-mt-6" />
         <div ref={gridRef} className="grid md:grid-cols-3 gap-6 lg:gap-8 max-w-[1200px] mx-auto">
           {/* Premium */}
           <div className="relative bg-white rounded-3xl border-2 border-accent/20 shadow-[0_8px_32px_rgba(184,92,56,0.08)] p-8 lg:p-10 flex flex-col hover:-translate-y-2 hover:shadow-[0_24px_64px_rgba(184,92,56,0.16)] hover:border-accent/40 transition-all duration-300 cursor-pointer">

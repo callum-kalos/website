@@ -30,6 +30,7 @@ interface CaseStudy {
   gender: 'male' | 'female'
   role: string
   goal: string
+  goalLabel: string
   before: string
   deltas: Delta[]
   quote: string
@@ -52,6 +53,7 @@ const caseStudies: CaseStudy[] = [
     gender: 'male',
     role: 'Engineer',
     goal: 'gain-muscle',
+    goalLabel: 'Feel confident with his shirt off on vacation and have the energy to keep up with his teenage kids on hikes.',
     before: "Hadn't strength trained since college. Walking the dog was his only exercise.",
     deltas: [
       { label: 'Muscle', value: '+11.5 lbs', direction: 'up' },
@@ -73,10 +75,9 @@ const caseStudies: CaseStudy[] = [
         { label: 'Visceral Fat', before: '1.8 lbs', after: '1.4 lbs', change: '-0.4 lbs', direction: 'down', barPercent: 55 },
       ],
       program: [
-        { label: 'Training', value: '4x per week (upper/lower split)' },
-        { label: 'Nutrition focus', value: 'High protein (180g/day), moderate calorie surplus' },
-        { label: 'Key priority', value: 'Compound lifts, progressive overload' },
-        { label: 'Cardio', value: '2x per week (walks with the dog)' },
+        { label: 'Training', value: '4x/week upper/lower split, 55-min sessions. Barbell and dumbbell compounds in the gym.' },
+        { label: 'Nutrition', value: '180g protein/day. Example: eggs and oats AM, chicken rice bowl lunch, salmon with sweet potato dinner. Post-workout shake within 30 min.' },
+        { label: 'Key priority', value: 'Compound lifts pushed to failure. Squat, bench, deadlift, overhead press with progressive overload each week.' },
       ],
       summary: 'Jeff gained significant muscle while losing fat. His body fat percentage dropped 3.6 points and his ALMI jumped from the 35th to the 62nd percentile in just 4 weeks.',
     },
@@ -87,6 +88,7 @@ const caseStudies: CaseStudy[] = [
     gender: 'female',
     role: 'Retiree',
     goal: 'bone-density',
+    goalLabel: 'Be able to pick up and carry her grandkids for the next 20 years without worrying about breaking a bone.',
     before: 'Wanted to stay mobile and active for her grandkids. Had never lifted weights.',
     deltas: [
       { label: 'Muscle', value: '+1.5 lbs', direction: 'up' },
@@ -106,10 +108,9 @@ const caseStudies: CaseStudy[] = [
         { label: 'Bone Density', before: '-1.2 T', after: '-1.1 T', change: '+0.1 T', direction: 'up', barPercent: 48 },
       ],
       program: [
-        { label: 'Training', value: '3x per week (full body)' },
-        { label: 'Nutrition focus', value: 'Protein-rich meals (100g/day), calcium supplementation' },
-        { label: 'Key priority', value: 'Unilateral exercises to fix imbalances' },
-        { label: 'Cardio', value: 'Daily walks, 1x swimming per week' },
+        { label: 'Training', value: '3x/week full body, 45-min sessions. Machine-based with guided dumbbell work for safety and confidence.' },
+        { label: 'Nutrition', value: '100g protein/day. Example: Greek yogurt with berries AM, tuna salad lunch, grilled chicken with greens dinner. Calcium and vitamin D supplementation daily.' },
+        { label: 'Key priority', value: 'Load-bearing exercises for bone strength. Single-arm and single-leg work to correct left-right imbalances.' },
       ],
       summary: 'At 62, Maki added lean muscle and began correcting a significant left-right arm imbalance. Her bone density held stable, which is a major win at her age.',
     },
@@ -120,6 +121,7 @@ const caseStudies: CaseStudy[] = [
     gender: 'male',
     role: 'Startup CEO',
     goal: 'accountability',
+    goalLabel: 'Stop losing progress every time he travels for work. Build a physique he can maintain on the road, not just at home.',
     before: "On a good streak, then travel derails everything. Couldn't maintain consistency alone.",
     deltas: [
       { label: 'Bench PR', value: '165 lbs', direction: 'up' },
@@ -138,10 +140,9 @@ const caseStudies: CaseStudy[] = [
         { label: 'Training Consistency', before: '2-3x/week', after: '4-5x/week', change: 'Through travel', direction: 'up', barPercent: 88 },
       ],
       program: [
-        { label: 'Training', value: '4-5x per week (push/pull/legs)' },
-        { label: 'Nutrition focus', value: 'Meal prep Sundays, high protein, travel-adapted plans' },
-        { label: 'Key priority', value: 'Consistency through travel, hotel gym alternatives' },
-        { label: 'Accountability', value: 'Weekly check-ins with analyst, travel workout plans' },
+        { label: 'Training', value: '4-5x/week push/pull/legs, 50-min sessions. Barbell compounds at home gym, dumbbell-only hotel workouts when traveling.' },
+        { label: 'Nutrition', value: '190g protein/day. Sunday meal prep: pre-portioned chicken, rice, veggie containers. Travel days: protein-forward restaurant picks and portable shakes.' },
+        { label: 'Key priority', value: 'Maintaining consistency through travel. Hotel gym alternatives mapped for every trip. Weekly analyst check-ins for accountability.' },
       ],
       summary: 'Over 12 months and 8 scans, Justin maintained consistency even through 3 weeks of travel. His bench press increased 30 lbs and he dropped nearly 3% body fat.',
     },
@@ -152,6 +153,7 @@ const caseStudies: CaseStudy[] = [
     gender: 'female',
     role: 'Product Manager',
     goal: 'recomposition',
+    goalLabel: 'Look and feel athletic, not just "skinny." Build visible muscle definition and stop guessing whether her workouts are actually working.',
     before: 'Felt healthy but had no baseline data. Wanted to optimize, not just maintain.',
     deltas: [
       { label: 'Muscle', value: '+4.2 lbs', direction: 'up' },
@@ -171,10 +173,9 @@ const caseStudies: CaseStudy[] = [
         { label: 'Visceral Fat', before: '0.9 lbs', after: '0.6 lbs', change: '-0.3 lbs', direction: 'down', barPercent: 50 },
       ],
       program: [
-        { label: 'Training', value: '4x per week (upper/lower split)' },
-        { label: 'Nutrition focus', value: 'Protein increase to 130g/day, slight calorie deficit' },
-        { label: 'Key priority', value: 'Body recomposition, not weight loss' },
-        { label: 'Cardio', value: '1x HIIT, 2x zone 2 (cycling)' },
+        { label: 'Training', value: '4x/week upper/lower split, 50-min sessions. Dumbbell and cable machine focus in the gym. 1x HIIT, 2x zone 2 cycling.' },
+        { label: 'Nutrition', value: '130g protein/day in a slight deficit. Example: protein smoothie AM, turkey wrap lunch, stir-fry with tofu dinner. Timed carbs around workouts.' },
+        { label: 'Key priority', value: 'Recomposition, not weight loss. Compound lifts pushed to failure. Tracking scale weight and DEXA separately to avoid misleading numbers.' },
       ],
       summary: 'Sarah achieved a textbook body recomposition, gaining 4.2 lbs of muscle while losing 3.8 lbs of fat. Her body fat percentage dropped nearly 4 points in just 4 weeks.',
     },
@@ -185,6 +186,7 @@ const caseStudies: CaseStudy[] = [
     gender: 'male',
     role: 'Attorney',
     goal: 'gain-muscle',
+    goalLabel: 'Stop being "the thin guy who runs." Build enough strength to ski with his kids and protect his joints as he ages.',
     before: 'Ran marathons but was losing muscle mass. Doctor suggested a body composition check.',
     deltas: [
       { label: 'Muscle', value: '+6.3 lbs', direction: 'up' },
@@ -204,10 +206,9 @@ const caseStudies: CaseStudy[] = [
         { label: 'Leg Muscle', before: '42.1 lbs', after: '46.8 lbs', change: '+4.7 lbs', direction: 'up', barPercent: 75 },
       ],
       program: [
-        { label: 'Training', value: '4x per week (2 strength, 2 hybrid)' },
-        { label: 'Nutrition focus', value: 'Doubled protein intake to 160g/day, added creatine' },
-        { label: 'Key priority', value: 'Shift from endurance to strength without losing cardio base' },
-        { label: 'Cardio', value: 'Reduced to 2 runs/week, added rucking' },
+        { label: 'Training', value: '4x/week, 1-hour sessions. 2x barbell strength days, 2x hybrid strength-cardio. Reduced running to 2x/week, added weighted rucking.' },
+        { label: 'Nutrition', value: '160g protein/day (doubled from before). Example: egg scramble AM, grilled chicken salad lunch, steak with roasted vegetables dinner. Added creatine supplementation.' },
+        { label: 'Key priority', value: 'Load-bearing compound lifts for bone density. Gradual shift from endurance to strength without losing cardio base.' },
       ],
       summary: 'David transitioned from endurance-only training to a balanced program. He gained 6.3 lbs of lean muscle, improved his ALMI by 29 percentile points, and saw meaningful bone density gains.',
     },
@@ -218,6 +219,7 @@ const caseStudies: CaseStudy[] = [
     gender: 'female',
     role: 'Teacher',
     goal: 'bone-density',
+    goalLabel: 'Stay independent and active into her 70s. Be able to garden, travel, and carry groceries without pain or fear of injury.',
     before: 'Post-menopause, worried about bone density and muscle loss. Felt lost at the gym.',
     deltas: [
       { label: 'Muscle', value: '+3.1 lbs', direction: 'up' },
@@ -237,10 +239,9 @@ const caseStudies: CaseStudy[] = [
         { label: 'Trunk Muscle', before: '38.1 lbs', after: '39.8 lbs', change: '+1.7 lbs', direction: 'up', barPercent: 55 },
       ],
       program: [
-        { label: 'Training', value: '3x per week (full body, progressive)' },
-        { label: 'Nutrition focus', value: 'Protein to 110g/day, vitamin D and calcium focus' },
-        { label: 'Key priority', value: 'Bone density preservation, core strength' },
-        { label: 'Cardio', value: 'Daily walking, 1x yoga per week' },
+        { label: 'Training', value: '3x/week full body, 45-min sessions. Machine and dumbbell work in the gym with guided form coaching. 1x yoga, daily walks.' },
+        { label: 'Nutrition', value: '110g protein/day. Example: overnight oats with protein powder AM, lentil soup lunch, baked salmon with quinoa dinner. Vitamin D and calcium supplementation daily.' },
+        { label: 'Key priority', value: 'Load-bearing exercises for bone density preservation. Core strengthening and balance work to reduce fall risk.' },
       ],
       summary: 'Lisa lost 3.4 lbs of fat and gained 3.1 lbs of muscle in 4 weeks. Critically, her bone density held stable post-menopause, which her doctor highlighted as a significant positive.',
     },
@@ -427,56 +428,63 @@ function FlipCard({ study, onViewModal: _onViewModal }: { study: CaseStudy; onVi
             className="mt-auto w-full flex items-center justify-center gap-2 px-6 py-3 bg-accent/10 text-[13px] font-bold text-accent rounded-full group-hover/card:bg-accent group-hover/card:text-white transition-all duration-300"
           >
             <BarChart3 size={15} />
-            View Full Results
+            View Full Approach
           </div>
         </div>
 
         {/* ── BACK ── */}
-        <div className="flip-card-back absolute inset-0 bg-white rounded-3xl p-8 lg:p-10 border border-warm-border flex flex-col overflow-y-auto">
+        <div className="flip-card-back absolute inset-0 bg-white rounded-3xl p-7 lg:p-8 border border-warm-border flex flex-col overflow-y-auto">
           {/* Header */}
-          <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="text-[18px] font-heading font-bold leading-tight">{study.name}'s Results</h3>
-              <p className="text-[12px] text-text-tertiary mt-0.5">{dashboard.duration} · {dashboard.scans} scans</p>
+              <h3 className="text-[17px] font-heading font-bold leading-tight">{study.name}'s Journey</h3>
+              <p className="text-[11px] text-text-tertiary mt-0.5">{dashboard.duration} · {dashboard.scans} scans</p>
             </div>
-            <div className="w-9 h-9 rounded-full bg-cream-light flex items-center justify-center hover:bg-cream-dark transition-colors">
-              <RotateCcw size={15} className="text-text-secondary" />
+            <div className="w-8 h-8 rounded-full bg-cream-light flex items-center justify-center hover:bg-cream-dark transition-colors">
+              <RotateCcw size={14} className="text-text-secondary" />
             </div>
           </div>
 
-          {/* Metrics */}
-          <div className="space-y-3.5 flex-1">
-            {dashboard.metrics.slice(0, 4).map((metric) => {
-              const Icon = metric.direction === 'up' ? TrendingUp : TrendingDown
-              return (
-                <div key={metric.label}>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-[12px] font-semibold text-text-primary">{metric.label}</span>
+          {/* 1. Goal */}
+          <div className="mb-3">
+            <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-accent mb-1.5">Goal</p>
+            <p className="text-[13px] text-text-primary font-medium leading-[1.5]">{study.goalLabel}</p>
+          </div>
+
+          {/* 2. Approach */}
+          <div className="mb-3 pt-3 border-t border-warm-border">
+            <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-accent mb-2">Approach</p>
+            <div className="space-y-1.5">
+              {dashboard.program.slice(0, 3).map((item) => (
+                <div key={item.label} className="flex gap-2">
+                  <span className="text-[11px] font-bold text-text-tertiary shrink-0 w-[70px]">{item.label}</span>
+                  <span className="text-[11px] text-text-secondary leading-[1.5]">{item.value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 3. Results */}
+          <div className="pt-3 border-t border-warm-border flex-1">
+            <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-accent mb-2">Results</p>
+            <div className="space-y-2.5">
+              {dashboard.metrics.slice(0, 3).map((metric) => {
+                const Icon = metric.direction === 'up' ? TrendingUp : TrendingDown
+                return (
+                  <div key={metric.label} className="flex items-center justify-between">
+                    <span className="text-[12px] font-medium text-text-primary">{metric.label}</span>
                     <div className="flex items-center gap-1">
                       <Icon size={11} className="text-green" />
                       <span className="text-[12px] font-bold text-green">{metric.change}</span>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <span className="text-[11px] text-text-tertiary w-16 shrink-0">{metric.before}</span>
-                    <div className="flex-1 h-2 bg-cream-light rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-gradient-to-r from-accent/60 to-green rounded-full"
-                        style={{ width: `${metric.barPercent}%` }}
-                      />
-                    </div>
-                    <span className="text-[11px] font-bold text-text-primary w-16 shrink-0 text-right">{metric.after}</span>
-                  </div>
-                </div>
-              )
-            })}
+                )
+              })}
+            </div>
           </div>
 
-          {/* Summary */}
-          <p className="text-[12px] text-text-secondary leading-[1.6] mt-4 pt-4 border-t border-warm-border">{dashboard.summary}</p>
-
           {/* CTA */}
-          <div className="mt-4 w-full flex items-center justify-center gap-2 px-6 py-3 bg-accent text-[13px] font-bold text-white rounded-full hover:bg-accent-hover transition-all duration-300">
+          <div className="mt-3 w-full flex items-center justify-center gap-2 px-6 py-3 bg-accent text-[13px] font-bold text-white rounded-full hover:bg-accent-hover transition-all duration-300">
             <RotateCcw size={14} />
             Flip Back
           </div>

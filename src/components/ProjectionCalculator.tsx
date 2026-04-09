@@ -74,10 +74,9 @@ function getProjection(gender: 'male' | 'female', age: string, days: string): Pr
 // ── Callout data ──
 
 const callouts = [
-  { icon: Database, text: '1,000+ serial DEXA scans analyzed' },
-  { icon: BarChart3, text: 'Every input tracked between scans' },
-  { icon: Users, text: 'Real cohort data, not estimates' },
-  { icon: Target, text: 'Personalized to your demographic' },
+  { icon: Database, text: '1,000+ A/B tests tracked using DEXA scans' },
+  { icon: BarChart3, text: 'All training, nutrition, and lifestyle inputs meticulously tracked' },
+  { icon: Users, text: 'Built from real Kalos member outcomes, personalized for you' },
 ]
 
 // ── Main Component ──
@@ -101,7 +100,7 @@ export default function ProjectionCalculator() {
   }
 
   return (
-    <section id="projection" className="bg-cream py-28 md:py-36">
+    <section id="projection" className="bg-cream pt-16 md:pt-20 pb-28 md:pb-36">
       <div className="w-full max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16">
         <div ref={headRef} className="text-center mb-14">
           <p className="text-[13px] font-semibold uppercase tracking-[0.2em] text-accent mb-4">4-week projection</p>
