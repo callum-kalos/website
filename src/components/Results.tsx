@@ -432,7 +432,7 @@ function ResultsModal({ study, onClose }: { study: CaseStudy; onClose: () => voi
 
 // ── Flip Card ──
 
-function FlipCard({ study, onViewModal }: { study: CaseStudy; onViewModal: () => void }) {
+function FlipCard({ study, onViewModal: _onViewModal }: { study: CaseStudy; onViewModal: () => void }) {
   const [flipped, setFlipped] = useState(false)
   const { dashboard } = study
 

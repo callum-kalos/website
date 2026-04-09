@@ -162,7 +162,7 @@ export default function Reviews() {
             </div>
           ) : (
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {visibleReviews.map((review, i) => (
+              {visibleReviews.map((review) => (
                 <div
                   key={`${review.name}-${safeStart}`}
                   className="bg-white rounded-3xl p-8 lg:p-9 border border-warm-border flex flex-col hover:-translate-y-1 hover:shadow-[0_16px_48px_rgba(0,0,0,0.06)] transition-all duration-300"
