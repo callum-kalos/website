@@ -93,19 +93,36 @@ export default function PhysicianEndorsements() {
     <section className="bg-cream py-24 md:py-32">
       <div className="w-full max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16">
         <div ref={headRef} className="text-center mb-14">
-          <p className="text-[13px] font-semibold uppercase tracking-[0.2em] text-accent mb-4">Physician trusted</p>
+          <p className="text-[13px] font-semibold uppercase tracking-[0.2em] text-accent mb-4">Expert analysis</p>
           <h2 className="text-[32px] md:text-[42px] font-heading font-bold text-text-primary leading-[1.1]">
-            Trusted by the Bay Area's top physicians
+            The difference is the expert analysis
           </h2>
           <p className="text-[16px] text-text-secondary mt-5 max-w-2xl mx-auto leading-[1.7]">
-            Doctors across the Bay Area refer their patients to Kalos because they trust the quality of our scans and the depth of our analysis.
+            The real value of a premium scan is the human expert who walks you through every detail of your results, turning raw data into a plan you can actually act on.
           </p>
+
+          {/* Guarantee callout */}
+          <div className="mt-10 inline-block bg-accent/10 border-2 border-accent/25 rounded-2xl px-8 py-6 max-w-2xl">
+            <p className="text-[15px] text-text-primary leading-[1.7]">
+              <span className="font-bold">Our guarantee:</span> if you complete a premium scan and don't walk away having learned something AI couldn't have told you, we'll refund your scan.
+            </p>
+          </div>
         </div>
 
         <div ref={gridRef} className="grid md:grid-cols-3 gap-8">
           {physicians.map((p, i) => (
             <PhysicianCard key={i} physician={p} />
           ))}
+        </div>
+
+        {/* CTA */}
+        <div className="text-center mt-14">
+          <a
+            href="#pricing"
+            className="inline-flex items-center justify-center px-8 py-4 bg-accent text-white text-[15px] font-semibold rounded-full hover:bg-accent-dark transition-colors duration-200"
+          >
+            Book My Premium Scan
+          </a>
         </div>
       </div>
     </section>

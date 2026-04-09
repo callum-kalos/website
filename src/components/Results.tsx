@@ -29,6 +29,7 @@ interface CaseStudy {
   age: number
   gender: 'male' | 'female'
   role: string
+  goal: string
   before: string
   deltas: Delta[]
   quote: string
@@ -42,14 +43,6 @@ interface CaseStudy {
   }
 }
 
-interface Projection {
-  muscleLbs: string
-  fatLbs: string
-  bodyFatDrop: string
-  almiChange: string
-  headline: string
-}
-
 // ── Data ──
 
 const caseStudies: CaseStudy[] = [
@@ -58,6 +51,7 @@ const caseStudies: CaseStudy[] = [
     age: 53,
     gender: 'male',
     role: 'Engineer',
+    goal: 'gain-muscle',
     before: "Hadn't strength trained since college. Walking the dog was his only exercise.",
     deltas: [
       { label: 'Muscle', value: '+11.5 lbs', direction: 'up' },
@@ -92,6 +86,7 @@ const caseStudies: CaseStudy[] = [
     age: 62,
     gender: 'female',
     role: 'Retiree',
+    goal: 'bone-density',
     before: 'Wanted to stay mobile and active for her grandkids. Had never lifted weights.',
     deltas: [
       { label: 'Muscle', value: '+1.5 lbs', direction: 'up' },
@@ -124,6 +119,7 @@ const caseStudies: CaseStudy[] = [
     age: 34,
     gender: 'male',
     role: 'Startup CEO',
+    goal: 'accountability',
     before: "On a good streak, then travel derails everything. Couldn't maintain consistency alone.",
     deltas: [
       { label: 'Bench PR', value: '165 lbs', direction: 'up' },
@@ -155,6 +151,7 @@ const caseStudies: CaseStudy[] = [
     age: 28,
     gender: 'female',
     role: 'Product Manager',
+    goal: 'recomposition',
     before: 'Felt healthy but had no baseline data. Wanted to optimize, not just maintain.',
     deltas: [
       { label: 'Muscle', value: '+4.2 lbs', direction: 'up' },
@@ -187,6 +184,7 @@ const caseStudies: CaseStudy[] = [
     age: 45,
     gender: 'male',
     role: 'Attorney',
+    goal: 'gain-muscle',
     before: 'Ran marathons but was losing muscle mass. Doctor suggested a body composition check.',
     deltas: [
       { label: 'Muscle', value: '+6.3 lbs', direction: 'up' },
@@ -219,6 +217,7 @@ const caseStudies: CaseStudy[] = [
     age: 55,
     gender: 'female',
     role: 'Teacher',
+    goal: 'bone-density',
     before: 'Post-menopause, worried about bone density and muscle loss. Felt lost at the gym.',
     deltas: [
       { label: 'Muscle', value: '+3.1 lbs', direction: 'up' },
@@ -255,63 +254,16 @@ const ageRanges = [
   { label: '60+', min: 60, max: 100 },
 ]
 
-const daysOptions = ['2', '3', '4', '5+'] as const
+const goalFilters = [
+  { label: 'All goals', value: 'all' },
+  { label: 'Lose fat', value: 'lose-fat' },
+  { label: 'Gain muscle', value: 'gain-muscle' },
+  { label: 'Recomposition', value: 'recomposition' },
+  { label: 'Bone density', value: 'bone-density' },
+  { label: 'Accountability', value: 'accountability' },
+]
 
 // ── Helpers ──
-
-const ageOptions = ['18-24', '25-34', '35-44', '45-54', '55-64', '65+'] as const
-
-function getProjection(gender: 'male' | 'female', age: string, days: string): Projection {
-  const isMale = gender === 'male'
-  const baseMuscle = isMale ? 5.5 : 3.0
-  const baseFat = isMale ? 4.5 : 3.5
-  const baseBfDrop = isMale ? 2.8 : 2.2
-  const baseAlmi = isMale ? 12 : 10
-
-  let ageFactor = 1.0
-  if (age === '18-24') ageFactor = 1.15
-  else if (age === '25-34') ageFactor = 1.05
-  else if (age === '35-44') ageFactor = 0.95
-  else if (age === '45-54') ageFactor = 0.85
-  else if (age === '55-64') ageFactor = 0.75
-  else if (age === '65+') ageFactor = 0.7
-
-  let freqFactor = 1.0
-  if (days === '2') freqFactor = 0.65
-  else if (days === '3') freqFactor = 0.85
-  else if (days === '4') freqFactor = 1.0
-  else if (days === '5+') freqFactor = 1.15
-
-  const muscle = baseMuscle * ageFactor * freqFactor
-  const fat = baseFat * ageFactor * freqFactor
-  const bfDrop = baseBfDrop * ageFactor * freqFactor
-  const almi = Math.round(baseAlmi * ageFactor * freqFactor)
-
-  const isOlder = age === '55-64' || age === '65+'
-  const isMidAge = age === '45-54' || age === '35-44'
-  let headline = ''
-  if (isOlder) {
-    headline = isMale
-      ? 'Men in your age group typically see meaningful muscle preservation and fat loss. Consistency is key.'
-      : 'Women in your age group often see bone density stabilize alongside real body composition shifts.'
-  } else if (isMidAge) {
-    headline = isMale
-      ? 'This is the decade where data matters most. You have the capacity for strong results with the right plan.'
-      : 'Women in their 40s and 50s respond incredibly well to structured strength training guided by data.'
-  } else {
-    headline = isMale
-      ? 'You are in a prime window for body recomposition. Expect fast, visible changes with consistent effort.'
-      : 'You are in a prime window for building a strong foundation. Expect meaningful shifts in just four weeks.'
-  }
-
-  return {
-    muscleLbs: `+${muscle.toFixed(1)} lbs`,
-    fatLbs: `-${fat.toFixed(1)} lbs`,
-    bodyFatDrop: `-${bfDrop.toFixed(1)}%`,
-    almiChange: `+${almi} %ile`,
-    headline,
-  }
-}
 
 function DeltaChip({ delta }: { delta: Delta }) {
   const Icon = delta.direction === 'up' ? TrendingUp : TrendingDown
@@ -534,11 +486,12 @@ function FlipCard({ study, onViewModal: _onViewModal }: { study: CaseStudy; onVi
   )
 }
 
-// ── Member Results Tab ──
+// ── Member Results ──
 
 function MemberResults() {
   const [genderFilter, setGenderFilter] = useState<'all' | 'male' | 'female'>('all')
   const [ageFilter, setAgeFilter] = useState(0)
+  const [goalFilter, setGoalFilter] = useState('all')
   const [startIndex, setStartIndex] = useState(0)
   const [selectedStudy, setSelectedStudy] = useState<CaseStudy | null>(null)
   const carouselRef = useRef<HTMLDivElement>(null)
@@ -548,9 +501,10 @@ function MemberResults() {
       if (genderFilter !== 'all' && study.gender !== genderFilter) return false
       const range = ageRanges[ageFilter]
       if (study.age < range.min || study.age > range.max) return false
+      if (goalFilter !== 'all' && study.goal !== goalFilter) return false
       return true
     })
-  }, [genderFilter, ageFilter])
+  }, [genderFilter, ageFilter, goalFilter])
 
   const visibleCount = 3
   const maxStart = Math.max(0, filtered.length - visibleCount)
@@ -560,13 +514,14 @@ function MemberResults() {
   const goLeft = () => setStartIndex(Math.max(0, safeStart - 1))
   const goRight = () => setStartIndex(Math.min(maxStart, safeStart + 1))
 
-  useMemo(() => { setStartIndex(0) }, [genderFilter, ageFilter])
+  useMemo(() => { setStartIndex(0) }, [genderFilter, ageFilter, goalFilter])
 
   const visibleStudies = filtered.slice(safeStart, safeStart + visibleCount)
 
   return (
     <>
-      <div className="flex flex-wrap items-center justify-center gap-3 mb-10">
+      {/* Gender + Age filters */}
+      <div className="flex flex-wrap items-center justify-center gap-3 mb-4">
         {(['all', 'male', 'female'] as const).map((g) => (
           <button
             key={g}
@@ -592,6 +547,26 @@ function MemberResults() {
             }`}
           >
             {range.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Divider */}
+      <div className="w-full h-px bg-warm-border mb-4" />
+
+      {/* Goal filters */}
+      <div className="flex flex-wrap items-center justify-center gap-3 mb-10">
+        {goalFilters.map((goal) => (
+          <button
+            key={goal.value}
+            onClick={() => setGoalFilter(goal.value)}
+            className={`px-5 py-2.5 rounded-full text-[13px] font-semibold transition-all duration-300 cursor-pointer ${
+              goalFilter === goal.value
+                ? 'bg-accent text-white shadow-[0_2px_8px_rgba(184,92,56,0.2)]'
+                : 'bg-cream border border-warm-border text-text-secondary hover:text-text-primary hover:border-accent/40 hover:bg-accent/5 hover:-translate-y-0.5'
+            }`}
+          >
+            {goal.label}
           </button>
         ))}
       </div>
@@ -634,192 +609,18 @@ function MemberResults() {
       <p className="text-center text-[13px] text-text-tertiary mt-10 font-medium">
         Real results from real Kalos members. No stock photos. No inflated numbers.
       </p>
+
+      {/* CTA linking to projection */}
+      <div className="text-center mt-12">
+        <a
+          href="#projection"
+          className="inline-flex items-center gap-2 px-8 py-4 bg-accent text-white text-[15px] font-semibold rounded-full hover:bg-accent-hover transition-all duration-300 shadow-[0_2px_12px_rgba(184,92,56,0.25)] hover:-translate-y-0.5"
+        >
+          See what's possible for you
+          <ArrowRight size={18} />
+        </a>
+      </div>
     </>
-  )
-}
-
-// ── Projection Calculator Tab ──
-
-function ProjectionCalculator() {
-  const [gender, setGender] = useState<'male' | 'female'>('male')
-  const [age, setAge] = useState('25-34')
-  const [days, setDays] = useState('4')
-  const [step, setStep] = useState<'quiz' | 'capture' | 'results'>('quiz')
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
-  const projection = getProjection(gender, age, days)
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // In production, send { firstName, lastName, email, phone, gender, age, days } to your backend
-    setStep('results')
-  }
-
-  return (
-    <div className="max-w-[860px] mx-auto">
-      {/* Intro */}
-      <div className="text-center mb-10">
-        <p className="text-[13px] font-semibold uppercase tracking-[0.2em] text-text-tertiary mb-3">4-week results powered by real data</p>
-        <h3 className="text-[28px] md:text-[36px] font-heading font-bold text-text-primary leading-[1.15]">
-          What results can you expect?
-        </h3>
-        <p className="text-[15px] text-text-secondary mt-4 max-w-2xl mx-auto leading-[1.7]">
-          Kalos has one of the largest serial DEXA body composition datasets in the world. Thousands of A/B tests run on real people's bodies, tracking every input between scans. Tell us about yourself and we'll show you exactly what your cohort achieves in 4 weeks.
-        </p>
-      </div>
-
-      <div className="bg-white rounded-3xl border border-warm-border p-8 md:p-12 shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
-
-        {step === 'quiz' && (
-          <>
-            <div className="space-y-6 mb-8">
-              {/* Row 1: Gender + Exercise days */}
-              <div className="grid md:grid-cols-2 gap-6">
-                {/* Gender */}
-                <div>
-                  <label className="block text-[12px] font-bold uppercase tracking-[0.15em] text-text-tertiary mb-3">I am</label>
-                  <div className="flex gap-2">
-                    {(['male', 'female'] as const).map((g) => (
-                      <button key={g} onClick={() => setGender(g)} className={`flex-1 py-3 rounded-full text-[14px] font-semibold transition-all duration-300 cursor-pointer ${gender === g ? 'bg-accent text-white shadow-[0_2px_8px_rgba(184,92,56,0.2)]' : 'bg-cream border border-warm-border text-text-secondary hover:border-accent/40 hover:bg-accent/5 hover:text-text-primary'}`}>
-                        {g === 'male' ? 'Male' : 'Female'}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Days */}
-                <div>
-                  <label className="block text-[12px] font-bold uppercase tracking-[0.15em] text-text-tertiary mb-3 whitespace-nowrap">Exercise days / week</label>
-                  <div className="flex gap-2">
-                    {daysOptions.map((d) => (
-                      <button key={d} onClick={() => setDays(d)} className={`flex-1 py-3 rounded-full text-[14px] font-semibold transition-all duration-300 cursor-pointer ${days === d ? 'bg-accent text-white shadow-[0_2px_8px_rgba(184,92,56,0.2)]' : 'bg-cream border border-warm-border text-text-secondary hover:border-accent/40 hover:bg-accent/5 hover:text-text-primary'}`}>
-                        {d}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Row 2: Age range */}
-              <div>
-                <label className="block text-[12px] font-bold uppercase tracking-[0.15em] text-text-tertiary mb-3">My age</label>
-                <div className="flex gap-2">
-                  {ageOptions.map((a) => (
-                    <button key={a} onClick={() => setAge(a)} className={`flex-1 py-3 rounded-full text-[13px] font-semibold transition-all duration-300 cursor-pointer ${age === a ? 'bg-accent text-white shadow-[0_2px_8px_rgba(184,92,56,0.2)]' : 'bg-cream border border-warm-border text-text-secondary hover:border-accent/40 hover:bg-accent/5 hover:text-text-primary'}`}>
-                      {a}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <button onClick={() => setStep('capture')} className="w-full py-4 bg-accent text-white text-[15px] font-semibold rounded-full hover:bg-accent-hover transition-all duration-300 shadow-[0_2px_12px_rgba(184,92,56,0.25)] flex items-center justify-center gap-2">
-              See My Projection
-              <ArrowRight size={18} />
-            </button>
-          </>
-        )}
-
-        {step === 'capture' && (
-          <form onSubmit={handleSubmit}>
-            <p className="text-[16px] text-text-secondary text-center mb-8 leading-[1.7]">
-              Enter your details and we'll generate your personalized 4-week projection.
-            </p>
-            <div className="grid md:grid-cols-2 gap-4 mb-4">
-              <div>
-                <label className="block text-[12px] font-bold uppercase tracking-[0.15em] text-text-tertiary mb-2">First name</label>
-                <input
-                  type="text"
-                  required
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                  placeholder="First name"
-                  className="w-full px-5 py-3.5 rounded-xl border border-warm-border bg-cream-light text-[15px] text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent/40 focus:ring-2 focus:ring-accent/10 transition-all"
-                />
-              </div>
-              <div>
-                <label className="block text-[12px] font-bold uppercase tracking-[0.15em] text-text-tertiary mb-2">Last name</label>
-                <input
-                  type="text"
-                  required
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                  placeholder="Last name"
-                  className="w-full px-5 py-3.5 rounded-xl border border-warm-border bg-cream-light text-[15px] text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent/40 focus:ring-2 focus:ring-accent/10 transition-all"
-                />
-              </div>
-            </div>
-            <div className="grid md:grid-cols-2 gap-4 mb-8">
-              <div>
-                <label className="block text-[12px] font-bold uppercase tracking-[0.15em] text-text-tertiary mb-2">Email</label>
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@email.com"
-                  className="w-full px-5 py-3.5 rounded-xl border border-warm-border bg-cream-light text-[15px] text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent/40 focus:ring-2 focus:ring-accent/10 transition-all"
-                />
-              </div>
-              <div>
-                <label className="block text-[12px] font-bold uppercase tracking-[0.15em] text-text-tertiary mb-2">Phone <span className="normal-case tracking-normal font-normal italic">(optional)</span></label>
-                <input
-                  type="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="(555) 123-4567"
-                  className="w-full px-5 py-3.5 rounded-xl border border-warm-border bg-cream-light text-[15px] text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent/40 focus:ring-2 focus:ring-accent/10 transition-all"
-                />
-              </div>
-            </div>
-
-            <div className="flex gap-3">
-              <button type="button" onClick={() => setStep('quiz')} className="px-6 py-4 rounded-full text-[15px] font-semibold text-text-secondary border border-warm-border hover:border-text-tertiary transition-all duration-300">
-                Back
-              </button>
-              <button type="submit" className="flex-1 py-4 bg-accent text-white text-[15px] font-semibold rounded-full hover:bg-accent-hover transition-all duration-300 shadow-[0_2px_12px_rgba(184,92,56,0.25)] flex items-center justify-center gap-2">
-                Get My Results
-                <ArrowRight size={18} />
-              </button>
-            </div>
-
-          </form>
-        )}
-
-        {step === 'results' && (
-          <div>
-            <div className="mb-6">
-              <p className="text-[15px] text-text-secondary leading-[1.7] italic mb-6">{projection.headline}</p>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {[
-                  { icon: TrendingUp, val: projection.muscleLbs, label: 'Lean Muscle' },
-                  { icon: TrendingDown, val: projection.fatLbs, label: 'Body Fat' },
-                  { icon: TrendingDown, val: projection.bodyFatDrop, label: 'Body Fat %' },
-                  { icon: TrendingUp, val: projection.almiChange, label: 'ALMI Percentile' },
-                ].map((item) => (
-                  <div key={item.label} className="bg-cream-light rounded-2xl p-4 text-center">
-                    <div className="flex items-center justify-center gap-1.5 mb-1.5">
-                      <item.icon size={14} className="text-green" />
-                      <span className="text-[20px] font-heading font-bold text-green">{item.val}</span>
-                    </div>
-                    <p className="text-[11px] text-text-tertiary font-medium">{item.label}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <p className="text-[11px] text-text-tertiary text-center mb-5 leading-[1.5]">
-              Based on results from over 1,000+ Kalos members. Individual results vary based on nutrition, sleep, and adherence.
-            </p>
-            <a href="#pricing" className="w-full py-4 bg-accent text-white text-[15px] font-semibold rounded-full hover:bg-accent-hover transition-all duration-300 shadow-[0_2px_12px_rgba(184,92,56,0.25)] flex items-center justify-center gap-2">
-              Book My Scan
-              <ArrowRight size={18} />
-            </a>
-          </div>
-        )}
-      </div>
-    </div>
   )
 }
 
@@ -827,7 +628,6 @@ function ProjectionCalculator() {
 
 export default function Results() {
   const headRef = useFadeIn()
-  const [activeTab, setActiveTab] = useState<'results' | 'calculator'>('results')
 
   return (
     <section id="results" className="bg-cream-light py-28 md:py-36">
@@ -842,31 +642,7 @@ export default function Results() {
           </p>
         </div>
 
-        {/* Tabs */}
-        <div className="flex items-center justify-center gap-2 mb-12">
-          <button
-            onClick={() => setActiveTab('results')}
-            className={`px-7 py-3 rounded-full text-[14px] font-semibold transition-all duration-300 cursor-pointer ${
-              activeTab === 'results'
-                ? 'bg-text-primary text-white shadow-[0_4px_12px_rgba(0,0,0,0.15)]'
-                : 'bg-cream border border-warm-border text-text-secondary hover:text-text-primary hover:border-accent/40 hover:bg-accent/5 hover:-translate-y-0.5'
-            }`}
-          >
-            Member Results
-          </button>
-          <button
-            onClick={() => setActiveTab('calculator')}
-            className={`px-7 py-3 rounded-full text-[14px] font-semibold transition-all duration-300 cursor-pointer ${
-              activeTab === 'calculator'
-                ? 'bg-text-primary text-white shadow-[0_4px_12px_rgba(0,0,0,0.15)]'
-                : 'bg-cream border border-warm-border text-text-secondary hover:text-text-primary hover:border-accent/40 hover:bg-accent/5 hover:-translate-y-0.5'
-            }`}
-          >
-            Your Projection
-          </button>
-        </div>
-
-        {activeTab === 'results' ? <MemberResults /> : <ProjectionCalculator />}
+        <MemberResults />
       </div>
     </section>
   )

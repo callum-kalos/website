@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useMemo } from 'react'
 import { useFadeIn } from '../hooks/useFadeIn'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Play } from 'lucide-react'
 
 const team = [
   {
@@ -88,6 +88,15 @@ export default function Team() {
   const [canScrollRight, setCanScrollRight] = useState(true)
   const [activeIndex, setActiveIndex] = useState(0)
 
+  const shuffledTeam = useMemo(() => {
+    const arr = [...team]
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      ;[arr[i], arr[j]] = [arr[j], arr[i]]
+    }
+    return arr
+  }, [])
+
   const totalMembers = team.length
   // Show 4 on desktop, 2 on tablet, 1 on mobile
   const getVisibleCount = () => {
@@ -148,11 +157,6 @@ export default function Team() {
           <p className="text-[17px] text-text-secondary mt-5 max-w-xl mx-auto leading-[1.7]">
             Your scan is only as good as the person interpreting it.
           </p>
-          <div className="mt-8 inline-block bg-accent/10 border border-accent/20 rounded-2xl px-8 py-5 max-w-2xl">
-            <p className="text-[15px] text-text-primary leading-[1.7]">
-              <span className="font-bold">Our guarantee:</span> if you complete a premium scan and don't walk away having learned something AI couldn't have told you, we'll refund your scan.
-            </p>
-          </div>
         </div>
 
         <div ref={carouselRef} className="relative">
@@ -182,17 +186,24 @@ export default function Team() {
             className="flex gap-6 lg:gap-8 overflow-x-auto scrollbar-hide scroll-smooth"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
-            {team.map((member) => (
+            {shuffledTeam.map((member) => (
               <div
                 key={member.name}
                 className="flex-shrink-0 w-[calc(100%-0px)] sm:w-[calc(50%-12px)] lg:w-[calc(25%-24px)] group"
               >
-                <div className="aspect-[3/4] rounded-3xl overflow-hidden bg-cream-dark border border-warm-border mb-6">
+                <div className="aspect-[3/4] rounded-3xl overflow-hidden bg-cream-dark border border-warm-border mb-6 relative">
                   <div className="w-full h-full bg-gradient-to-b from-cream to-cream-dark flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
                     <span className="text-[56px] font-heading font-bold text-text-primary/8">
                       {member.initials}
                     </span>
                   </div>
+                  <button
+                    className="absolute inset-0 m-auto w-10 h-10 rounded-full bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-black/40 cursor-pointer"
+                    aria-label={`Play intro video for ${member.name}`}
+                    onClick={() => {}}
+                  >
+                    <Play size={16} className="text-white ml-0.5" fill="white" />
+                  </button>
                 </div>
                 <h3 className="text-[20px] font-heading font-bold">{member.name}</h3>
                 <p className="text-[12px] font-bold uppercase tracking-[0.15em] text-accent mt-1.5">

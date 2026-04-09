@@ -3,6 +3,7 @@ import Hero from './components/Hero'
 import SocialProofBar from './components/SocialProofBar'
 import HowItWorks from './components/HowItWorksA'
 import Results from './components/Results'
+import ProjectionCalculator from './components/ProjectionCalculator'
 import Philosophy from './components/PhilosophyV1'
 import ScanExperience from './components/ScanExperience'
 import DEXAAccuracy from './components/DEXAAccuracy'
@@ -22,6 +23,7 @@ export default function App() {
       <SocialProofBar />
       <HowItWorks />
       <Results />
+      <ProjectionCalculator />
       <Philosophy />
       <ScanExperience />
       <DEXAAccuracy />
