@@ -53,7 +53,7 @@ export default function Pricing() {
 
           {/* Premium Duo */}
           <div className="relative bg-white rounded-3xl border-2 border-accent/20 shadow-[0_8px_32px_rgba(184,92,56,0.08)] p-8 lg:p-10 flex flex-col hover:-translate-y-2 hover:shadow-[0_24px_64px_rgba(184,92,56,0.16)] hover:border-accent/40 transition-all duration-300 cursor-pointer">
-            <span className="absolute -top-4 left-8 bg-green text-white text-[11px] font-bold uppercase tracking-[0.15em] px-5 py-2 rounded-full">
+            <span className="absolute -top-4 left-8 bg-accent text-white text-[11px] font-bold uppercase tracking-[0.15em] px-5 py-2 rounded-full">
               Great for couples
             </span>
             <h3 className="text-[22px] font-heading font-bold">Premium Duo Scan</h3>
