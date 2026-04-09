@@ -101,12 +101,6 @@ export default function PhysicianEndorsements() {
             The real value of a premium scan is the human expert who walks you through every detail of your results, turning raw data into a plan you can actually act on.
           </p>
 
-          {/* Guarantee callout */}
-          <div className="mt-10 inline-block bg-accent/10 border-2 border-accent/25 rounded-2xl px-8 py-6 max-w-2xl">
-            <p className="text-[15px] text-text-primary leading-[1.7]">
-              <span className="font-bold">Our guarantee:</span> if you complete a premium scan and don't walk away having learned something AI couldn't have told you, we'll refund your scan.
-            </p>
-          </div>
         </div>
 
         <div ref={gridRef} className="grid md:grid-cols-3 gap-8">
@@ -115,8 +109,19 @@ export default function PhysicianEndorsements() {
           ))}
         </div>
 
+        {/* Guarantee callout */}
+        <div className="mt-16 text-center max-w-3xl mx-auto">
+          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-accent mb-3">Our promise to you</p>
+          <h3 className="text-[28px] md:text-[36px] font-heading font-bold text-text-primary leading-[1.1] mb-4">
+            The Kalos Guarantee
+          </h3>
+          <p className="text-[17px] md:text-[19px] text-text-secondary leading-[1.7]">
+            If you complete a premium scan and don't walk away having learned something AI couldn't have told you, we'll refund your scan. No questions asked.
+          </p>
+        </div>
+
         {/* CTA */}
-        <div className="text-center mt-14">
+        <div className="text-center mt-8">
           <a
             href="#pricing"
             className="inline-flex items-center justify-center px-8 py-4 bg-accent text-white text-[15px] font-semibold rounded-full hover:bg-accent-dark transition-colors duration-200"

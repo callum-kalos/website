@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useFadeIn } from '../hooks/useFadeIn'
-import { TrendingUp, TrendingDown, ArrowRight, BarChart3, Database, Users, Target } from 'lucide-react'
+import { TrendingUp, TrendingDown, ArrowRight, BarChart3, Database, Users, Target, RotateCcw } from 'lucide-react'
 
 // ── Types ──
 
@@ -258,6 +258,15 @@ export default function ProjectionCalculator() {
 
             {step === 'results' && (
               <div>
+                <div className="flex justify-end mb-4">
+                  <button
+                    onClick={() => setStep('quiz')}
+                    className="flex items-center gap-1.5 text-[13px] font-semibold text-accent hover:text-accent-hover transition-colors duration-200 cursor-pointer"
+                  >
+                    <RotateCcw size={14} />
+                    Change Answers
+                  </button>
+                </div>
                 <div className="mb-6">
                   <p className="text-[15px] text-text-secondary leading-[1.7] italic mb-6">{projection.headline}</p>
                   <div className="grid grid-cols-2 gap-4">
