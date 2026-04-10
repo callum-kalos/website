@@ -89,7 +89,7 @@ const triangleProfiles = [
     longevity: 0.8,
     performance: 0.75,
     label: 'Where Kalos takes you',
-    description: 'Scan after scan, your triangle grows. Muscle gained, fat lost, bone density protected, performance climbing.',
+    description: 'Scan after scan, your triangle grows. Muscle gained, fat reduced, bone density strengthened. Performance improves across strength, endurance, and overall capacity.',
   },
 ]
 
