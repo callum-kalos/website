@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useFadeIn } from '../hooks/useFadeIn'
 import { Scan, Dumbbell, Trophy, ArrowRight, Play } from 'lucide-react'
 
@@ -103,6 +104,12 @@ export default function PhilosophyV1() {
             <p className="text-[17px] text-text-secondary mt-6 leading-[1.75]">
               Most health services hand you a number and send you home. At Kalos, we combine clinical-grade testing with expert coaching so your data becomes your transformation.
             </p>
+            <Link
+              to="/philosophy"
+              className="inline-flex items-center gap-2 mt-6 text-[15px] font-semibold text-accent hover:text-accent-hover transition-colors duration-300"
+            >
+              Learn more about our philosophy <ArrowRight size={16} />
+            </Link>
           </div>
         </div>
 
