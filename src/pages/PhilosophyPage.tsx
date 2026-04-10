@@ -468,7 +468,7 @@ export default function PhilosophyPage() {
               Ruthless prioritization: 80-16-3-1
             </h2>
             <p className="text-[17px] text-text-secondary mt-6 leading-[1.75] max-w-[680px] mx-auto">
-              All the marketing dollars in fitness are spent on that 1%. Trying to convince you on a supplement, zero effort, pop this pill. But really, that's not nearly as important as eating the right amount of food.
+              All the marketing dollars in fitness are spent on that 1%. Trying to convince you on a supplement, zero effort, pop this pill. But really, that's not nearly as important as eating the right amount of food and training consistently.
             </p>
           </div>
 
