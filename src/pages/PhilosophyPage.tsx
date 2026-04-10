@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useFadeIn } from '../hooks/useFadeIn'
 import { ArrowLeft, Play, ArrowRight, Scan, Dumbbell, Trophy, ChevronDown } from 'lucide-react'
@@ -6,17 +6,17 @@ import { ArrowLeft, Play, ArrowRight, Scan, Dumbbell, Trophy, ChevronDown } from
 /* ─── Data ────────────────────────────────────────────────────────── */
 
 const nutritionPyramid = [
-  { pct: '1%', label: 'Highly Dependent', detail: 'Ashwagandha, niche supplements' },
+  { pct: '1%', label: 'Highly Dependent', detail: 'Supplements, peptides' },
   { pct: '3%', label: 'Timing', detail: 'Protein timing, intermittent fasting, carb cycling' },
   { pct: '16%', label: 'Quality', detail: 'Whole grains, proteins, lean sources, healthy fats, etc.' },
-  { pct: '80%', label: 'Quantity', detail: 'Calories, macros, micros' },
+  { pct: '80%', label: 'Quantity', detail: 'Calories and macros' },
 ]
 
 const exercisePyramid = [
-  { pct: '1%', label: 'Highly Dependent', detail: 'Cold plunges, TRT' },
+  { pct: '1%', label: 'Highly Dependent', detail: 'Cold plunges, sauna' },
   { pct: '3%', label: 'Variations', detail: 'Kettlebells vs. dumbbells, tempo, equipment' },
   { pct: '16%', label: 'Programming', detail: 'Sets, reps, rest periods, exercise order, RIR' },
-  { pct: '80%', label: 'Consistency', detail: 'Are you going to the gym regularly' },
+  { pct: '80%', label: 'Consistency', detail: '% adherence and # workouts per week' },
 ]
 
 const journeySteps = [
@@ -359,6 +359,279 @@ function HoverTriangle() {
   )
 }
 
+/* ─── DEXA Progress Chart ────────────────────────────────────────── */
+
+const scanData = [
+  {
+    label: 'Scan 1',
+    time: 'Baseline',
+    lean: 112,
+    fat: 68,
+    training: 'No structured program. Occasional gym sessions, mostly machines.',
+    nutrition: 'No tracking. Estimated ~2,400 cal/day with inconsistent protein (~80g).',
+    insight: 'Starting point. DEXA reveals higher body fat than expected and muscle imbalances between left and right side.',
+  },
+  {
+    label: 'Scan 2',
+    time: 'Month 2',
+    lean: 121,
+    fat: 61,
+    training: 'Started 4x/week push-pull-legs. Progressive overload on compound lifts.',
+    nutrition: 'Tracking calories at 2,200/day. Protein increased to 140g. Cut alcohol to weekends only.',
+    insight: 'Newbie gains phase. +9 lbs lean, -7 lbs fat. Strength up across the board. Squat went from 135 to 185.',
+  },
+  {
+    label: 'Scan 3',
+    time: 'Month 4',
+    lean: 132,
+    fat: 55,
+    training: '4x/week with dedicated leg day. Added Romanian deadlifts and hip thrusts.',
+    nutrition: 'Bumped to 2,500 cal for lean bulk. Protein at 150g. Added creatine.',
+    insight: 'Strong recomp continues. +11 lbs lean, -6 lbs fat. Lower body catching up to upper body symmetry.',
+  },
+  {
+    label: 'Scan 4',
+    time: 'Month 6',
+    lean: 140,
+    fat: 52,
+    training: 'Switched to upper/lower split 5x/week. Introduced periodization with deload weeks.',
+    nutrition: '2,600 cal/day. Protein at 155g. Meal prepping consistently.',
+    insight: 'Lean tissue building steadily. +8 lbs lean, -3 lbs fat. Visceral fat dropped from 1.8 to 1.2 lbs.',
+  },
+  {
+    label: 'Scan 5',
+    time: 'Month 8',
+    lean: 141,
+    fat: 42,
+    training: 'Strength training 3x/week. Added 2x HIIT sessions and strategic zone 2 cardio.',
+    nutrition: 'Cut phase begins: 2,100 cal/day deficit. Protein maintained at 145g. High volume greens and fiber.',
+    insight: 'Cut phase begins. Lean tissue preserved (+1 lb), fat dropped significantly (-10 lbs). Caloric deficit with high protein to prioritize fat loss.',
+  },
+  {
+    label: 'Scan 6',
+    time: 'Month 10',
+    lean: 143,
+    fat: 35,
+    training: 'Strength training 4x/week. HIIT reduced to 1x. Added 3x zone 2 cardio (30 min walks).',
+    nutrition: '2,000 cal/day. Protein at 150g. Refeed day every 10 days to manage fatigue.',
+    insight: 'Deep into the cut. +2 lbs lean, -7 lbs fat. Strength maintained on all lifts. Sleep and recovery prioritized as deficit deepened.',
+  },
+  {
+    label: 'Scan 7',
+    time: 'Month 12',
+    lean: 145,
+    fat: 28,
+    training: 'Strength training 4x/week. Transitioned to maintenance phase. Deload week before final scan.',
+    nutrition: 'Reverse dieting back to 2,400 cal/day. Protein at 155g. Reintroduced more carbs around training.',
+    insight: 'Goal reached. 16% body fat. +33 lbs lean tissue and -40 lbs fat from baseline. Beginning reverse diet to lock in results at new maintenance calories.',
+  },
+]
+
+function DexaChart() {
+  const chartRef = useRef<HTMLDivElement>(null)
+  const [animated, setAnimated] = useState(false)
+  const [hoveredScan, setHoveredScan] = useState<number | null>(null)
+
+  // Auto-animate on scroll
+  useEffect(() => {
+    const el = chartRef.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setAnimated(true)
+          observer.unobserve(el)
+        }
+      },
+      { threshold: 0.3 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  const pad = { top: 40, right: 30, bottom: 60, left: 55 }
+  const w = 560, h = 380
+  const innerW = w - pad.left - pad.right
+  const innerH = h - pad.top - pad.bottom
+
+  const yMin = 15, yMax = 160
+  const yRange = yMax - yMin
+
+  const toX = (i: number) => pad.left + (i / (scanData.length - 1)) * innerW
+  const toY = (val: number) => pad.top + innerH - ((val - yMin) / yRange) * innerH
+
+  const leanPoints = scanData.map((s, i) => `${toX(i)},${toY(s.lean)}`).join(' ')
+  const fatPoints = scanData.map((s, i) => `${toX(i)},${toY(s.fat)}`).join(' ')
+
+  const yTicks = [40, 60, 80, 100, 120, 140]
+
+  return (
+    <div ref={chartRef} className="bg-white rounded-3xl border border-warm-border p-6 md:p-8 relative">
+      <div className="flex items-center gap-2 mb-4">
+        <span className="inline-block bg-accent/15 text-accent text-[11px] font-bold uppercase tracking-[0.1em] px-3 py-1 rounded-full">Real Kalos results</span>
+      </div>
+      <svg viewBox={`0 0 ${w} ${h}`} className="w-full" fill="none">
+        {/* Grid lines */}
+        {yTicks.map(tick => (
+          <line key={tick} x1={pad.left} y1={toY(tick)} x2={w - pad.right} y2={toY(tick)} stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+        ))}
+
+        {/* Y-axis labels */}
+        {yTicks.map(tick => (
+          <text key={tick} x={pad.left - 10} y={toY(tick) + 4} textAnchor="end" fill="rgba(255,255,255,0.35)" style={{ fontSize: '11px' }}>{tick} lbs</text>
+        ))}
+
+        {/* X-axis labels */}
+        {scanData.map((s, i) => (
+          <g key={s.label}>
+            <text x={toX(i)} y={h - 22} textAnchor="middle" fill="rgba(255,255,255,0.5)" style={{ fontSize: '11px', fontWeight: 600 }}>{s.label}</text>
+            <text x={toX(i)} y={h - 8} textAnchor="middle" fill="rgba(255,255,255,0.3)" style={{ fontSize: '9px' }}>{s.time}</text>
+          </g>
+        ))}
+
+        {/* Axes */}
+        <line x1={pad.left} y1={pad.top} x2={pad.left} y2={h - pad.bottom} stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" />
+        <line x1={pad.left} y1={h - pad.bottom} x2={w - pad.right} y2={h - pad.bottom} stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" />
+
+        {/* Fat line */}
+        <polyline
+          points={fatPoints}
+          fill="none"
+          stroke="#ef4444"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeDasharray="1000"
+          strokeDashoffset={animated ? 0 : 1000}
+          style={{ transition: 'stroke-dashoffset 2s ease-out 0.3s' }}
+        />
+
+        {/* Lean line */}
+        <polyline
+          points={leanPoints}
+          fill="none"
+          stroke="var(--color-accent)"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeDasharray="1000"
+          strokeDashoffset={animated ? 0 : 1000}
+          style={{ transition: 'stroke-dashoffset 2s ease-out 0.3s' }}
+        />
+
+        {/* Scan dots + hover targets */}
+        {scanData.map((s, i) => (
+          <g key={s.label}>
+            {/* Vertical dashed connector */}
+            <line
+              x1={toX(i)} y1={toY(s.lean)} x2={toX(i)} y2={toY(s.fat)}
+              stroke={hoveredScan === i ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.08)'}
+              strokeWidth="1" strokeDasharray="4 3"
+              opacity={animated ? 1 : 0}
+              style={{ transition: `opacity 0.4s ease-out ${0.5 + i * 0.3}s, stroke 0.2s` }}
+            />
+
+            {/* Lean dot */}
+            <circle cx={toX(i)} cy={toY(s.lean)} r={animated ? (hoveredScan === i ? 7 : 5) : 0} fill="var(--color-accent)"
+              style={{ transition: `r 0.3s ease-out ${0.4 + i * 0.3}s` }} />
+            <circle cx={toX(i)} cy={toY(s.lean)} r={animated ? (hoveredScan === i ? 14 : 10) : 0} fill="var(--color-accent)" opacity="0.15"
+              style={{ transition: `r 0.3s ease-out ${0.4 + i * 0.3}s` }} />
+
+            {/* Lean value label */}
+            {animated && (
+              <text x={toX(i)} y={toY(s.lean) - 14} textAnchor="middle" fill="var(--color-accent)"
+                style={{ fontSize: '10px', fontWeight: 700 }}
+                opacity={hoveredScan === i ? 1 : 0.6}>
+                {s.lean} lbs
+              </text>
+            )}
+
+            {/* Fat dot */}
+            <circle cx={toX(i)} cy={toY(s.fat)} r={animated ? (hoveredScan === i ? 7 : 5) : 0} fill="#ef4444"
+              style={{ transition: `r 0.3s ease-out ${0.4 + i * 0.3}s` }} />
+            <circle cx={toX(i)} cy={toY(s.fat)} r={animated ? (hoveredScan === i ? 14 : 10) : 0} fill="#ef4444" opacity="0.15"
+              style={{ transition: `r 0.3s ease-out ${0.4 + i * 0.3}s` }} />
+
+            {/* Fat value label */}
+            {animated && (
+              <text x={toX(i)} y={toY(s.fat) + 22} textAnchor="middle" fill="#ef4444"
+                style={{ fontSize: '10px', fontWeight: 700 }}
+                opacity={hoveredScan === i ? 1 : 0.6}>
+                {s.fat} lbs
+              </text>
+            )}
+
+            {/* Invisible hover target (wider hit area) */}
+            <rect
+              x={toX(i) - 25} y={pad.top} width={50} height={innerH}
+              fill="transparent"
+              className="cursor-pointer"
+              onMouseEnter={() => setHoveredScan(i)}
+              onMouseLeave={() => setHoveredScan(null)}
+            />
+          </g>
+        ))}
+
+        {/* Legend */}
+        <circle cx={pad.left + 10} cy={pad.top - 22} r="4" fill="var(--color-accent)" />
+        <text x={pad.left + 20} y={pad.top - 18} fill="rgba(255,255,255,0.6)" style={{ fontSize: '11px', fontWeight: 600 }}>Lean tissue</text>
+        <circle cx={pad.left + 110} cy={pad.top - 22} r="4" fill="#ef4444" />
+        <text x={pad.left + 120} y={pad.top - 18} fill="rgba(255,255,255,0.6)" style={{ fontSize: '11px', fontWeight: 600 }}>Fat tissue</text>
+      </svg>
+
+      {/* Hover tooltip card */}
+      {hoveredScan !== null && (
+        <div
+          className="absolute z-20 bg-[#1a1a1a] border border-white/10 rounded-2xl p-5 shadow-[0_12px_40px_rgba(0,0,0,0.4)] w-[340px] pointer-events-none"
+          style={{
+            left: hoveredScan <= 2 ? '60%' : '10%',
+            top: '15%',
+          }}
+        >
+          <div className="flex items-center justify-between mb-3">
+            <p className="text-[14px] font-bold text-white">{scanData[hoveredScan].label}</p>
+            <p className="text-[11px] text-white/40">{scanData[hoveredScan].time}</p>
+          </div>
+
+          <div className="flex gap-4 mb-4">
+            <div className="flex items-center gap-1.5">
+              <div className="w-2 h-2 rounded-full bg-accent" />
+              <p className="text-[12px] text-white/70">Lean: <span className="text-white font-semibold">{scanData[hoveredScan].lean} lbs</span></p>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <div className="w-2 h-2 rounded-full bg-[#ef4444]" />
+              <p className="text-[12px] text-white/70">Fat: <span className="text-white font-semibold">{scanData[hoveredScan].fat} lbs</span></p>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <div className="w-2 h-2 rounded-full bg-white/30" />
+              <p className="text-[12px] text-white/70">Body fat: <span className="text-white font-semibold">{Math.round(scanData[hoveredScan].fat / (scanData[hoveredScan].lean + scanData[hoveredScan].fat) * 100)}%</span></p>
+            </div>
+          </div>
+
+          <div className="space-y-3 border-t border-white/10 pt-3">
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-accent mb-1">Training</p>
+              <p className="text-[12px] text-white/60 leading-[1.6]">{scanData[hoveredScan].training}</p>
+            </div>
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-accent mb-1">Nutrition</p>
+              <p className="text-[12px] text-white/60 leading-[1.6]">{scanData[hoveredScan].nutrition}</p>
+            </div>
+            <div className="border-t border-white/10 pt-2">
+              <p className="text-[12px] text-white/80 leading-[1.6] italic">{scanData[hoveredScan].insight}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Hover hint */}
+      {animated && hoveredScan === null && (
+        <p className="text-center text-[12px] text-text-tertiary mt-2 italic">Hover over each scan to see the story behind the numbers</p>
+      )}
+    </div>
+  )
+}
+
 /* ─── Main Page ───────────────────────────────────────────────────── */
 
 export default function PhilosophyPage() {
@@ -578,23 +851,29 @@ export default function PhilosophyPage() {
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-            {/* The Problem */}
-            <div className="bg-white rounded-3xl border border-warm-border p-8 md:p-10">
-              <div className="w-10 h-1 bg-warm-border rounded-full mb-6" />
-              <h3 className="text-[20px] font-heading font-bold text-text-primary mb-4">The Problem</h3>
-              <p className="text-[15px] text-text-secondary leading-[1.75]">
-                We have tons of fitness data. Steps, sleep, heart rate. But it's the wrong data. Without DEXA's gold-standard metrics, it doesn't paint the full picture. You're measuring inputs without knowing the outputs.
-              </p>
-            </div>
+          <div className="grid lg:grid-cols-[5fr_3fr] gap-8 lg:gap-12 items-start">
+            {/* DEXA Progress Chart */}
+            <DexaChart />
 
-            {/* The Kalos Approach */}
-            <div className="bg-white rounded-3xl border border-warm-border p-8 md:p-10">
-              <div className="w-10 h-1 bg-accent rounded-full mb-6" />
-              <h3 className="text-[20px] font-heading font-bold text-accent mb-4">The Kalos Approach</h3>
-              <p className="text-[15px] text-text-secondary leading-[1.75]">
-                We connect the X variables (what you do: training, nutrition, lifestyle) to the Y variables (what changes: muscle, fat, bone density) and prescribe accordingly. We're agnostic to the method. If you're getting stronger, building muscle, losing fat, the approach is working.
-              </p>
+            {/* Cards stacked */}
+            <div className="flex flex-col gap-6">
+              {/* The Problem */}
+              <div className="bg-white rounded-3xl border border-warm-border p-8 md:p-10">
+                <div className="w-10 h-1 bg-warm-border rounded-full mb-6" />
+                <h3 className="text-[20px] font-heading font-bold text-text-primary mb-4">The Problem</h3>
+                <p className="text-[15px] text-text-secondary leading-[1.75]">
+                  We have tons of fitness data. Steps, sleep, heart rate. But it's the wrong data. Without DEXA's gold-standard metrics, it doesn't paint the full picture. You're measuring inputs without knowing the outputs.
+                </p>
+              </div>
+
+              {/* The Kalos Approach */}
+              <div className="bg-white rounded-3xl border border-warm-border p-8 md:p-10">
+                <div className="w-10 h-1 bg-accent rounded-full mb-6" />
+                <h3 className="text-[20px] font-heading font-bold text-accent mb-4">The Kalos Approach</h3>
+                <p className="text-[15px] text-text-secondary leading-[1.75]">
+                  We connect the X variables (what you do: training, nutrition, lifestyle) to the Y variables (what changes: muscle, fat, bone density) and prescribe accordingly. We're agnostic to the method. If you're getting stronger, building muscle, losing fat, the approach is working.
+                </p>
+              </div>
             </div>
           </div>
         </div>
