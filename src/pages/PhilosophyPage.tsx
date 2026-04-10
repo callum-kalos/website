@@ -6,17 +6,17 @@ import { ArrowLeft, Play, ArrowRight, Scan, Dumbbell, Trophy, ChevronDown } from
 /* ─── Data ────────────────────────────────────────────────────────── */
 
 const nutritionPyramid = [
-  { pct: '80%', label: 'Quantity', detail: 'Calories, macros, micros' },
-  { pct: '16%', label: 'Quality', detail: 'Whole grains, proteins, lean sources, healthy fats, etc.' },
-  { pct: '3%', label: 'Timing', detail: 'Protein timing, intermittent fasting, carb cycling' },
   { pct: '1%', label: 'Highly Dependent', detail: 'Ashwagandha, niche supplements' },
+  { pct: '3%', label: 'Timing', detail: 'Protein timing, intermittent fasting, carb cycling' },
+  { pct: '16%', label: 'Quality', detail: 'Whole grains, proteins, lean sources, healthy fats, etc.' },
+  { pct: '80%', label: 'Quantity', detail: 'Calories, macros, micros' },
 ]
 
 const exercisePyramid = [
-  { pct: '80%', label: 'Consistency', detail: 'Are you going to the gym regularly' },
-  { pct: '16%', label: 'Programming', detail: 'Sets, reps, rest periods, exercise order, RIR' },
-  { pct: '3%', label: 'Variations', detail: 'Kettlebells vs. dumbbells, tempo, equipment' },
   { pct: '1%', label: 'Highly Dependent', detail: 'Cold plunges, TRT' },
+  { pct: '3%', label: 'Variations', detail: 'Kettlebells vs. dumbbells, tempo, equipment' },
+  { pct: '16%', label: 'Programming', detail: 'Sets, reps, rest periods, exercise order, RIR' },
+  { pct: '80%', label: 'Consistency', detail: 'Are you going to the gym regularly' },
 ]
 
 const journeySteps = [
@@ -102,6 +102,12 @@ function Pyramid({ title, data }: { title: string; data: typeof nutritionPyramid
       <div className="flex flex-col items-center gap-3">
         {data.map((tier, i) => {
           const widths = ['40%', '60%', '80%', '100%']
+          const backgrounds = [
+            'color-mix(in srgb, var(--color-accent) 20%, transparent)',
+            'color-mix(in srgb, var(--color-accent) 40%, transparent)',
+            'color-mix(in srgb, var(--color-accent) 70%, transparent)',
+            'var(--color-accent)',
+          ]
           return (
             <div key={tier.label} className="w-full flex flex-col items-center">
               <div
@@ -109,19 +115,13 @@ function Pyramid({ title, data }: { title: string; data: typeof nutritionPyramid
                 style={{
                   width: widths[i],
                   minHeight: '56px',
-                  background: i === 0
-                    ? 'var(--color-accent)'
-                    : i === 1
-                      ? 'color-mix(in srgb, var(--color-accent) 70%, transparent)'
-                      : i === 2
-                        ? 'color-mix(in srgb, var(--color-accent) 40%, transparent)'
-                        : 'color-mix(in srgb, var(--color-accent) 20%, transparent)',
+                  background: backgrounds[i],
                 }}
               >
-                <p className={`text-[14px] font-bold whitespace-nowrap ${i <= 1 ? 'text-white' : 'text-text-primary'}`}>
+                <p className={`text-[14px] font-bold whitespace-nowrap ${i >= 2 ? 'text-white' : 'text-text-primary'}`}>
                   {tier.pct} = {tier.label}
                 </p>
-                <p className={`text-[12px] mt-0.5 leading-snug whitespace-nowrap ${i <= 1 ? 'text-white/80' : 'text-text-secondary'}`}>
+                <p className={`text-[12px] mt-0.5 leading-snug whitespace-nowrap ${i >= 2 ? 'text-white/80' : 'text-text-secondary'}`}>
                   {tier.detail}
                 </p>
               </div>
@@ -472,9 +472,19 @@ export default function PhilosophyPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 lg:gap-12 mb-12">
-            <Pyramid title="Nutrition" data={nutritionPyramid} />
-            <Pyramid title="Exercise" data={exercisePyramid} />
+          <div className="flex gap-6 lg:gap-10 mb-12">
+            {/* Generalizability scale */}
+            <div className="hidden md:flex flex-col items-center justify-between py-14 shrink-0">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-text-tertiary text-center leading-tight max-w-[90px]">Less generalisable, more art</p>
+              <div className="flex-1 w-px bg-gradient-to-b from-text-tertiary/40 via-text-tertiary/20 to-text-tertiary/40 my-4" />
+              <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-text-tertiary text-center leading-tight max-w-[90px]">More generalisable, more science</p>
+            </div>
+
+            {/* Pyramids */}
+            <div className="grid md:grid-cols-2 gap-8 lg:gap-12 flex-1">
+              <Pyramid title="Nutrition" data={nutritionPyramid} />
+              <Pyramid title="Exercise" data={exercisePyramid} />
+            </div>
           </div>
 
           <div className="bg-white rounded-3xl border border-warm-border p-8 md:p-10 text-center max-w-[800px] mx-auto">
