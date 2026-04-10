@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { useFadeIn } from '../hooks/useFadeIn'
 import { ArrowLeft, Play, ArrowRight, Scan, Dumbbell, Trophy, ChevronDown } from 'lucide-react'
 
@@ -371,6 +371,20 @@ export default function PhilosophyPage() {
   const ctaRef = useFadeIn()
   const [videoPlaying, setVideoPlaying] = useState(false)
   const [activeStep, setActiveStep] = useState<number | null>(null)
+  const navigate = useNavigate()
+
+  // Scroll to top on mount
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
+  const handleBookScan = () => {
+    navigate('/')
+    setTimeout(() => {
+      const el = document.getElementById('pricing')
+      if (el) el.scrollIntoView({ behavior: 'smooth' })
+    }, 100)
+  }
 
   return (
     <div className="min-h-screen bg-bg">
@@ -519,7 +533,11 @@ export default function PhilosophyPage() {
                     <div className="bg-white rounded-2xl border border-warm-border p-6 shadow-[0_12px_40px_rgba(0,0,0,0.06)] max-w-[320px] mx-auto text-left">
                       <p className="text-[14px] font-semibold text-accent mb-3">{step.subtitle}</p>
                       <p className="text-[14px] text-text-secondary leading-[1.7] mb-4">{step.description}</p>
-                      <Link to={step.ctaHref} className="text-[11px] font-bold uppercase tracking-[0.15em] text-accent hover:text-accent-hover transition-colors duration-300">{step.cta}</Link>
+                      {step.ctaHref === '/#pricing' ? (
+                        <button onClick={handleBookScan} className="text-[11px] font-bold uppercase tracking-[0.15em] text-accent hover:text-accent-hover transition-colors duration-300 cursor-pointer">{step.cta}</button>
+                      ) : (
+                        <Link to={step.ctaHref} className="text-[11px] font-bold uppercase tracking-[0.15em] text-accent hover:text-accent-hover transition-colors duration-300">{step.cta}</Link>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -578,13 +596,13 @@ export default function PhilosophyPage() {
           <h2 className="text-[32px] md:text-[44px] font-heading font-bold text-text-primary leading-[1.1] mb-6">
             Ready to see your numbers?
           </h2>
-          <Link
-            to="/#pricing"
-            className="inline-flex items-center gap-2 bg-accent text-white rounded-full px-8 py-4 text-[16px] font-semibold hover:bg-accent-hover transition-colors duration-300"
+          <button
+            onClick={handleBookScan}
+            className="inline-flex items-center gap-2 bg-accent text-white rounded-full px-8 py-4 text-[16px] font-semibold hover:bg-accent-hover transition-colors duration-300 cursor-pointer"
           >
             Book My Scan
             <ArrowRight size={18} />
-          </Link>
+          </button>
         </div>
       </section>
     </div>
