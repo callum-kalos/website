@@ -27,7 +27,7 @@ const physicians: Physician[] = [
     company: 'Dominick Curatola, MD',
     quote: "Kalos has become a trusted extension of how I care for my patients. I know when I refer someone, they'll be well looked after and given the insight and coaching they need to move forward with confidence.",
     photoUrl: '/Physicians/Dominick-Curatola.png',
-    logoUrl: '/Physicians/Curatola-logo.png',
+    logoUrl: '/Physicians/Curatola-icon.png',
     logoHref: 'https://dominickcuratolamd.com/',
   },
   {
