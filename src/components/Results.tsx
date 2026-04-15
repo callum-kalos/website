@@ -62,7 +62,7 @@ const caseStudies: CaseStudy[] = [
       { label: 'ALMI', value: '35th → 62nd %ile', direction: 'up' },
     ],
     quote: 'The hard numbers really help quantify exactly how the gap is.',
-    tag: '4-week program',
+    tag: '4-week member',
     dashboard: {
       duration: '4 weeks',
       scans: 2,
@@ -96,7 +96,7 @@ const caseStudies: CaseStudy[] = [
       { label: 'Left Arm', value: '+7-8% muscle', direction: 'up' },
     ],
     quote: 'The process has been sustainable and empowering. I feel stronger every week.',
-    tag: '4-week program',
+    tag: '4-week member',
     dashboard: {
       duration: '4 weeks',
       scans: 2,
@@ -161,7 +161,7 @@ const caseStudies: CaseStudy[] = [
       { label: 'Body Fat', value: '28.1% → 24.3%', direction: 'down' },
     ],
     quote: 'Seeing the actual numbers changed how I train. I stopped guessing and started progressing.',
-    tag: '4-week program',
+    tag: '4-week member',
     dashboard: {
       duration: '4 weeks',
       scans: 2,
@@ -227,7 +227,7 @@ const caseStudies: CaseStudy[] = [
       { label: 'Body Fat', value: '35.4% → 31.8%', direction: 'down' },
     ],
     quote: 'My doctor was impressed at my last checkup. The data gave me confidence to keep going.',
-    tag: '4-week program',
+    tag: '4-week member',
     dashboard: {
       duration: '4 weeks',
       scans: 2,
