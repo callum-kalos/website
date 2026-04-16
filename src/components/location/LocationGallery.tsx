@@ -41,6 +41,7 @@ export default function LocationGallery({ location }: Props) {
       brief: 'Member on the DEXA bed, analyst alongside. Warm lighting.',
       file: 'feature.jpg',
       src: imgs?.feature,
+      objectPosition: 'top',
     },
     {
       aspect: 'aspect-[4/3]',
@@ -109,6 +110,7 @@ export default function LocationGallery({ location }: Props) {
                   src={tile.src}
                   alt={`${tile.label} — Kalos ${location.city}`}
                   className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700"
+                  style={tile.objectPosition ? { objectPosition: tile.objectPosition } : undefined}
                 />
               ) : (
                 <div className="w-full h-full bg-gradient-to-br from-cream to-cream-dark flex items-center justify-center p-6">

@@ -160,7 +160,7 @@ const SJ: LocationData = {
     consultation: '/San Jose/Consultation together.jpg',
     lobby: '/San Jose/Consult room.jpg',
     exterior: '/San Jose/Exterior.JPG',
-    detail: '/San Jose/Machine detail.jpg',
+    detail: '/San Jose/Looking at the report.jpg',
   },
 }
 
