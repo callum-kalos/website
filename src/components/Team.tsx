@@ -95,7 +95,20 @@ const team = [
   },
 ]
 
-export default function Team() {
+interface TeamProps {
+  eyebrow?: string
+  headline?: string
+  subtitle?: string
+  /** Show only performance analysts (excludes founders and GMs). */
+  analystsOnly?: boolean
+}
+
+export default function Team({
+  eyebrow = 'Our team',
+  headline = 'Performance analysts. Not technicians.',
+  subtitle = 'Your scan is only as good as the person interpreting it.',
+  analystsOnly = false,
+}: TeamProps = {}) {
   const headRef = useFadeIn()
   const carouselRef = useFadeIn()
   const scrollContainerRef = useRef<HTMLDivElement>(null)
@@ -104,16 +117,21 @@ export default function Team() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [expandedMember, setExpandedMember] = useState<string | null>(null)
 
+  const filteredTeam = useMemo(
+    () => (analystsOnly ? team.filter((m) => m.title === 'Performance Analyst') : team),
+    [analystsOnly]
+  )
+
   const shuffledTeam = useMemo(() => {
-    const arr = [...team]
+    const arr = [...filteredTeam]
     for (let i = arr.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1))
       ;[arr[i], arr[j]] = [arr[j], arr[i]]
     }
     return arr
-  }, [])
+  }, [filteredTeam])
 
-  const totalMembers = team.length
+  const totalMembers = filteredTeam.length
   // Show 4 on desktop, 2 on tablet, 1 on mobile
   const getVisibleCount = () => {
     if (typeof window === 'undefined') return 4
@@ -171,12 +189,12 @@ export default function Team() {
     <section id="team" className="bg-cream-light py-28 md:py-36">
       <div className="w-full max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16">
         <div ref={headRef} className="text-center mb-20">
-          <p className="text-[13px] font-semibold uppercase tracking-[0.2em] text-accent mb-4">Our team</p>
+          <p className="text-[13px] font-semibold uppercase tracking-[0.2em] text-accent mb-4">{eyebrow}</p>
           <h2 className="text-[36px] md:text-[48px] font-heading font-bold text-text-primary leading-[1.1]">
-            Performance analysts. Not technicians.
+            {headline}
           </h2>
           <p className="text-[17px] text-text-secondary mt-5 max-w-xl mx-auto leading-[1.7]">
-            Your scan is only as good as the person interpreting it.
+            {subtitle}
           </p>
         </div>
 

@@ -81,7 +81,15 @@ const filterOptions: { value: ReviewTag | 'all'; label: string }[] = [
   { value: 'coaching', label: 'Coaching' },
 ]
 
-export default function Reviews() {
+interface ReviewsProps {
+  eyebrow?: string
+  headline?: string
+}
+
+export default function Reviews({
+  eyebrow = 'Reviews',
+  headline = "Don't take our word for it",
+}: ReviewsProps = {}) {
   const headRef = useFadeIn()
   const [activeFilter, setActiveFilter] = useState<ReviewTag | 'all'>('all')
   const [startIndex, setStartIndex] = useState(0)
@@ -111,9 +119,9 @@ export default function Reviews() {
     <section className="bg-cream py-28 md:py-36">
       <div className="w-full max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16">
         <div ref={headRef} className="text-center mb-14">
-          <p className="text-[13px] font-semibold uppercase tracking-[0.2em] text-accent mb-4">Reviews</p>
+          <p className="text-[13px] font-semibold uppercase tracking-[0.2em] text-accent mb-4">{eyebrow}</p>
           <h2 className="text-[36px] md:text-[48px] font-heading font-bold text-text-primary leading-[1.1]">
-            Don't take our word for it
+            {headline}
           </h2>
         </div>
 

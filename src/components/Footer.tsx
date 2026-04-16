@@ -1,8 +1,29 @@
-const footerLinks = {
-  Company: ['About', 'Team', 'Careers', 'Blog'],
-  Services: ['Premium Scan', 'Basic Scan', 'Coaching', 'Corporate'],
-  Locations: ['San Francisco', 'Palo Alto', 'San Jose'],
-  Support: ['FAQ', 'Contact', 'Privacy', 'Terms'],
+import { Link } from 'react-router-dom'
+
+const footerLinks: Record<string, { label: string; href: string; internal?: boolean }[]> = {
+  Company: [
+    { label: 'About', href: '#' },
+    { label: 'Team', href: '/#team' },
+    { label: 'Careers', href: '#' },
+    { label: 'Blog', href: '#' },
+  ],
+  Services: [
+    { label: 'Premium Scan', href: '/#pricing' },
+    { label: 'Basic Scan', href: '/#pricing' },
+    { label: 'Coaching', href: '#' },
+    { label: 'Corporate', href: '#' },
+  ],
+  Locations: [
+    { label: 'San Francisco', href: '/locations/san-francisco', internal: true },
+    { label: 'Palo Alto', href: '/locations/palo-alto', internal: true },
+    { label: 'San Jose', href: '/locations/san-jose', internal: true },
+  ],
+  Support: [
+    { label: 'FAQ', href: '/#faq' },
+    { label: 'Contact', href: '#' },
+    { label: 'Privacy', href: '#' },
+    { label: 'Terms', href: '#' },
+  ],
 }
 
 export default function Footer() {
@@ -21,8 +42,22 @@ export default function Footer() {
               <h4 className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/25 mb-6">{title}</h4>
               <ul className="space-y-3.5">
                 {links.map((link) => (
-                  <li key={link}>
-                    <a href="#" className="text-[14px] text-white/45 hover:text-white transition-colors duration-300">{link}</a>
+                  <li key={link.label}>
+                    {link.internal ? (
+                      <Link
+                        to={link.href}
+                        className="text-[14px] text-white/45 hover:text-white transition-colors duration-300"
+                      >
+                        {link.label}
+                      </Link>
+                    ) : (
+                      <a
+                        href={link.href}
+                        className="text-[14px] text-white/45 hover:text-white transition-colors duration-300"
+                      >
+                        {link.label}
+                      </a>
+                    )}
                   </li>
                 ))}
               </ul>
