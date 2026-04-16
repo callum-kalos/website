@@ -16,29 +16,35 @@ interface Props {
 export default function LocationHero({ location }: Props) {
   return (
     <section className="relative min-h-[85vh] flex flex-col justify-end overflow-hidden">
-      {/* Background: replace with <video> or <img> */}
+      {/* Background */}
       <div className="absolute inset-0">
-        <div
-          className="w-full h-full flex items-center justify-center"
-          style={{
-            background: `linear-gradient(135deg, ${location.colorSwatch[0]} 0%, ${location.colorSwatch[1]} 100%)`,
-          }}
-        >
-          <div className="text-white/12 text-center px-8">
-            <Camera size={72} className="mx-auto mb-4" strokeWidth={1} />
-            <p className="text-[12px] font-bold uppercase tracking-[0.2em] mb-2">
-              Hero image placeholder
-            </p>
-            <p className="text-[13px] max-w-md mx-auto leading-relaxed">
-              Wide 16:9 shot of the {location.city} clinic. Best option: a warmly-lit
-              interior view of the scan room or the consultation lounge. Second
-              option: exterior of the building with Kalos signage visible.
-            </p>
-            <p className="text-[11px] mt-3 opacity-70 font-mono">
-              /Locations/{location.slug}/hero.jpg
-            </p>
+        {location.images?.hero ? (
+          <img
+            src={location.images.hero}
+            alt={`Kalos ${location.city} clinic`}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div
+            className="w-full h-full flex items-center justify-center"
+            style={{
+              background: `linear-gradient(135deg, ${location.colorSwatch[0]} 0%, ${location.colorSwatch[1]} 100%)`,
+            }}
+          >
+            <div className="text-white/12 text-center px-8">
+              <Camera size={72} className="mx-auto mb-4" strokeWidth={1} />
+              <p className="text-[12px] font-bold uppercase tracking-[0.2em] mb-2">
+                Hero image placeholder
+              </p>
+              <p className="text-[13px] max-w-md mx-auto leading-relaxed">
+                Wide 16:9 shot of the {location.city} clinic.
+              </p>
+              <p className="text-[11px] mt-3 opacity-70 font-mono">
+                /Locations/{location.slug}/hero.jpg
+              </p>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Darkening overlays so white text is legible */}

@@ -31,6 +31,8 @@ export default function LocationGallery({ location }: Props) {
   const headRef = useFadeIn()
   const gridRef = useFadeIn('stagger')
 
+  const imgs = location.images
+
   const tiles = [
     {
       aspect: 'aspect-[4/5]',
@@ -38,6 +40,7 @@ export default function LocationGallery({ location }: Props) {
       label: 'Scan room',
       brief: 'Member on the DEXA bed, analyst alongside. Warm lighting.',
       file: 'feature.jpg',
+      src: imgs?.feature,
     },
     {
       aspect: 'aspect-[4/3]',
@@ -45,6 +48,7 @@ export default function LocationGallery({ location }: Props) {
       label: 'Consultation',
       brief: 'Analyst walking member through their results.',
       file: 'consultation.jpg',
+      src: imgs?.consultation,
     },
     {
       aspect: 'aspect-[4/3]',
@@ -52,6 +56,7 @@ export default function LocationGallery({ location }: Props) {
       label: 'Lobby / lounge',
       brief: 'Reception area. Warm wood, daylight, plants.',
       file: 'lobby.jpg',
+      src: imgs?.lobby,
     },
     {
       aspect: 'aspect-[4/3]',
@@ -59,6 +64,7 @@ export default function LocationGallery({ location }: Props) {
       label: 'Exterior',
       brief: 'Street-level shot of the building with signage.',
       file: 'exterior.jpg',
+      src: imgs?.exterior,
     },
     {
       aspect: 'aspect-[4/3]',
@@ -66,6 +72,7 @@ export default function LocationGallery({ location }: Props) {
       label: 'Detail shot',
       brief: 'Closeup: scan report on desk, coffee, DEXA machine.',
       file: 'detail.jpg',
+      src: imgs?.detail,
     },
   ]
 
@@ -97,33 +104,32 @@ export default function LocationGallery({ location }: Props) {
               key={tile.label}
               className={`${tile.span} ${tile.aspect} relative rounded-3xl overflow-hidden bg-cream-dark border border-warm-border group hover:shadow-[0_16px_48px_rgba(0,0,0,0.08)] transition-all duration-300`}
             >
-              {/*
-                PLACEHOLDER:
-                Replace this inner div with:
-                  <img
-                    src={`/Locations/${location.slug}/${tile.file}`}
-                    alt={`${tile.label} — Kalos ${location.city}`}
-                    className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700"
-                  />
-              */}
-              <div className="w-full h-full bg-gradient-to-br from-cream to-cream-dark flex items-center justify-center p-6">
-                <div className="text-center">
-                  <Camera
-                    size={36}
-                    strokeWidth={1}
-                    className="mx-auto mb-3 text-text-primary/20"
-                  />
-                  <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-text-primary/40 mb-2">
-                    {tile.label}
-                  </p>
-                  <p className="text-[12px] text-text-primary/35 leading-[1.5] max-w-[220px] mx-auto">
-                    {tile.brief}
-                  </p>
-                  <p className="text-[10px] text-text-primary/25 mt-3 font-mono">
-                    /Locations/{location.slug}/{tile.file}
-                  </p>
+              {tile.src ? (
+                <img
+                  src={tile.src}
+                  alt={`${tile.label} — Kalos ${location.city}`}
+                  className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700"
+                />
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-cream to-cream-dark flex items-center justify-center p-6">
+                  <div className="text-center">
+                    <Camera
+                      size={36}
+                      strokeWidth={1}
+                      className="mx-auto mb-3 text-text-primary/20"
+                    />
+                    <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-text-primary/40 mb-2">
+                      {tile.label}
+                    </p>
+                    <p className="text-[12px] text-text-primary/35 leading-[1.5] max-w-[220px] mx-auto">
+                      {tile.brief}
+                    </p>
+                    <p className="text-[10px] text-text-primary/25 mt-3 font-mono">
+                      /Locations/{location.slug}/{tile.file}
+                    </p>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           ))}
         </div>

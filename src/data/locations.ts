@@ -30,6 +30,15 @@ export interface LocationData {
   serviceArea: string[]
   /** Map-style gradient fallback color pair — used until real photos land */
   colorSwatch: [string, string]
+  /** Optional image paths (relative to /public). Omit for placeholders. */
+  images?: {
+    hero?: string
+    feature?: string
+    consultation?: string
+    lobby?: string
+    exterior?: string
+    detail?: string
+  }
 }
 
 const SF: LocationData = {
@@ -145,6 +154,14 @@ const SJ: LocationData = {
     'Cupertino',
   ],
   colorSwatch: ['#2a2620', '#1A1A1A'],
+  images: {
+    hero: '/San Jose/Hero.jpg',
+    feature: '/San Jose/Person on scan.jpg',
+    consultation: '/San Jose/Consultation together.jpg',
+    lobby: '/San Jose/Consult room.jpg',
+    exterior: '/San Jose/Exterior.JPG',
+    detail: '/San Jose/Machine detail.jpg',
+  },
 }
 
 export const locations: Record<LocationData['slug'], LocationData> = {
