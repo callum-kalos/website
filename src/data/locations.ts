@@ -1,6 +1,6 @@
 /**
- * Per-location data for Kalos clinic pages.
- * Add a new clinic here + a route in main.tsx and a new page is live.
+ * Per-location data for Kalos location pages.
+ * Add a new location here + a route in main.tsx and a new page is live.
  */
 
 export interface LocationData {
@@ -59,13 +59,13 @@ const SF: LocationData = {
   phone: null,
   transit: 'Two blocks from Embarcadero BART / Muni. Ferry Building a 4-minute walk.',
   parking: 'Street parking on Battery and Pine. Embarcadero Center garage nearby.',
-  narrativeTitle: 'Inside our San Francisco clinic',
+  narrativeTitle: 'Inside our San Francisco location',
   narrativeBody: [
     "We built the SF space to feel nothing like a medical office. Warm wood, soft lighting, a quiet private consultation room. You change, you scan, you sit with your analyst over a coffee. No waiting rooms, no clipboards, no paper gowns.",
     "Our downtown location is where we see the highest concentration of long-term members, many of whom return every 6-8 weeks to track how their training, travel, and nutrition changes are showing up in the data.",
   ],
   narrativeQuote: {
-    text: "The SF clinic is designed to feel like the nicest 30 minutes of your week, not a trip to the doctor.",
+    text: "The SF location is designed to feel like the nicest 30 minutes of your week, not a trip to the doctor.",
     attribution: 'Alex Shultz, General Manager',
   },
   serviceArea: [
@@ -86,7 +86,7 @@ const PA: LocationData = {
   eyebrow: 'Kalos Palo Alto',
   heroHeadline: 'DEXA scans on University Avenue.',
   heroSubcopy:
-    "Our downtown Palo Alto clinic sits between Nobu and Whole Foods, a block from University Ave. Clinical-grade body composition scanning with expert analysis built for the most data-literate crowd in the Bay.",
+    "Our downtown Palo Alto location sits between Nobu and Whole Foods, a block from University Ave. Clinical-grade body composition scanning with expert analysis built for the most data-literate crowd in the Bay.",
   address: {
     line1: '195 Forest Avenue',
     cityStateZip: 'Palo Alto, CA 94301',
@@ -97,9 +97,9 @@ const PA: LocationData = {
   phone: null,
   transit: "8-minute walk from Palo Alto Caltrain. Two blocks to University Ave.",
   parking: 'Forest Ave public garage directly across the street. Free 3-hour street parking on Forest.',
-  narrativeTitle: 'Inside our Palo Alto clinic',
+  narrativeTitle: 'Inside our Palo Alto location',
   narrativeBody: [
-    "The Palo Alto clinic is our most research-heavy location. Our members here tend to show up with spreadsheets, Whoop data, and sharp questions about ALMI percentile curves. Your analyst comes prepared to go deep.",
+    "The Palo Alto location is our most research-heavy. Our members here tend to show up with spreadsheets, Whoop data, and sharp questions about ALMI percentile curves. Your analyst comes prepared to go deep.",
     "The space itself is quiet, private, and purpose-built: one DEXA room, one consultation room, and a lounge that looks out onto Forest Avenue. You're in and out in 30 minutes with clarity you can't get anywhere else on the Peninsula.",
   ],
   narrativeQuote: {
@@ -124,7 +124,7 @@ const SJ: LocationData = {
   eyebrow: 'Kalos San Jose',
   heroHeadline: 'DEXA scans at The Pruneyard.',
   heroSubcopy:
-    "Our South Bay clinic in The Pruneyard serves San Jose, Campbell, Los Gatos, Willow Glen, and Saratoga. Same clinical-grade scan, same 30-minute in-person analysis, same expert coaching.",
+    "Our South Bay location in The Pruneyard serves San Jose, Campbell, Los Gatos, Willow Glen, and Saratoga. Same clinical-grade scan, same 30-minute in-person analysis, same expert coaching.",
   address: {
     line1: '1875 S Bascom Avenue',
     line2: 'Unit 2550',
@@ -136,9 +136,9 @@ const SJ: LocationData = {
   phone: null,
   transit: 'Right off Highway 17 and 880. 5-minute drive from downtown Campbell.',
   parking: 'Free surface parking throughout The Pruneyard. No time limit.',
-  narrativeTitle: 'Inside our San Jose clinic',
+  narrativeTitle: 'Inside our San Jose location',
   narrativeBody: [
-    "The Pruneyard clinic is our newest and largest space. South Bay families and working professionals come here for the convenience: free parking, easy highway access, and weekend hours that actually work around a real schedule.",
+    "The Pruneyard location is our newest and largest space. South Bay families and working professionals come here for the convenience: free parking, easy highway access, and weekend hours that actually work around a real schedule.",
     "We designed the space with privacy in mind. Your scan, your consultation, and your follow-up plan all happen in quiet, one-on-one rooms. No shared floor space, no crowd.",
   ],
   narrativeQuote: {

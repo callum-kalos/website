@@ -7,7 +7,7 @@ interface Props {
 }
 
 /**
- * Asymmetric photo mosaic inspired by Biograph's SF clinic page.
+ * Asymmetric photo mosaic inspired by Biograph's SF location page.
  * One large feature tile + four supporting tiles. All tiles render as
  * styled placeholders until real photos land.
  *

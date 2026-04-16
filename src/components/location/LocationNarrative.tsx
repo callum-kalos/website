@@ -7,9 +7,9 @@ interface Props {
 }
 
 /**
- * "Inside the clinic" narrative. Two-column layout: body copy on the left,
+ * "Inside the location" narrative. Two-column layout: body copy on the left,
  * a pulled quote card on the right. Below, a service-area chip row so
- * people from nearby neighborhoods know this is their clinic.
+ * people from nearby neighborhoods know this is their location.
  */
 export default function LocationNarrative({ location }: Props) {
   const headRef = useFadeIn()

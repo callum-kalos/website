@@ -21,7 +21,7 @@ export default function LocationHero({ location }: Props) {
         {location.images?.hero ? (
           <img
             src={location.images.hero}
-            alt={`Kalos ${location.city} clinic`}
+            alt={`Kalos ${location.city} location`}
             className="w-full h-full object-cover"
           />
         ) : (
@@ -37,7 +37,7 @@ export default function LocationHero({ location }: Props) {
                 Hero image placeholder
               </p>
               <p className="text-[13px] max-w-md mx-auto leading-relaxed">
-                Wide 16:9 shot of the {location.city} clinic.
+                Wide 16:9 shot of the {location.city} location.
               </p>
               <p className="text-[11px] mt-3 opacity-70 font-mono">
                 /Locations/{location.slug}/hero.jpg

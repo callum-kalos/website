@@ -15,10 +15,10 @@ import FAQ from '../components/FAQ'
 import Footer from '../components/Footer'
 
 /**
- * Shared layout for every Kalos clinic page. The only thing that changes
+ * Shared layout for every Kalos location page. The only thing that changes
  * between locations is the data object pulled from /data/locations.ts.
  *
- * Add a new clinic:
+ * Add a new location:
  *   1. Add an entry to `locations` in /src/data/locations.ts
  *   2. Add a route in main.tsx (or let the :slug param route handle it).
  */
@@ -50,7 +50,7 @@ export default function LocationPage() {
       <Team
         eyebrow={`The ${location.city} team`}
         headline="Performance analysts. Not technicians."
-        subtitle={`Every scan at our ${location.city} clinic is interpreted by a Kalos performance analyst with years of coaching and sport-science experience.`}
+        subtitle={`Every scan at our ${location.city} location is interpreted by a Kalos performance analyst with years of coaching and sport-science experience.`}
         analystsOnly
       />
       <Pricing />

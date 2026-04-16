@@ -40,7 +40,7 @@ export default function Locations() {
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="inline-flex items-center gap-2 text-[14px] font-semibold text-accent group-hover:gap-3 transition-all duration-300">
-                    Visit {loc.shortName} clinic <ArrowRight size={16} />
+                    Visit {loc.shortName} location <ArrowRight size={16} />
                   </span>
                 </div>
               </div>
