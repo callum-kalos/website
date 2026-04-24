@@ -8,7 +8,7 @@ interface Projection {
   muscleLbs: string
   fatLbs: string
   bodyFatDrop: string
-  almiChange: string
+  visceralFat: string
   headline: string
 }
 
@@ -19,31 +19,53 @@ const daysOptions = ['2', '3', '4', '5+'] as const
 
 // ── Helpers ──
 
+/**
+ * Real Kalos member outcomes over 4 weeks, averaged by sex × age bucket.
+ * Sourced from four-week-outcomes-summary.xlsx (n ≈ 830). Values represent
+ * the average change observed in each cohort before any training-frequency
+ * adjustment is applied.
+ *
+ *   lean    = average lean-mass gain, lbs (positive)
+ *   fat     = average fat-mass loss, lbs (negative number)
+ *   bfDrop  = average body-fat-% change, percentage points (negative)
+ *   vatG    = average visceral-fat change, grams (negative)
+ */
+const baseline: Record<'male' | 'female', Record<string, { lean: number; fat: number; bfDrop: number; vatG: number }>> = {
+  female: {
+    '18-24': { lean: 1.96, fat: -1.91, bfDrop: -1.44, vatG: -80.5 },
+    '25-34': { lean: 1.59, fat: -1.19, bfDrop: -0.89, vatG: -46.5 },
+    '35-44': { lean: 1.09, fat: -1.54, bfDrop: -0.92, vatG: -57.7 },
+    '45-54': { lean: 0.91, fat: -1.19, bfDrop: -0.76, vatG: -51.1 },
+    '55-64': { lean: 1.60, fat: -1.50, bfDrop: -1.02, vatG: -64.8 },
+    '65+':   { lean: 1.16, fat: -1.02, bfDrop: -0.79, vatG: -77.3 },
+  },
+  male: {
+    '18-24': { lean: 1.16, fat: -1.88, bfDrop: -0.81, vatG: -62.3 },
+    '25-34': { lean: 2.48, fat: -2.03, bfDrop: -1.22, vatG: -52.3 },
+    '35-44': { lean: 1.79, fat: -1.58, bfDrop: -0.87, vatG: -61.0 },
+    '45-54': { lean: 2.29, fat: -2.29, bfDrop: -1.24, vatG: -79.2 },
+    '55-64': { lean: 2.47, fat: -2.15, bfDrop: -1.20, vatG: -95.5 },
+    '65+':   { lean: 1.11, fat: -1.39, bfDrop: -0.77, vatG: -47.4 },
+  },
+}
+
+/** Multiplier applied to the cohort average based on training frequency. */
+const freqMultiplier: Record<string, number> = {
+  '2': 1.00,
+  '3': 1.15,
+  '4': 1.30,
+  '5+': 1.45,
+}
+
 function getProjection(gender: 'male' | 'female', age: string, days: string): Projection {
   const isMale = gender === 'male'
-  const baseMuscle = isMale ? 5.5 : 3.0
-  const baseFat = isMale ? 4.5 : 3.5
-  const baseBfDrop = isMale ? 2.8 : 2.2
-  const baseAlmi = isMale ? 12 : 10
+  const cell = baseline[gender][age] ?? baseline[gender]['25-34']
+  const mult = freqMultiplier[days] ?? 1.0
 
-  let ageFactor = 1.0
-  if (age === '18-24') ageFactor = 1.15
-  else if (age === '25-34') ageFactor = 1.05
-  else if (age === '35-44') ageFactor = 0.95
-  else if (age === '45-54') ageFactor = 0.85
-  else if (age === '55-64') ageFactor = 0.75
-  else if (age === '65+') ageFactor = 0.7
-
-  let freqFactor = 1.0
-  if (days === '2') freqFactor = 0.65
-  else if (days === '3') freqFactor = 0.85
-  else if (days === '4') freqFactor = 1.0
-  else if (days === '5+') freqFactor = 1.15
-
-  const muscle = baseMuscle * ageFactor * freqFactor
-  const fat = baseFat * ageFactor * freqFactor
-  const bfDrop = baseBfDrop * ageFactor * freqFactor
-  const almi = Math.round(baseAlmi * ageFactor * freqFactor)
+  const muscle = cell.lean * mult
+  const fat = cell.fat * mult
+  const bfDrop = cell.bfDrop * mult
+  const vat = cell.vatG * mult
 
   const isOlder = age === '55-64' || age === '65+'
   const isMidAge = age === '45-54' || age === '35-44'
@@ -64,9 +86,9 @@ function getProjection(gender: 'male' | 'female', age: string, days: string): Pr
 
   return {
     muscleLbs: `+${muscle.toFixed(1)} lbs`,
-    fatLbs: `-${fat.toFixed(1)} lbs`,
-    bodyFatDrop: `-${bfDrop.toFixed(1)}%`,
-    almiChange: `+${almi} %ile`,
+    fatLbs: `${fat.toFixed(1)} lbs`,
+    bodyFatDrop: `${bfDrop.toFixed(1)}%`,
+    visceralFat: `${Math.round(vat)} g`,
     headline,
   }
 }
@@ -158,7 +180,7 @@ export default function ProjectionCalculator() {
 
                     {/* Days */}
                     <div>
-                      <label className="block text-[12px] font-bold uppercase tracking-[0.15em] text-text-tertiary mb-3 whitespace-nowrap">Days / week</label>
+                      <label className="block text-[12px] font-bold uppercase tracking-[0.15em] text-text-tertiary mb-3 whitespace-nowrap">Training days / week</label>
                       <div className="flex gap-2">
                         {daysOptions.map((d) => (
                           <button key={d} onClick={() => setDays(d)} className={`flex-1 py-3 rounded-full text-[14px] font-semibold transition-all duration-300 cursor-pointer ${days === d ? 'bg-accent text-white shadow-[0_2px_8px_rgba(184,92,56,0.2)]' : 'bg-cream border border-warm-border text-text-secondary hover:border-accent/40 hover:bg-accent/5 hover:text-text-primary'}`}>
@@ -270,10 +292,10 @@ export default function ProjectionCalculator() {
                   <p className="text-[15px] text-text-secondary leading-[1.7] italic mb-6">{projection.headline}</p>
                   <div className="grid grid-cols-2 gap-4">
                     {[
-                      { icon: TrendingUp, val: projection.muscleLbs, label: 'Lean Muscle' },
+                      { icon: TrendingUp, val: projection.muscleLbs, label: 'Lean Mass' },
                       { icon: TrendingDown, val: projection.fatLbs, label: 'Body Fat' },
                       { icon: TrendingDown, val: projection.bodyFatDrop, label: 'Body Fat %' },
-                      { icon: TrendingUp, val: projection.almiChange, label: 'ALMI Percentile' },
+                      { icon: TrendingDown, val: projection.visceralFat, label: 'Visceral Fat' },
                     ].map((item) => (
                       <div key={item.label} className="bg-cream-light rounded-2xl p-4 text-center">
                         <div className="flex items-center justify-center gap-1.5 mb-1.5">
