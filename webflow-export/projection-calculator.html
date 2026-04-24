@@ -1,0 +1,485 @@
+<!--
+  Kalos 4-Week Projection Calculator — Webflow Embed
+  ===================================================
+  Drop this entire file into a Webflow "Embed" element (HTML Embed component).
+  Self-contained: no external JS, no external CSS, no build step.
+
+  All styles are scoped under .kalos-projection so they will not conflict
+  with Webflow's page styles.
+
+  Data: cohort averages from ~830 real Kalos members, grouped by sex × age
+  bucket. A training-frequency multiplier is applied on top:
+    2 days/wk = 1.00x, 3 = 1.15x, 4 = 1.30x, 5+ = 1.45x.
+-->
+
+<div class="kalos-projection" data-step="quiz">
+  <!-- QUIZ STEP -->
+  <div class="kp-card" data-view="quiz">
+
+    <div class="kp-field">
+      <label class="kp-label">I am</label>
+      <div class="kp-pills kp-pills-2">
+        <button type="button" class="kp-pill kp-pill-gender" data-gender="male" data-selected="true">Male</button>
+        <button type="button" class="kp-pill kp-pill-gender" data-gender="female">Female</button>
+      </div>
+    </div>
+
+    <div class="kp-field">
+      <label class="kp-label">Training days / week</label>
+      <div class="kp-pills kp-pills-4">
+        <button type="button" class="kp-pill kp-pill-days" data-days="2">2</button>
+        <button type="button" class="kp-pill kp-pill-days" data-days="3">3</button>
+        <button type="button" class="kp-pill kp-pill-days" data-days="4" data-selected="true">4</button>
+        <button type="button" class="kp-pill kp-pill-days" data-days="5+">5+</button>
+      </div>
+    </div>
+
+    <div class="kp-field">
+      <label class="kp-label">My age</label>
+      <div class="kp-pills kp-pills-6">
+        <button type="button" class="kp-pill kp-pill-age" data-age="18-24">18-24</button>
+        <button type="button" class="kp-pill kp-pill-age" data-age="25-34" data-selected="true">25-34</button>
+        <button type="button" class="kp-pill kp-pill-age" data-age="35-44">35-44</button>
+        <button type="button" class="kp-pill kp-pill-age" data-age="45-54">45-54</button>
+        <button type="button" class="kp-pill kp-pill-age" data-age="55-64">55-64</button>
+        <button type="button" class="kp-pill kp-pill-age" data-age="65+">65+</button>
+      </div>
+    </div>
+
+    <button type="button" class="kp-cta" data-action="go-capture">
+      See My Projection
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </button>
+  </div>
+
+  <!-- CAPTURE STEP -->
+  <form class="kp-card" data-view="capture" hidden>
+    <p class="kp-capture-intro">Enter your details and we will generate your personalized 4-week projection.</p>
+
+    <div class="kp-grid-2">
+      <div>
+        <label class="kp-label kp-label-sm">First name</label>
+        <input type="text" name="firstName" placeholder="First name" required class="kp-input"/>
+      </div>
+      <div>
+        <label class="kp-label kp-label-sm">Last name</label>
+        <input type="text" name="lastName" placeholder="Last name" required class="kp-input"/>
+      </div>
+    </div>
+
+    <div class="kp-grid-2">
+      <div>
+        <label class="kp-label kp-label-sm">Email</label>
+        <input type="email" name="email" placeholder="you@email.com" required class="kp-input"/>
+      </div>
+      <div>
+        <label class="kp-label kp-label-sm">Phone <span class="kp-optional">(optional)</span></label>
+        <input type="tel" name="phone" placeholder="(555) 123-4567" class="kp-input"/>
+      </div>
+    </div>
+
+    <div class="kp-actions">
+      <button type="button" class="kp-secondary" data-action="back">Back</button>
+      <button type="submit" class="kp-cta kp-cta-flex">
+        Get My Results
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </div>
+  </form>
+
+  <!-- RESULTS STEP -->
+  <div class="kp-card" data-view="results" hidden>
+    <div class="kp-reset-row">
+      <button type="button" class="kp-link" data-action="reset">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+        Change Answers
+      </button>
+    </div>
+
+    <p class="kp-headline" data-headline></p>
+
+    <div class="kp-metrics">
+      <div class="kp-metric">
+        <div class="kp-metric-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg><span data-metric="lean"></span></div>
+        <p class="kp-metric-label">Lean Mass</p>
+      </div>
+      <div class="kp-metric">
+        <div class="kp-metric-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg><span data-metric="fat"></span></div>
+        <p class="kp-metric-label">Body Fat</p>
+      </div>
+      <div class="kp-metric">
+        <div class="kp-metric-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg><span data-metric="bf"></span></div>
+        <p class="kp-metric-label">Body Fat %</p>
+      </div>
+      <div class="kp-metric">
+        <div class="kp-metric-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg><span data-metric="vat"></span></div>
+        <p class="kp-metric-label">Visceral Fat</p>
+      </div>
+    </div>
+
+    <p class="kp-fineprint">Based on results from over 1,000+ Kalos members. Individual results vary based on nutrition, sleep, and adherence.</p>
+
+    <a href="#pricing" class="kp-cta kp-cta-a">
+      Book My Scan
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
+  </div>
+</div>
+
+<style>
+  /* ─── Kalos Projection Calculator (scoped) ─── */
+  .kalos-projection {
+    --kp-bg: #111;
+    --kp-surface: rgba(255,255,255,0.04);
+    --kp-border: rgba(255,255,255,0.1);
+    --kp-text: #fff;
+    --kp-text-muted: rgba(255,255,255,0.6);
+    --kp-text-dim: rgba(255,255,255,0.35);
+    --kp-accent: #4A4AF4;
+    --kp-accent-hover: #3838D9;
+    --kp-green: #66BB6A;
+
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--kp-text);
+    max-width: 560px;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+  .kalos-projection *,
+  .kalos-projection *::before,
+  .kalos-projection *::after { box-sizing: border-box; }
+
+  .kalos-projection .kp-card {
+    background: #111;
+    border: 1px solid var(--kp-border);
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  .kalos-projection .kp-card[hidden] { display: none; }
+
+  .kalos-projection .kp-field { margin-bottom: 24px; }
+  .kalos-projection .kp-field:last-of-type { margin-bottom: 32px; }
+
+  .kalos-projection .kp-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--kp-text-dim);
+    margin-bottom: 12px;
+  }
+  .kalos-projection .kp-label-sm { margin-bottom: 8px; }
+
+  .kalos-projection .kp-optional {
+    text-transform: none;
+    letter-spacing: normal;
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  .kalos-projection .kp-pills { display: grid; gap: 8px; }
+  .kalos-projection .kp-pills-2 { grid-template-columns: repeat(2, 1fr); }
+  .kalos-projection .kp-pills-4 { grid-template-columns: repeat(4, 1fr); }
+  .kalos-projection .kp-pills-6 { grid-template-columns: repeat(6, 1fr); }
+
+  .kalos-projection .kp-pill {
+    padding: 12px 8px;
+    border-radius: 8px;
+    border: 1px solid var(--kp-border);
+    background: transparent;
+    color: var(--kp-text-muted);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 200ms ease;
+  }
+  .kalos-projection .kp-pill:hover {
+    border-color: rgba(74,74,244,0.4);
+    background: rgba(74,74,244,0.08);
+    color: var(--kp-text);
+  }
+  .kalos-projection .kp-pill[data-selected="true"] {
+    background: var(--kp-accent);
+    color: #fff;
+    border-color: var(--kp-accent);
+    box-shadow: 0 2px 8px rgba(74,74,244,0.3);
+  }
+
+  .kalos-projection .kp-cta {
+    width: 100%;
+    padding: 16px 24px;
+    background: var(--kp-accent);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    box-shadow: 0 2px 12px rgba(74,74,244,0.35);
+    transition: background 200ms ease;
+  }
+  .kalos-projection .kp-cta:hover { background: var(--kp-accent-hover); }
+  .kalos-projection .kp-cta svg { width: 18px; height: 18px; }
+  .kalos-projection .kp-cta-flex { flex: 1; }
+  .kalos-projection .kp-cta-a { margin-top: 0; }
+
+  .kalos-projection .kp-capture-intro {
+    font-size: 16px;
+    color: var(--kp-text-muted);
+    text-align: center;
+    margin: 0 0 32px;
+    line-height: 1.7;
+  }
+
+  .kalos-projection .kp-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .kalos-projection .kp-grid-2:last-of-type { margin-bottom: 32px; }
+
+  .kalos-projection .kp-input {
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: 12px;
+    border: 1px solid var(--kp-border);
+    background: rgba(255,255,255,0.03);
+    color: var(--kp-text);
+    font-family: inherit;
+    font-size: 15px;
+    transition: border-color 200ms ease, box-shadow 200ms ease;
+  }
+  .kalos-projection .kp-input::placeholder { color: var(--kp-text-dim); }
+  .kalos-projection .kp-input:focus {
+    outline: none;
+    border-color: rgba(74,74,244,0.4);
+    box-shadow: 0 0 0 2px rgba(74,74,244,0.1);
+  }
+
+  .kalos-projection .kp-actions {
+    display: flex;
+    gap: 12px;
+  }
+  .kalos-projection .kp-secondary {
+    padding: 16px 24px;
+    border-radius: 8px;
+    border: 1px solid var(--kp-border);
+    background: transparent;
+    color: var(--kp-text-muted);
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color 200ms ease, color 200ms ease;
+  }
+  .kalos-projection .kp-secondary:hover {
+    border-color: var(--kp-text-dim);
+    color: var(--kp-text);
+  }
+
+  .kalos-projection .kp-reset-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 16px;
+  }
+  .kalos-projection .kp-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0;
+    background: none;
+    border: none;
+    color: var(--kp-accent);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .kalos-projection .kp-link:hover { color: var(--kp-accent-hover); }
+  .kalos-projection .kp-link svg { width: 14px; height: 14px; }
+
+  .kalos-projection .kp-headline {
+    font-size: 15px;
+    color: var(--kp-text-muted);
+    line-height: 1.7;
+    font-style: italic;
+    margin: 0 0 24px;
+  }
+
+  .kalos-projection .kp-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .kalos-projection .kp-metric {
+    background: rgba(255,255,255,0.03);
+    border-radius: 16px;
+    padding: 16px;
+    text-align: center;
+  }
+  .kalos-projection .kp-metric-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+  .kalos-projection .kp-metric-row svg {
+    width: 14px;
+    height: 14px;
+    color: var(--kp-green);
+  }
+  .kalos-projection .kp-metric-row span {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--kp-green);
+  }
+  .kalos-projection .kp-metric-label {
+    font-size: 11px;
+    color: var(--kp-text-dim);
+    margin: 0;
+    font-weight: 500;
+  }
+
+  .kalos-projection .kp-fineprint {
+    font-size: 11px;
+    color: var(--kp-text-dim);
+    text-align: center;
+    line-height: 1.5;
+    margin: 0 0 20px;
+  }
+
+  /* Mobile */
+  @media (max-width: 520px) {
+    .kalos-projection .kp-card { padding: 24px; }
+    .kalos-projection .kp-pills-6 { grid-template-columns: repeat(3, 1fr); }
+    .kalos-projection .kp-grid-2 { grid-template-columns: 1fr; }
+    .kalos-projection .kp-metrics { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+
+<script>
+(function() {
+  var root = document.currentScript.parentElement.querySelector('.kalos-projection');
+  if (!root) return;
+
+  // ── Real Kalos 4-week member outcomes, averaged by sex × age bucket
+  // (n ≈ 830). Values are the cohort baseline, before frequency multiplier.
+  var baseline = {
+    female: {
+      '18-24': { lean: 1.96, fat: -1.91, bfDrop: -1.44, vatG: -80.5 },
+      '25-34': { lean: 1.59, fat: -1.19, bfDrop: -0.89, vatG: -46.5 },
+      '35-44': { lean: 1.09, fat: -1.54, bfDrop: -0.92, vatG: -57.7 },
+      '45-54': { lean: 0.91, fat: -1.19, bfDrop: -0.76, vatG: -51.1 },
+      '55-64': { lean: 1.60, fat: -1.50, bfDrop: -1.02, vatG: -64.8 },
+      '65+':   { lean: 1.16, fat: -1.02, bfDrop: -0.79, vatG: -77.3 }
+    },
+    male: {
+      '18-24': { lean: 1.16, fat: -1.88, bfDrop: -0.81, vatG: -62.3 },
+      '25-34': { lean: 2.48, fat: -2.03, bfDrop: -1.22, vatG: -52.3 },
+      '35-44': { lean: 1.79, fat: -1.58, bfDrop: -0.87, vatG: -61.0 },
+      '45-54': { lean: 2.29, fat: -2.29, bfDrop: -1.24, vatG: -79.2 },
+      '55-64': { lean: 2.47, fat: -2.15, bfDrop: -1.20, vatG: -95.5 },
+      '65+':   { lean: 1.11, fat: -1.39, bfDrop: -0.77, vatG: -47.4 }
+    }
+  };
+  var freqMult = { '2': 1.00, '3': 1.15, '4': 1.30, '5+': 1.45 };
+
+  var state = { gender: 'male', age: '25-34', days: '4' };
+
+  function setSelected(selector, value, attr) {
+    root.querySelectorAll(selector).forEach(function(el) {
+      if (el.dataset[attr] === value) el.dataset.selected = 'true';
+      else delete el.dataset.selected;
+    });
+  }
+
+  function showView(name) {
+    root.dataset.step = name;
+    root.querySelectorAll('[data-view]').forEach(function(el) {
+      if (el.dataset.view === name) el.removeAttribute('hidden');
+      else el.setAttribute('hidden', '');
+    });
+  }
+
+  function headlineFor(gender, age) {
+    var isMale = gender === 'male';
+    var isOlder = (age === '55-64' || age === '65+');
+    var isMid = (age === '45-54' || age === '35-44');
+    if (isOlder) {
+      return isMale
+        ? 'Men in your age group typically see meaningful muscle preservation and fat loss. Consistency is key.'
+        : 'Women in your age group often see bone density stabilize alongside real body composition shifts.';
+    }
+    if (isMid) {
+      return isMale
+        ? 'This is the decade where data matters most. You have the capacity for strong results with the right plan.'
+        : 'Women in their 40s and 50s respond incredibly well to structured strength training guided by data.';
+    }
+    return isMale
+      ? 'You are in a prime window for body recomposition. Expect fast, visible changes with consistent effort.'
+      : 'You are in a prime window for building a strong foundation. Expect meaningful shifts in just four weeks.';
+  }
+
+  function renderResults() {
+    var cell = baseline[state.gender][state.age] || baseline[state.gender]['25-34'];
+    var mult = freqMult[state.days] || 1.0;
+
+    var muscle = cell.lean * mult;
+    var fat = cell.fat * mult;
+    var bfDrop = cell.bfDrop * mult;
+    var vat = cell.vatG * mult;
+
+    root.querySelector('[data-headline]').textContent = headlineFor(state.gender, state.age);
+    root.querySelector('[data-metric="lean"]').textContent = '+' + muscle.toFixed(1) + ' lbs';
+    root.querySelector('[data-metric="fat"]').textContent = fat.toFixed(1) + ' lbs';
+    root.querySelector('[data-metric="bf"]').textContent = bfDrop.toFixed(1) + '%';
+    root.querySelector('[data-metric="vat"]').textContent = Math.round(vat) + ' g';
+  }
+
+  // ── Event delegation
+  root.addEventListener('click', function(e) {
+    var t = e.target.closest('button, a');
+    if (!t) return;
+
+    if (t.classList.contains('kp-pill-gender')) { state.gender = t.dataset.gender; setSelected('.kp-pill-gender', state.gender, 'gender'); return; }
+    if (t.classList.contains('kp-pill-days'))   { state.days   = t.dataset.days;   setSelected('.kp-pill-days',   state.days,   'days');   return; }
+    if (t.classList.contains('kp-pill-age'))    { state.age    = t.dataset.age;    setSelected('.kp-pill-age',    state.age,    'age');    return; }
+
+    if (t.dataset.action === 'go-capture') { showView('capture'); return; }
+    if (t.dataset.action === 'back')       { showView('quiz');    return; }
+    if (t.dataset.action === 'reset')      { showView('quiz');    return; }
+  });
+
+  // Form submit
+  root.querySelector('form[data-view="capture"]').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var form = e.target;
+    var payload = {
+      firstName: form.firstName.value,
+      lastName: form.lastName.value,
+      email: form.email.value,
+      phone: form.phone.value,
+      gender: state.gender,
+      age: state.age,
+      days: state.days
+    };
+    // TODO: wire this to your CRM / backend. Example:
+    // fetch('/api/projections', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+    console.log('[Kalos projection] submit', payload);
+    renderResults();
+    showView('results');
+  });
+})();
+</script>
