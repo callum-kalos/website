@@ -298,16 +298,20 @@ function HoverTriangle() {
                 onClick={() => setActiveIndex(i)}
               >
                 <div className="flex items-center gap-3 mb-2">
-                  <div className={`w-3 h-3 rounded-full transition-colors duration-400 ${
-                    activeIndex === i ? 'bg-accent' : 'bg-warm-border'
-                  }`} />
+                  <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[12px] font-bold transition-all duration-400 ${
+                    activeIndex === i
+                      ? 'bg-accent text-white'
+                      : 'bg-warm-border text-text-tertiary'
+                  }`}>
+                    {i + 1}
+                  </div>
                   <p className={`text-[13px] font-bold uppercase tracking-[0.15em] transition-colors duration-400 ${
                     activeIndex === i ? 'text-accent' : 'text-text-tertiary'
                   }`}>
                     {p.label}
                   </p>
                 </div>
-                <p className={`text-[15px] leading-[1.7] ml-6 transition-colors duration-400 ${
+                <p className={`text-[15px] leading-[1.7] ml-10 transition-colors duration-400 ${
                   activeIndex === i ? 'text-text-secondary' : 'text-text-tertiary'
                 }`}>
                   {p.description}

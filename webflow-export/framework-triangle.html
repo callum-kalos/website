@@ -1,0 +1,287 @@
+<!--
+  Kalos Framework Triangle — Webflow Embed
+  =========================================
+  Drop this entire file into a Webflow "Embed" element (HTML Embed component).
+  Self-contained: no external JS, no external CSS, no build step.
+
+  Includes only the triangle + the three numbered information boxes.
+  Hover (or tap) a box — the inner triangle reshapes to match.
+
+  All styles are scoped under .kalos-framework so they will not conflict
+  with Webflow's page styles.
+-->
+
+<div class="kalos-framework" data-active="0">
+  <div class="kf-grid">
+
+    <!-- Triangle -->
+    <div class="kf-triangle-wrap">
+      <svg class="kf-svg" viewBox="-20 -10 440 430" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="kf-glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="12" result="blur"/>
+            <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+          </filter>
+          <radialGradient id="kf-inner-fill" cx="50%" cy="50%" r="50%">
+            <stop offset="0%"   stop-color="#4A4AF4" stop-opacity="0.25"/>
+            <stop offset="100%" stop-color="#4A4AF4" stop-opacity="0.05"/>
+          </radialGradient>
+        </defs>
+
+        <!-- Outer triangle (dashed) -->
+        <polygon
+          points="200,40 60,336 340,336"
+          fill="none"
+          stroke="rgba(255,255,255,0.15)"
+          stroke-width="1.5"
+          stroke-dasharray="8 5"
+        />
+
+        <!-- Outer vertex dots -->
+        <circle cx="200" cy="40"  r="5" fill="rgba(255,255,255,0.4)"/>
+        <circle cx="60"  cy="336" r="5" fill="rgba(255,255,255,0.4)"/>
+        <circle cx="340" cy="336" r="5" fill="rgba(255,255,255,0.4)"/>
+
+        <!-- Inner shape (animated) -->
+        <polygon class="kf-inner"
+          fill="url(#kf-inner-fill)"
+          stroke="#4A4AF4"
+          stroke-width="2.5"
+          stroke-linejoin="round"
+          filter="url(#kf-glow)"
+        />
+        <circle class="kf-inner-dot kf-inner-dot-top"   r="4" fill="#4A4AF4"/>
+        <circle class="kf-inner-dot kf-inner-dot-top   kf-inner-dot-halo" r="8" fill="#4A4AF4" opacity="0.2"/>
+        <circle class="kf-inner-dot kf-inner-dot-left"  r="4" fill="#4A4AF4"/>
+        <circle class="kf-inner-dot kf-inner-dot-left  kf-inner-dot-halo" r="8" fill="#4A4AF4" opacity="0.2"/>
+        <circle class="kf-inner-dot kf-inner-dot-right" r="4" fill="#4A4AF4"/>
+        <circle class="kf-inner-dot kf-inner-dot-right kf-inner-dot-halo" r="8" fill="#4A4AF4" opacity="0.2"/>
+
+        <!-- Vertex labels -->
+        <text x="200" y="10"  text-anchor="middle" fill="rgba(255,255,255,0.95)" style="font: 700 17px 'Inter', sans-serif;">Aesthetics</text>
+        <text x="200" y="24"  text-anchor="middle" fill="rgba(255,255,255,0.45)" style="font: 10px 'Inter', sans-serif;">Body fat %, muscle mass...</text>
+
+        <text x="60"  y="366" text-anchor="middle" fill="rgba(255,255,255,0.95)" style="font: 700 17px 'Inter', sans-serif;">Longevity</text>
+        <text x="60"  y="380" text-anchor="middle" fill="rgba(255,255,255,0.45)" style="font: 10px 'Inter', sans-serif;">Visceral fat, VO2 max...</text>
+
+        <text x="340" y="366" text-anchor="middle" fill="rgba(255,255,255,0.95)" style="font: 700 17px 'Inter', sans-serif;">Performance</text>
+        <text x="340" y="380" text-anchor="middle" fill="rgba(255,255,255,0.45)" style="font: 10px 'Inter', sans-serif;">1RM, mile/marathon PR...</text>
+      </svg>
+    </div>
+
+    <!-- Information boxes -->
+    <div class="kf-boxes">
+      <button type="button" class="kf-card" data-index="0" data-selected="true">
+        <div class="kf-card-head">
+          <span class="kf-num">1</span>
+          <p class="kf-label">Where most people start</p>
+        </div>
+        <p class="kf-desc">Limited visibility into body composition. Training without data. No clear picture of what to prioritize or how to measure progress.</p>
+      </button>
+
+      <button type="button" class="kf-card" data-index="1">
+        <div class="kf-card-head">
+          <span class="kf-num">2</span>
+          <p class="kf-label">After your first four weeks</p>
+        </div>
+        <p class="kf-desc">Baseline established. Your analyst identifies the biggest levers. A targeted 4-week plan attacks what matters most for your goals.</p>
+      </button>
+
+      <button type="button" class="kf-card" data-index="2">
+        <div class="kf-card-head">
+          <span class="kf-num">3</span>
+          <p class="kf-label">Where Kalos takes you</p>
+        </div>
+        <p class="kf-desc">Scan after scan, your triangle grows. Muscle gained, fat reduced, bone density strengthened. Performance improves across strength, endurance, and overall capacity.</p>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  /* ─── Kalos Framework Triangle (scoped) ─── */
+  .kalos-framework {
+    --kf-accent: #4A4AF4;
+    --kf-accent-soft: rgba(74, 74, 244, 0.08);
+    --kf-border: rgba(255, 255, 255, 0.1);
+    --kf-border-strong: rgba(255, 255, 255, 0.2);
+    --kf-bg-card: rgba(255, 255, 255, 0.03);
+    --kf-bg-card-active: rgba(255, 255, 255, 0.06);
+    --kf-text: rgba(255, 255, 255, 0.95);
+    --kf-text-muted: rgba(255, 255, 255, 0.6);
+    --kf-text-dim: rgba(255, 255, 255, 0.4);
+
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--kf-text);
+    max-width: 1200px;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+  .kalos-framework *,
+  .kalos-framework *::before,
+  .kalos-framework *::after { box-sizing: border-box; }
+
+  .kalos-framework .kf-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  /* ── Triangle ── */
+  .kalos-framework .kf-triangle-wrap {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .kalos-framework .kf-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .kalos-framework .kf-inner,
+  .kalos-framework .kf-inner-dot {
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* ── Information boxes ── */
+  .kalos-framework .kf-boxes {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .kalos-framework .kf-card {
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: 1px solid var(--kf-border);
+    border-radius: 16px;
+    padding: 20px;
+    cursor: pointer;
+    font-family: inherit;
+    color: inherit;
+    transition: border-color 400ms ease, background 400ms ease, box-shadow 400ms ease;
+  }
+  .kalos-framework .kf-card:hover {
+    border-color: rgba(74, 74, 244, 0.3);
+  }
+  .kalos-framework .kf-card[data-selected="true"] {
+    border-color: rgba(74, 74, 244, 0.5);
+    background: var(--kf-bg-card-active);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  }
+
+  .kalos-framework .kf-card-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .kalos-framework .kf-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 9999px;
+    background: var(--kf-border);
+    color: var(--kf-text-dim);
+    font-size: 12px;
+    font-weight: 700;
+    transition: background 400ms ease, color 400ms ease;
+    flex-shrink: 0;
+  }
+  .kalos-framework .kf-card[data-selected="true"] .kf-num {
+    background: var(--kf-accent);
+    color: #fff;
+  }
+
+  .kalos-framework .kf-label {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--kf-text-dim);
+    margin: 0;
+    transition: color 400ms ease;
+  }
+  .kalos-framework .kf-card[data-selected="true"] .kf-label {
+    color: var(--kf-accent);
+  }
+
+  .kalos-framework .kf-desc {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--kf-text-dim);
+    margin: 0 0 0 40px;
+    transition: color 400ms ease;
+  }
+  .kalos-framework .kf-card[data-selected="true"] .kf-desc {
+    color: var(--kf-text-muted);
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 900px) {
+    .kalos-framework .kf-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+</style>
+
+<script>
+(function() {
+  var root = document.currentScript.parentElement.querySelector('.kalos-framework');
+  if (!root) return;
+
+  // Triangle geometry (matches viewBox coords)
+  var cx = 200, cy = 200;
+  var topY = 40, bottomY = 336;
+  var leftX = 60, rightX = 340;
+
+  // Three profiles: how far along each axis the inner shape reaches (0..1).
+  var profiles = [
+    { aesthetics: 0.15, longevity: 0.12, performance: 0.10 }, // Where most people start
+    { aesthetics: 0.40, longevity: 0.35, performance: 0.30 }, // After first 4 weeks
+    { aesthetics: 0.85, longevity: 0.80, performance: 0.75 }  // Where Kalos takes you
+  ];
+
+  var innerPoly       = root.querySelector('.kf-inner');
+  var dotsTop         = root.querySelectorAll('.kf-inner-dot-top');
+  var dotsLeft        = root.querySelectorAll('.kf-inner-dot-left');
+  var dotsRight       = root.querySelectorAll('.kf-inner-dot-right');
+
+  function applyProfile(i) {
+    var p = profiles[i];
+    var tx = cx;
+    var ty = cy - (cy - topY) * p.aesthetics;
+    var lx = cx - (cx - leftX) * p.longevity;
+    var ly = cy + (bottomY - cy) * p.longevity;
+    var rx = cx + (rightX - cx) * p.performance;
+    var ry = cy + (bottomY - cy) * p.performance;
+
+    innerPoly.setAttribute('points', tx + ',' + ty + ' ' + lx + ',' + ly + ' ' + rx + ',' + ry);
+    dotsTop.forEach(function(d)   { d.setAttribute('cx', tx); d.setAttribute('cy', ty); });
+    dotsLeft.forEach(function(d)  { d.setAttribute('cx', lx); d.setAttribute('cy', ly); });
+    dotsRight.forEach(function(d) { d.setAttribute('cx', rx); d.setAttribute('cy', ry); });
+
+    root.querySelectorAll('.kf-card').forEach(function(card) {
+      if (parseInt(card.dataset.index, 10) === i) card.dataset.selected = 'true';
+      else delete card.dataset.selected;
+    });
+    root.dataset.active = String(i);
+  }
+
+  // Initial state
+  applyProfile(0);
+
+  // Hover + click
+  root.querySelectorAll('.kf-card').forEach(function(card) {
+    var i = parseInt(card.dataset.index, 10);
+    card.addEventListener('mouseenter', function() { applyProfile(i); });
+    card.addEventListener('click',      function() { applyProfile(i); });
+    card.addEventListener('focus',      function() { applyProfile(i); });
+  });
+})();
+</script>
