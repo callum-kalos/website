@@ -405,11 +405,11 @@ const scanData = [
   {
     label: 'Scan 5',
     time: 'Month 8',
-    lean: 124,
+    lean: 122,
     fat: 38,
     training: 'Strength training 3x/week. Added 2x HIIT sessions and strategic zone 2 cardio.',
     nutrition: 'Cut phase begins: 2,100 cal/day deficit. Protein maintained at 145g. High volume greens and fiber.',
-    insight: 'Cut phase begins. Lean tissue fully preserved, fat dropped significantly (-10 lbs). Caloric deficit with high protein to prioritize fat loss.',
+    insight: 'Cut phase begins. Aggressive deficit cost 2 lbs of lean tissue, but fat dropped significantly (-10 lbs). Decision: dial back the deficit slightly and bump protein to better preserve muscle.',
   },
   {
     label: 'Scan 6',
@@ -418,16 +418,16 @@ const scanData = [
     fat: 31,
     training: 'Strength training 4x/week. HIIT reduced to 1x. Added 3x zone 2 cardio (30 min walks).',
     nutrition: '2,000 cal/day. Protein at 150g. Refeed day every 10 days to manage fatigue.',
-    insight: 'Deep into the cut. +2 lbs lean, -7 lbs fat. Strength maintained on all lifts. Sleep and recovery prioritized as deficit deepened.',
+    insight: 'Course-corrected. Lean tissue rebuilt (+4 lbs) while fat continued to drop (-7 lbs). Strength back across all lifts.',
   },
   {
     label: 'Scan 7',
     time: 'Month 12',
-    lean: 128,
+    lean: 125,
     fat: 25,
     training: 'Strength training 4x/week. Transitioned to maintenance phase. Deload week before final scan.',
-    nutrition: 'Reverse dieting back to 2,400 cal/day. Protein at 155g. Reintroduced more carbs around training.',
-    insight: 'Goal reached. 16% body fat. +16 lbs lean tissue and -35 lbs fat from baseline. Beginning reverse diet to lock in results at new maintenance calories.',
+    nutrition: 'Final aggressive push: deficit deepened for the last 6 lbs of fat. Protein held at 155g.',
+    insight: 'Goal reached. 17% body fat. +13 lbs lean tissue and -35 lbs fat from baseline. Final aggressive cut cost 1 lb of lean — accepted trade-off to hit the target. Beginning reverse diet to lock in results.',
   },
 ]
 
