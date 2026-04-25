@@ -386,7 +386,7 @@ const scanData = [
     almi: 76,
     training: '18 of 18 primary workouts completed. Coach pushed intensity: every last rep of every set must be challenging, not just the last set. Squat working sets bumped 125 → 135.',
     nutrition: 'Tracked every meal in MyFitnessPal. Hit 145g protein daily. Calories naturally landed 1,000–1,500 (below the 2,000 target). Zero alcohol pre-wedding.',
-    insight: 'Massive recomp month. +6 lbs lean, -6.4 lbs fat. Body fat 36 → 32.4%. Visceral fat cut by 36% (86 → 55 cm²). Subscribed to the 6-month membership.',
+    insight: 'Massive recomp month. +6 lbs lean, -6.4 lbs fat. Body fat 36 → 32.4%. Visceral fat cut by 36% (86 → 55 cm²). Committed to this 6-month membership.',
   },
   {
     label: 'Scan 3',
@@ -396,7 +396,7 @@ const scanData = [
     vat: 34.9,
     almi: 82,
     training: '18 of 18 primary workouts since the last scan. Strength climbing fast: leg press 240 x 10, lat pulldown 100 x 8, estimated squat 1RM ~185.',
-    nutrition: 'Reintroduced alcohol mindfully (Halloween, Michigan football weekend, Thanksgiving — never more than 5 drinks across a day). Got creative with protein recipes. Brought in nutrition specialist Sophie for a women\'s-health deep-dive.',
+    nutrition: 'Reintroduced alcohol mindfully (Halloween, football weekend, Thanksgiving — never more than 5 drinks across a day). Got creative with protein recipes. Brought in nutrition specialist Sophie for a women\'s-health deep-dive.',
     insight: 'Held the line through the hardest period of the year. Body fat 32.4 → 30.8%. Visceral fat 55 → 35 cm² (now in healthy range). ALMI percentile 76 → 82.',
   },
   {
@@ -483,7 +483,7 @@ function DexaChart() {
   return (
     <div ref={chartRef} className="bg-white rounded-3xl border border-warm-border p-6 md:p-8 relative">
       <div className="flex items-center gap-2 mb-4">
-        <span className="inline-block bg-accent/15 text-accent text-[11px] font-bold uppercase tracking-[0.1em] px-3 py-1 rounded-full">Real Kalos results</span>
+        <span className="inline-block bg-accent/15 text-accent text-[11px] font-bold uppercase tracking-[0.1em] px-3 py-1 rounded-full">Kalos member highlight: Maicie</span>
       </div>
       <svg viewBox={`0 0 ${w} ${h}`} className="w-full" fill="none">
         {/* Grid lines */}
