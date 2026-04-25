@@ -370,7 +370,7 @@ const scanData = [
     label: 'Scan 1',
     time: 'Baseline',
     lean: 112,
-    fat: 68,
+    fat: 60,
     training: 'No structured program. Occasional gym sessions, mostly machines.',
     nutrition: 'No tracking. Estimated ~2,400 cal/day with inconsistent protein (~80g).',
     insight: 'Starting point. DEXA reveals higher body fat than expected and muscle imbalances between left and right side.',
@@ -378,44 +378,44 @@ const scanData = [
   {
     label: 'Scan 2',
     time: 'Month 2',
-    lean: 121,
-    fat: 61,
+    lean: 117,
+    fat: 56,
     training: 'Started 4x/week push-pull-legs. Progressive overload on compound lifts.',
     nutrition: 'Tracking calories at 2,200/day. Protein increased to 140g. Cut alcohol to weekends only.',
-    insight: 'Newbie gains phase. +9 lbs lean, -7 lbs fat. Strength up across the board. Squat went from 135 to 185.',
+    insight: 'Newbie gains phase. +5 lbs lean, -4 lbs fat. Strength up across the board. Squat went from 135 to 185.',
   },
   {
     label: 'Scan 3',
     time: 'Month 4',
-    lean: 132,
-    fat: 55,
+    lean: 121,
+    fat: 52,
     training: '4x/week with dedicated leg day. Added Romanian deadlifts and hip thrusts.',
     nutrition: 'Bumped to 2,500 cal for lean bulk. Protein at 150g. Added creatine.',
-    insight: 'Strong recomp continues. +11 lbs lean, -6 lbs fat. Lower body catching up to upper body symmetry.',
+    insight: 'Steady recomp. +4 lbs lean, -4 lbs fat. Lower body catching up to upper body symmetry.',
   },
   {
     label: 'Scan 4',
     time: 'Month 6',
-    lean: 140,
-    fat: 52,
+    lean: 124,
+    fat: 48,
     training: 'Switched to upper/lower split 5x/week. Introduced periodization with deload weeks.',
     nutrition: '2,600 cal/day. Protein at 155g. Meal prepping consistently.',
-    insight: 'Lean tissue building steadily. +8 lbs lean, -3 lbs fat. Visceral fat dropped from 1.8 to 1.2 lbs.',
+    insight: 'Lean tissue building steadily. +3 lbs lean, -4 lbs fat. Visceral fat dropped from 1.8 to 1.2 lbs.',
   },
   {
     label: 'Scan 5',
     time: 'Month 8',
-    lean: 141,
-    fat: 42,
+    lean: 124,
+    fat: 38,
     training: 'Strength training 3x/week. Added 2x HIIT sessions and strategic zone 2 cardio.',
     nutrition: 'Cut phase begins: 2,100 cal/day deficit. Protein maintained at 145g. High volume greens and fiber.',
-    insight: 'Cut phase begins. Lean tissue preserved (+1 lb), fat dropped significantly (-10 lbs). Caloric deficit with high protein to prioritize fat loss.',
+    insight: 'Cut phase begins. Lean tissue fully preserved, fat dropped significantly (-10 lbs). Caloric deficit with high protein to prioritize fat loss.',
   },
   {
     label: 'Scan 6',
     time: 'Month 10',
-    lean: 143,
-    fat: 35,
+    lean: 126,
+    fat: 31,
     training: 'Strength training 4x/week. HIIT reduced to 1x. Added 3x zone 2 cardio (30 min walks).',
     nutrition: '2,000 cal/day. Protein at 150g. Refeed day every 10 days to manage fatigue.',
     insight: 'Deep into the cut. +2 lbs lean, -7 lbs fat. Strength maintained on all lifts. Sleep and recovery prioritized as deficit deepened.',
@@ -423,11 +423,11 @@ const scanData = [
   {
     label: 'Scan 7',
     time: 'Month 12',
-    lean: 145,
-    fat: 28,
+    lean: 128,
+    fat: 25,
     training: 'Strength training 4x/week. Transitioned to maintenance phase. Deload week before final scan.',
     nutrition: 'Reverse dieting back to 2,400 cal/day. Protein at 155g. Reintroduced more carbs around training.',
-    insight: 'Goal reached. 16% body fat. +33 lbs lean tissue and -40 lbs fat from baseline. Beginning reverse diet to lock in results at new maintenance calories.',
+    insight: 'Goal reached. 16% body fat. +16 lbs lean tissue and -35 lbs fat from baseline. Beginning reverse diet to lock in results at new maintenance calories.',
   },
 ]
 
@@ -458,7 +458,7 @@ function DexaChart() {
   const innerW = w - pad.left - pad.right
   const innerH = h - pad.top - pad.bottom
 
-  const yMin = 15, yMax = 160
+  const yMin = 15, yMax = 140
   const yRange = yMax - yMin
 
   const toX = (i: number) => pad.left + (i / (scanData.length - 1)) * innerW

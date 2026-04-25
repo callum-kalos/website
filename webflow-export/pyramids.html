@@ -1,0 +1,180 @@
+<!--
+  Kalos 80-16-3-1 Pyramids — Webflow Embed
+  =========================================
+  Drop this entire file into a Webflow "Embed" element (HTML Embed component).
+  Self-contained: no external JS, no external CSS, no build step.
+
+  Two side-by-side pyramids: Nutrition + Exercise. No surrounding text or
+  headlines — just the two visuals.
+
+  All styles are scoped under .kalos-pyramids so they will not conflict
+  with Webflow's page styles.
+-->
+
+<div class="kalos-pyramids">
+  <div class="kp-grid">
+
+    <!-- Nutrition pyramid -->
+    <div class="kp-card">
+      <h4 class="kp-title">Nutrition</h4>
+      <div class="kp-stack">
+        <div class="kp-tier kp-tier-1">
+          <p class="kp-tier-head">1% = Highly Dependent</p>
+          <p class="kp-tier-detail">Supplements, peptides</p>
+        </div>
+        <div class="kp-tier kp-tier-2">
+          <p class="kp-tier-head">3% = Timing</p>
+          <p class="kp-tier-detail">Protein timing, intermittent fasting, carb cycling</p>
+        </div>
+        <div class="kp-tier kp-tier-3">
+          <p class="kp-tier-head">16% = Quality</p>
+          <p class="kp-tier-detail">Whole grains, proteins, lean sources, healthy fats, etc.</p>
+        </div>
+        <div class="kp-tier kp-tier-4">
+          <p class="kp-tier-head">80% = Quantity</p>
+          <p class="kp-tier-detail">Calories and macros</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Exercise pyramid -->
+    <div class="kp-card">
+      <h4 class="kp-title">Exercise</h4>
+      <div class="kp-stack">
+        <div class="kp-tier kp-tier-1">
+          <p class="kp-tier-head">1% = Highly Dependent</p>
+          <p class="kp-tier-detail">Cold plunges, sauna</p>
+        </div>
+        <div class="kp-tier kp-tier-2">
+          <p class="kp-tier-head">3% = Variations</p>
+          <p class="kp-tier-detail">Kettlebells vs. dumbbells, tempo, equipment</p>
+        </div>
+        <div class="kp-tier kp-tier-3">
+          <p class="kp-tier-head">16% = Programming</p>
+          <p class="kp-tier-detail">Sets, reps, rest periods, exercise order, RIR</p>
+        </div>
+        <div class="kp-tier kp-tier-4">
+          <p class="kp-tier-head">80% = Consistency</p>
+          <p class="kp-tier-detail">% adherence and # workouts per week</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  /* ─── Kalos 80-16-3-1 Pyramids (scoped) ─── */
+  .kalos-pyramids {
+    --kp-accent: #4A4AF4;
+    --kp-text: rgba(255, 255, 255, 0.95);
+    --kp-text-muted: rgba(255, 255, 255, 0.7);
+    --kp-text-dim: rgba(255, 255, 255, 0.5);
+    --kp-border: rgba(255, 255, 255, 0.08);
+
+    /* Self-contained dark background so the component looks correct
+       regardless of the host page's color. */
+    background: #000;
+    padding: 48px 32px;
+    border-radius: 16px;
+
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--kp-text);
+    max-width: 1200px;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+  .kalos-pyramids *,
+  .kalos-pyramids *::before,
+  .kalos-pyramids *::after { box-sizing: border-box; }
+
+  .kalos-pyramids .kp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .kalos-pyramids .kp-card {
+    background: #0A0A0A;
+    border: 1px solid var(--kp-border);
+    border-radius: 24px;
+    padding: 32px;
+  }
+
+  .kalos-pyramids .kp-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--kp-text);
+    text-align: center;
+    margin: 0 0 32px;
+  }
+
+  .kalos-pyramids .kp-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .kalos-pyramids .kp-tier {
+    border-radius: 16px;
+    padding: 12px 20px;
+    min-height: 56px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 300ms ease;
+  }
+  .kalos-pyramids .kp-tier-head {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0;
+    white-space: nowrap;
+  }
+  .kalos-pyramids .kp-tier-detail {
+    font-size: 12px;
+    margin: 2px 0 0;
+    line-height: 1.35;
+    white-space: nowrap;
+  }
+
+  /* Tier-specific widths and colors */
+  .kalos-pyramids .kp-tier-1 {
+    width: 40%;
+    background: rgba(74, 74, 244, 0.20);
+  }
+  .kalos-pyramids .kp-tier-1 .kp-tier-head   { color: var(--kp-text); }
+  .kalos-pyramids .kp-tier-1 .kp-tier-detail { color: var(--kp-text-muted); }
+
+  .kalos-pyramids .kp-tier-2 {
+    width: 60%;
+    background: rgba(74, 74, 244, 0.40);
+  }
+  .kalos-pyramids .kp-tier-2 .kp-tier-head   { color: var(--kp-text); }
+  .kalos-pyramids .kp-tier-2 .kp-tier-detail { color: var(--kp-text-muted); }
+
+  .kalos-pyramids .kp-tier-3 {
+    width: 80%;
+    background: rgba(74, 74, 244, 0.70);
+  }
+  .kalos-pyramids .kp-tier-3 .kp-tier-head   { color: #fff; }
+  .kalos-pyramids .kp-tier-3 .kp-tier-detail { color: rgba(255, 255, 255, 0.8); }
+
+  .kalos-pyramids .kp-tier-4 {
+    width: 100%;
+    background: var(--kp-accent);
+  }
+  .kalos-pyramids .kp-tier-4 .kp-tier-head   { color: #fff; }
+  .kalos-pyramids .kp-tier-4 .kp-tier-detail { color: rgba(255, 255, 255, 0.8); }
+
+  /* Mobile: stack the two pyramids */
+  @media (max-width: 760px) {
+    .kalos-pyramids { padding: 32px 20px; }
+    .kalos-pyramids .kp-grid { grid-template-columns: 1fr; }
+    .kalos-pyramids .kp-card { padding: 24px; }
+    .kalos-pyramids .kp-tier-head,
+    .kalos-pyramids .kp-tier-detail { white-space: normal; }
+  }
+</style>
