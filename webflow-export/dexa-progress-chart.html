@@ -4,8 +4,11 @@
   Drop this entire file into a Webflow "Embed" element (HTML Embed component).
   Self-contained: no external JS, no external CSS, no build step.
 
-  - Animated lean / fat trajectory across 7 scans over 12 months
-  - Hover any scan dot to see the training, nutrition, and analyst insight
+  - Real member journey: 6 scans across 6.5 months
+  - Three lines: lean tissue (lbs, blue), fat tissue (lbs, red), visceral fat (cm², amber)
+  - Left axis: lbs (40–120). Right axis: cm² (0–100)
+  - Hover any scan dot to see the training, nutrition, and analyst insight,
+    plus VAT and ALMI percentile per scan
   - Animates in on scroll
 
   All styles are scoped under .kalos-chart so they will not conflict
@@ -22,21 +25,27 @@
       <!-- Grid lines, axes, legend, polylines, dots — all populated by JS -->
       <g class="kc-grid"></g>
       <g class="kc-y-labels"></g>
+      <g class="kc-y-labels-right"></g>
       <g class="kc-x-labels"></g>
 
-      <line x1="55" y1="40"  x2="55"  y2="320" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
-      <line x1="55" y1="320" x2="530" y2="320" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+      <!-- Left axis (lbs), right axis (cm²), and bottom axis -->
+      <line x1="55"  y1="40"  x2="55"  y2="320" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+      <line x1="500" y1="40"  x2="500" y2="320" stroke="rgba(245,158,11,0.2)"   stroke-width="1.5"/>
+      <line x1="55"  y1="320" x2="500" y2="320" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
 
-      <polyline class="kc-line kc-line-fat"  fill="none" stroke="#ef4444"  stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline class="kc-line kc-line-vat"  fill="none" stroke="#f59e0b" stroke-width="2"   stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline class="kc-line kc-line-fat"  fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
       <polyline class="kc-line kc-line-lean" fill="none" stroke="#4A4AF4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
 
       <g class="kc-points"></g>
 
       <!-- Legend -->
       <circle cx="65"  cy="18" r="4" fill="#4A4AF4"/>
-      <text   x="75"  y="22" fill="rgba(255,255,255,0.6)" style="font: 600 11px 'Inter', sans-serif;">Lean tissue</text>
-      <circle cx="165" cy="18" r="4" fill="#ef4444"/>
-      <text   x="175" y="22" fill="rgba(255,255,255,0.6)" style="font: 600 11px 'Inter', sans-serif;">Fat tissue</text>
+      <text   x="75"  y="22" fill="rgba(255,255,255,0.6)" style="font: 600 11px 'Inter', sans-serif;">Lean tissue (lbs)</text>
+      <circle cx="195" cy="18" r="4" fill="#ef4444"/>
+      <text   x="205" y="22" fill="rgba(255,255,255,0.6)" style="font: 600 11px 'Inter', sans-serif;">Fat tissue (lbs)</text>
+      <circle cx="315" cy="18" r="4" fill="#f59e0b"/>
+      <text   x="325" y="22" fill="rgba(255,255,255,0.6)" style="font: 600 11px 'Inter', sans-serif;">Visceral fat (cm²)</text>
     </svg>
 
     <!-- Hover tooltip (positioned by JS) -->
@@ -48,7 +57,9 @@
       <div class="kc-tip-stats">
         <div class="kc-stat"><span class="kc-dot kc-dot-lean"></span><p>Lean: <strong data-tip="lean"></strong></p></div>
         <div class="kc-stat"><span class="kc-dot kc-dot-fat"></span><p>Fat: <strong data-tip="fat"></strong></p></div>
+        <div class="kc-stat"><span class="kc-dot kc-dot-vat"></span><p>Visceral fat: <strong data-tip="vat"></strong></p></div>
         <div class="kc-stat"><span class="kc-dot kc-dot-bf"></span><p>Body fat: <strong data-tip="bf"></strong></p></div>
+        <div class="kc-stat kc-stat-wide"><span class="kc-dot kc-dot-bf"></span><p>ALMI: <strong data-tip="almi"></strong></p></div>
       </div>
       <div class="kc-tip-body">
         <div class="kc-tip-section">
@@ -165,10 +176,10 @@
   }
 
   .kalos-chart .kc-tip-stats {
-    display: flex;
-    gap: 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 16px;
     margin-bottom: 16px;
-    flex-wrap: wrap;
   }
   .kalos-chart .kc-stat {
     display: flex;
@@ -186,6 +197,7 @@
   }
   .kalos-chart .kc-dot-lean,
   .kalos-chart .kc-dot-fat,
+  .kalos-chart .kc-dot-vat,
   .kalos-chart .kc-dot-bf {
     width: 8px;
     height: 8px;
@@ -194,7 +206,9 @@
   }
   .kalos-chart .kc-dot-lean { background: var(--kc-accent); }
   .kalos-chart .kc-dot-fat  { background: var(--kc-red); }
+  .kalos-chart .kc-dot-vat  { background: #f59e0b; }
   .kalos-chart .kc-dot-bf   { background: rgba(255, 255, 255, 0.3); }
+  .kalos-chart .kc-stat-wide { grid-column: 1 / -1; }
 
   .kalos-chart .kc-tip-body {
     border-top: 1px solid var(--kc-border);
@@ -251,48 +265,52 @@
   var root = document.currentScript.parentElement.querySelector('.kalos-chart');
   if (!root) return;
 
-  // ── Real Kalos member journey: 7 scans over 12 months
+  // ── Real Kalos member journey: 6 scans across ~6.5 months
   var scanData = [
-    { label: 'Scan 1', time: 'Baseline',  lean: 112, fat: 60,
-      training: 'No structured program. Occasional gym sessions, mostly machines.',
-      nutrition: 'No tracking. Estimated ~2,400 cal/day with inconsistent protein (~80g).',
-      insight: 'Starting point. DEXA reveals higher body fat than expected and muscle imbalances between left and right side.' },
-    { label: 'Scan 2', time: 'Month 2',   lean: 117, fat: 56,
-      training: 'Started 4x/week push-pull-legs. Progressive overload on compound lifts.',
-      nutrition: 'Tracking calories at 2,200/day. Protein increased to 140g. Cut alcohol to weekends only.',
-      insight: 'Newbie gains phase. +5 lbs lean, -4 lbs fat. Strength up across the board. Squat went from 135 to 185.' },
-    { label: 'Scan 3', time: 'Month 4',   lean: 121, fat: 52,
-      training: '4x/week with dedicated leg day. Added Romanian deadlifts and hip thrusts.',
-      nutrition: 'Bumped to 2,500 cal for lean bulk. Protein at 150g. Added creatine.',
-      insight: 'Steady recomp. +4 lbs lean, -4 lbs fat. Lower body catching up to upper body symmetry.' },
-    { label: 'Scan 4', time: 'Month 6',   lean: 124, fat: 48,
-      training: 'Switched to upper/lower split 5x/week. Introduced periodization with deload weeks.',
-      nutrition: '2,600 cal/day. Protein at 155g. Meal prepping consistently.',
-      insight: 'Lean tissue building steadily. +3 lbs lean, -4 lbs fat. Visceral fat dropped from 1.8 to 1.2 lbs.' },
-    { label: 'Scan 5', time: 'Month 8',   lean: 122, fat: 38,
-      training: 'Strength training 3x/week. Added 2x HIIT sessions and strategic zone 2 cardio.',
-      nutrition: 'Cut phase begins: 2,100 cal/day deficit. Protein maintained at 145g. High volume greens and fiber.',
-      insight: 'Cut phase begins. Aggressive deficit cost 2 lbs of lean tissue, but fat dropped significantly (-10 lbs). Decision: dial back the deficit slightly and bump protein to better preserve muscle.' },
-    { label: 'Scan 6', time: 'Month 10',  lean: 126, fat: 31,
-      training: 'Strength training 4x/week. HIIT reduced to 1x. Added 3x zone 2 cardio (30 min walks).',
-      nutrition: '2,000 cal/day. Protein at 150g. Refeed day every 10 days to manage fatigue.',
-      insight: 'Course-corrected. Lean tissue rebuilt (+4 lbs) while fat continued to drop (-7 lbs). Strength back across all lifts.' },
-    { label: 'Scan 7', time: 'Month 12',  lean: 125, fat: 25,
-      training: 'Strength training 4x/week. Transitioned to maintenance phase. Deload week before final scan.',
-      nutrition: 'Final aggressive push: deficit deepened for the last 6 lbs of fat. Protein held at 155g.',
-      insight: 'Goal reached. 17% body fat. +13 lbs lean tissue and -35 lbs fat from baseline. Final aggressive cut cost 1 lb of lean — accepted trade-off to hit the target. Beginning reverse diet to lock in results.' }
+    { label: 'Scan 1', time: 'Baseline', lean: 105.6, fat: 62.6, vat: 85.9, almi: 75,
+      training: 'Former D1 softball player. Comfortable with compounds. Currently bikes 4–7x/week, coaches softball, weekend slow-pitch. Starting 2x/week recomp lifts (Tuesday + Friday).',
+      nutrition: '~2,000 cal/day, 145g protein floor. Protein-forward meals — eggs, chicken, Greek yogurt, Fairlife. Going dry through the upcoming D.C. wedding with strict drink caps.',
+      insight: 'Strong baseline — bone Z-score +1.7, ALMI 75th percentile. Body fat 36% and visceral fat elevated at 86 cm² (above the 80 threshold). Goal: aesthetics. Plan: steady fat loss while maintaining or slightly adding muscle.' },
+    { label: 'Scan 2', time: 'Month 1', lean: 111.6, fat: 56.2, vat: 55.3, almi: 76,
+      training: '18 of 18 primary workouts completed. Coach pushed intensity: every last rep of every set must be challenging, not just the last set. Squat working sets bumped 125 → 135.',
+      nutrition: 'Tracked every meal in MyFitnessPal. Hit 145g protein daily. Calories naturally landed 1,000–1,500 (below the 2,000 target). Zero alcohol pre-wedding.',
+      insight: 'Massive recomp month. +6 lbs lean, -6.4 lbs fat. Body fat 36 → 32.4%. Visceral fat cut by 36% (86 → 55 cm²). Subscribed to the 6-month membership.' },
+    { label: 'Scan 3', time: 'Month 3', lean: 111.3, fat: 52.1, vat: 34.9, almi: 82,
+      training: '18 of 18 primary workouts since the last scan. Strength climbing fast: leg press 240 x 10, lat pulldown 100 x 8, estimated squat 1RM ~185.',
+      nutrition: 'Reintroduced alcohol mindfully (Halloween, Michigan football weekend, Thanksgiving — never more than 5 drinks across a day). Got creative with protein recipes. Brought in nutrition specialist Sophie for a women\u2019s-health deep-dive.',
+      insight: 'Held the line through the hardest period of the year. Body fat 32.4 → 30.8%. Visceral fat 55 → 35 cm² (now in healthy range). ALMI percentile 76 → 82.' },
+    { label: 'Scan 4', time: 'Month 4', lean: 111.0, fat: 49.9, vat: 27.4, almi: 86,
+      training: 'Didn\u2019t miss a single weightlifting session through the holidays. Strength climbing: incline DB press 70 lb x 10 for 4 sets, leg press 260 x 12. Coach adding more anti-rotational core work.',
+      nutrition: 'Held protein religiously through the holidays + a ski weekend + multiple work parties. Limited alcohol (half a White Claw at Christmas, max 3 drinks/day at New Year\u2019s). Adding fiber focus (~25g/day) and Locale meal delivery for vitamins/micros.',
+      insight: '-2.2 lbs total, all fat. Body fat 30.8 → 29.9%. Visceral fat 35 → 27 cm². ALMI percentile 82 → 86. Lean held flat — small trunk drop attributed to water/bloat, but appendicular muscle is still growing.' },
+    { label: 'Scan 5', time: 'Month 5', lean: 110.5, fat: 46.6, vat: 32.6, almi: 87,
+      training: 'Switched barbell deadlifts to trap-bar after some lower-back tightness. Added CorePower hot yoga sculpt 1–2x/week as a paired cardio modality. Strength still climbing: 70 lb dumbbell bench press confirmed.',
+      nutrition: 'Held the line through D.C. and Chicago travel. Brought protein powder when staying with friends. Alcohol limited to a glass of wine here and there, mindful nighttime drinking only.',
+      insight: '-3.6 lbs total, of which -3.3 lbs fat. Lean held (small trunk drop attributed to water — both arms and legs gained muscle). 16 lbs total fat lost from baseline. Body fat 29.9 → 28.6%. ALMI percentile 87. VAT ticked up slightly from sleep / red-eye flights, still in healthy range.' },
+    { label: 'Scan 6', time: 'Month 7', lean: 112.0, fat: 43.2, vat: 17.5, almi: 88,
+      training: 'Hitting 7K daily steps consistently. Strength still climbing: barbell bench 85 x 10, front squat 145 x 8, trap-bar deadlift 165 x 8, reverse-grip pulldowns up to 120 lb. Working toward her first strict pull-up. Started creatine.',
+      nutrition: 'Held the foundation: protein floor + sustainable deficit. Coaching tournaments slotted into the routine without disrupting the rhythm.',
+      insight: 'First true recomp scan. +1.5 lbs lean (legs evened out the prior 2 lb imbalance), -3.4 lbs fat. Body fat 28.6 → 26.9%. Visceral fat 33 → 17.5 cm² — coach Sophie called it "one of the lowest I\u2019ve ever seen." 6.5 months in: -13 lbs weight, -19 lbs fat, +6.4 lbs lean, body fat down 9 points.' }
   ];
 
   // ── Chart geometry (matches viewBox)
-  var pad   = { top: 40, right: 30, bottom: 60, left: 55 };
+  var pad   = { top: 40, right: 60, bottom: 60, left: 55 };
   var w = 560, h = 380;
   var innerW = w - pad.left - pad.right;
   var innerH = h - pad.top - pad.bottom;
-  var yMin = 15, yMax = 140;
+  // Left axis (lean & fat in lbs)
+  var yMin = 40, yMax = 120;
   var yRange = yMax - yMin;
-  var toX = function(i) { return pad.left + (i / (scanData.length - 1)) * innerW; };
-  var toY = function(v) { return pad.top + innerH - ((v - yMin) / yRange) * innerH; };
-  var yTicks = [40, 60, 80, 100, 120, 140];
+  // Right axis (visceral fat in cm²)
+  var vatMin = 0, vatMax = 100;
+  var vatRange = vatMax - vatMin;
+
+  var toX    = function(i) { return pad.left + (i / (scanData.length - 1)) * innerW; };
+  var toY    = function(v) { return pad.top + innerH - ((v - yMin)   / yRange)   * innerH; };
+  var toVatY = function(v) { return pad.top + innerH - ((v - vatMin) / vatRange) * innerH; };
+
+  var yTicks   = [40, 60, 80, 100, 120];
+  var vatTicks = [0, 25, 50, 75, 100];
 
   var svgNS = 'http://www.w3.org/2000/svg';
   function el(tag, attrs) {
@@ -306,7 +324,7 @@
     return n;
   }
 
-  // Grid
+  // Grid (aligned to left-axis ticks)
   var gGrid = root.querySelector('.kc-grid');
   yTicks.forEach(function(t) {
     gGrid.appendChild(el('line', {
@@ -315,15 +333,24 @@
     }));
   });
 
-  // Y-axis labels
+  // Y-axis labels — left (lbs)
   var gY = root.querySelector('.kc-y-labels');
   yTicks.forEach(function(t) {
-    var n = txt('text', {
+    gY.appendChild(txt('text', {
       x: pad.left - 10, y: toY(t) + 4,
       'text-anchor': 'end', fill: 'rgba(255,255,255,0.35)',
       style: "font: 11px 'Inter', sans-serif;"
-    }, t + ' lbs');
-    gY.appendChild(n);
+    }, t + ' lbs'));
+  });
+
+  // Y-axis labels — right (cm²)
+  var gYR = root.querySelector('.kc-y-labels-right');
+  vatTicks.forEach(function(t) {
+    gYR.appendChild(txt('text', {
+      x: w - pad.right + 10, y: toVatY(t) + 4,
+      'text-anchor': 'start', fill: 'rgba(245,158,11,0.55)',
+      style: "font: 11px 'Inter', sans-serif;"
+    }, t + ' cm²'));
   });
 
   // X-axis labels
@@ -344,17 +371,19 @@
   // Polylines
   var leanPts = scanData.map(function(s, i) { return toX(i) + ',' + toY(s.lean); }).join(' ');
   var fatPts  = scanData.map(function(s, i) { return toX(i) + ',' + toY(s.fat);  }).join(' ');
+  var vatPts  = scanData.map(function(s, i) { return toX(i) + ',' + toVatY(s.vat); }).join(' ');
   root.querySelector('.kc-line-lean').setAttribute('points', leanPts);
   root.querySelector('.kc-line-fat').setAttribute('points', fatPts);
+  root.querySelector('.kc-line-vat').setAttribute('points', vatPts);
 
   // Scan dots, value labels, hover targets
   var gPoints = root.querySelector('.kc-points');
   var dotsByIndex = [];
   scanData.forEach(function(s, i) {
     var x = toX(i);
-    var leanY = toY(s.lean), fatY = toY(s.fat);
+    var leanY = toY(s.lean), fatY = toY(s.fat), vatY = toVatY(s.vat);
 
-    // Vertical connector (dashed)
+    // Vertical connector (dashed) between lean and fat
     var connector = el('line', {
       x1: x, y1: leanY, x2: x, y2: fatY,
       stroke: 'rgba(255,255,255,0.08)', 'stroke-width': '1', 'stroke-dasharray': '4 3',
@@ -371,7 +400,6 @@
     gPoints.appendChild(leanHalo);
     gPoints.appendChild(leanDot);
 
-    // Lean label
     var leanLabel = txt('text', {
       x: x, y: leanY - 14, 'text-anchor': 'middle', fill: '#4A4AF4',
       style: "font: 700 10px 'Inter', sans-serif;",
@@ -394,7 +422,15 @@
     }, s.fat + ' lbs');
     gPoints.appendChild(fatLabel);
 
-    // Invisible hover target
+    // Halo + dot for VAT (no inline label — kept clean, value shown on hover)
+    var vatHalo = el('circle', { cx: x, cy: vatY, r: '0', fill: '#f59e0b', opacity: '0.18',
+      style: 'transition: r 0.3s ease-out ' + (0.4 + i * 0.3) + 's;' });
+    var vatDot  = el('circle', { cx: x, cy: vatY, r: '0', fill: '#f59e0b',
+      style: 'transition: r 0.3s ease-out ' + (0.4 + i * 0.3) + 's;' });
+    gPoints.appendChild(vatHalo);
+    gPoints.appendChild(vatDot);
+
+    // Invisible hover target (covers full chart height)
     var hit = el('rect', {
       x: x - 25, y: pad.top, width: '50', height: innerH,
       fill: 'transparent', style: 'cursor: pointer;'
@@ -404,19 +440,30 @@
     hit.addEventListener('click',      function() { showTooltip(i); });
     gPoints.appendChild(hit);
 
-    dotsByIndex.push({ leanDot: leanDot, leanHalo: leanHalo, leanLabel: leanLabel, fatDot: fatDot, fatHalo: fatHalo, fatLabel: fatLabel, connector: connector });
+    dotsByIndex.push({
+      leanDot: leanDot, leanHalo: leanHalo, leanLabel: leanLabel,
+      fatDot:  fatDot,  fatHalo:  fatHalo,  fatLabel:  fatLabel,
+      vatDot:  vatDot,  vatHalo:  vatHalo,
+      connector: connector
+    });
   });
+
+  function setIdleSizes(d) {
+    d.leanDot.setAttribute('r', '5');
+    d.leanHalo.setAttribute('r', '10');
+    d.fatDot.setAttribute('r', '5');
+    d.fatHalo.setAttribute('r', '10');
+    d.vatDot.setAttribute('r', '4');
+    d.vatHalo.setAttribute('r', '8');
+    d.leanLabel.setAttribute('opacity', '0.6');
+    d.fatLabel.setAttribute('opacity', '0.6');
+  }
 
   // Animate in on scroll
   function animateIn() {
     root.dataset.animated = 'true';
     dotsByIndex.forEach(function(d) {
-      d.leanDot.setAttribute('r', '5');
-      d.leanHalo.setAttribute('r', '10');
-      d.fatDot.setAttribute('r', '5');
-      d.fatHalo.setAttribute('r', '10');
-      d.leanLabel.setAttribute('opacity', '0.6');
-      d.fatLabel.setAttribute('opacity', '0.6');
+      setIdleSizes(d);
       d.connector.setAttribute('opacity', '1');
     });
   }
@@ -431,37 +478,35 @@
     tooltip.querySelector('[data-tip="time"]').textContent  = s.time;
     tooltip.querySelector('[data-tip="lean"]').textContent  = s.lean + ' lbs';
     tooltip.querySelector('[data-tip="fat"]').textContent   = s.fat + ' lbs';
-    tooltip.querySelector('[data-tip="bf"]').textContent    = Math.round(s.fat / (s.lean + s.fat) * 100) + '%';
+    tooltip.querySelector('[data-tip="vat"]').textContent   = s.vat + ' cm²';
+    tooltip.querySelector('[data-tip="bf"]').textContent    = (s.fat / (s.lean + s.fat) * 100).toFixed(1) + '%';
+    tooltip.querySelector('[data-tip="almi"]').textContent  = s.almi + 'th percentile';
     tooltip.querySelector('[data-tip="training"]').textContent  = s.training;
     tooltip.querySelector('[data-tip="nutrition"]').textContent = s.nutrition;
     tooltip.querySelector('[data-tip="insight"]').textContent   = s.insight;
 
-    // Position: left side if hovering scans 4-7, right side if 1-3
+    // Position: tooltip anchors right when hovering early scans, left for late scans
     tooltip.style.left = (i <= 2) ? '60%' : '10%';
 
     // Emphasize the hovered dot
     dotsByIndex.forEach(function(d, idx) {
-      var r = (idx === i) ? '7' : '5';
-      var haloR = (idx === i) ? '14' : '10';
-      d.leanDot.setAttribute('r', r);
-      d.leanHalo.setAttribute('r', haloR);
-      d.fatDot.setAttribute('r', r);
-      d.fatHalo.setAttribute('r', haloR);
-      d.leanLabel.setAttribute('opacity', idx === i ? '1' : '0.6');
-      d.fatLabel.setAttribute('opacity',  idx === i ? '1' : '0.6');
-      d.connector.setAttribute('stroke', idx === i ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.08)');
+      var hov = idx === i;
+      d.leanDot.setAttribute('r',  hov ? '7'  : '5');
+      d.leanHalo.setAttribute('r', hov ? '14' : '10');
+      d.fatDot.setAttribute('r',   hov ? '7'  : '5');
+      d.fatHalo.setAttribute('r',  hov ? '14' : '10');
+      d.vatDot.setAttribute('r',   hov ? '6'  : '4');
+      d.vatHalo.setAttribute('r',  hov ? '12' : '8');
+      d.leanLabel.setAttribute('opacity', hov ? '1' : '0.6');
+      d.fatLabel.setAttribute('opacity',  hov ? '1' : '0.6');
+      d.connector.setAttribute('stroke', hov ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.08)');
     });
   }
   function hideTooltip() {
     delete root.dataset.hovered;
     tooltip.setAttribute('hidden', '');
     dotsByIndex.forEach(function(d) {
-      d.leanDot.setAttribute('r', '5');
-      d.leanHalo.setAttribute('r', '10');
-      d.fatDot.setAttribute('r', '5');
-      d.fatHalo.setAttribute('r', '10');
-      d.leanLabel.setAttribute('opacity', '0.6');
-      d.fatLabel.setAttribute('opacity', '0.6');
+      setIdleSizes(d);
       d.connector.setAttribute('stroke', 'rgba(255,255,255,0.08)');
     });
   }

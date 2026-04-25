@@ -369,65 +369,68 @@ const scanData = [
   {
     label: 'Scan 1',
     time: 'Baseline',
-    lean: 112,
-    fat: 60,
-    training: 'No structured program. Occasional gym sessions, mostly machines.',
-    nutrition: 'No tracking. Estimated ~2,400 cal/day with inconsistent protein (~80g).',
-    insight: 'Starting point. DEXA reveals higher body fat than expected and muscle imbalances between left and right side.',
+    lean: 105.6,
+    fat: 62.6,
+    vat: 85.9,
+    almi: 75,
+    training: 'Former D1 softball player. Comfortable with compounds. Currently bikes 4–7x/week, coaches softball, weekend slow-pitch. Starting 2x/week recomp lifts (Tuesday + Friday).',
+    nutrition: '~2,000 cal/day, 145g protein floor. Protein-forward meals — eggs, chicken, Greek yogurt, Fairlife. Going dry through the upcoming D.C. wedding with strict drink caps.',
+    insight: 'Strong baseline — bone Z-score +1.7, ALMI 75th percentile. Body fat 36% and visceral fat elevated at 86 cm² (above the 80 threshold). Goal: aesthetics. Plan: steady fat loss while maintaining or slightly adding muscle.',
   },
   {
     label: 'Scan 2',
-    time: 'Month 2',
-    lean: 117,
-    fat: 56,
-    training: 'Started 4x/week push-pull-legs. Progressive overload on compound lifts.',
-    nutrition: 'Tracking calories at 2,200/day. Protein increased to 140g. Cut alcohol to weekends only.',
-    insight: 'Newbie gains phase. +5 lbs lean, -4 lbs fat. Strength up across the board. Squat went from 135 to 185.',
+    time: 'Month 1',
+    lean: 111.6,
+    fat: 56.2,
+    vat: 55.3,
+    almi: 76,
+    training: '18 of 18 primary workouts completed. Coach pushed intensity: every last rep of every set must be challenging, not just the last set. Squat working sets bumped 125 → 135.',
+    nutrition: 'Tracked every meal in MyFitnessPal. Hit 145g protein daily. Calories naturally landed 1,000–1,500 (below the 2,000 target). Zero alcohol pre-wedding.',
+    insight: 'Massive recomp month. +6 lbs lean, -6.4 lbs fat. Body fat 36 → 32.4%. Visceral fat cut by 36% (86 → 55 cm²). Subscribed to the 6-month membership.',
   },
   {
     label: 'Scan 3',
-    time: 'Month 4',
-    lean: 121,
-    fat: 52,
-    training: '4x/week with dedicated leg day. Added Romanian deadlifts and hip thrusts.',
-    nutrition: 'Bumped to 2,500 cal for lean bulk. Protein at 150g. Added creatine.',
-    insight: 'Steady recomp. +4 lbs lean, -4 lbs fat. Lower body catching up to upper body symmetry.',
+    time: 'Month 3',
+    lean: 111.3,
+    fat: 52.1,
+    vat: 34.9,
+    almi: 82,
+    training: '18 of 18 primary workouts since the last scan. Strength climbing fast: leg press 240 x 10, lat pulldown 100 x 8, estimated squat 1RM ~185.',
+    nutrition: 'Reintroduced alcohol mindfully (Halloween, Michigan football weekend, Thanksgiving — never more than 5 drinks across a day). Got creative with protein recipes. Brought in nutrition specialist Sophie for a women\'s-health deep-dive.',
+    insight: 'Held the line through the hardest period of the year. Body fat 32.4 → 30.8%. Visceral fat 55 → 35 cm² (now in healthy range). ALMI percentile 76 → 82.',
   },
   {
     label: 'Scan 4',
-    time: 'Month 6',
-    lean: 124,
-    fat: 48,
-    training: 'Switched to upper/lower split 5x/week. Introduced periodization with deload weeks.',
-    nutrition: '2,600 cal/day. Protein at 155g. Meal prepping consistently.',
-    insight: 'Lean tissue building steadily. +3 lbs lean, -4 lbs fat. Visceral fat dropped from 1.8 to 1.2 lbs.',
+    time: 'Month 4',
+    lean: 111.0,
+    fat: 49.9,
+    vat: 27.4,
+    almi: 86,
+    training: 'Didn\'t miss a single weightlifting session through the holidays. Strength climbing: incline DB press 70 lb x 10 for 4 sets, leg press 260 x 12. Coach adding more anti-rotational core work.',
+    nutrition: 'Held protein religiously through the holidays + a ski weekend + multiple work parties. Limited alcohol (half a White Claw at Christmas, max 3 drinks/day at New Year\'s). Adding fiber focus (~25g/day) and Locale meal delivery for vitamins/micros.',
+    insight: '-2.2 lbs total, all fat. Body fat 30.8 → 29.9%. Visceral fat 35 → 27 cm². ALMI percentile 82 → 86. Lean held flat — small trunk drop attributed to water/bloat, but appendicular muscle is still growing.',
   },
   {
     label: 'Scan 5',
-    time: 'Month 8',
-    lean: 122,
-    fat: 38,
-    training: 'Strength training 3x/week. Added 2x HIIT sessions and strategic zone 2 cardio.',
-    nutrition: 'Cut phase begins: 2,100 cal/day deficit. Protein maintained at 145g. High volume greens and fiber.',
-    insight: 'Cut phase begins. Aggressive deficit cost 2 lbs of lean tissue, but fat dropped significantly (-10 lbs). Decision: dial back the deficit slightly and bump protein to better preserve muscle.',
+    time: 'Month 5',
+    lean: 110.5,
+    fat: 46.6,
+    vat: 32.6,
+    almi: 87,
+    training: 'Switched barbell deadlifts to trap-bar after some lower-back tightness. Added CorePower hot yoga sculpt 1–2x/week as a paired cardio modality. Strength still climbing: 70 lb dumbbell bench press confirmed.',
+    nutrition: 'Held the line through D.C. and Chicago travel. Brought protein powder when staying with friends. Alcohol limited to a glass of wine here and there, mindful nighttime drinking only.',
+    insight: '-3.6 lbs total, of which -3.3 lbs fat. Lean held (small trunk drop attributed to water — both arms and legs gained muscle). 16 lbs total fat lost from baseline. Body fat 29.9 → 28.6%. ALMI percentile 87. VAT ticked up slightly from sleep / red-eye flights, still in healthy range.',
   },
   {
     label: 'Scan 6',
-    time: 'Month 10',
-    lean: 126,
-    fat: 31,
-    training: 'Strength training 4x/week. HIIT reduced to 1x. Added 3x zone 2 cardio (30 min walks).',
-    nutrition: '2,000 cal/day. Protein at 150g. Refeed day every 10 days to manage fatigue.',
-    insight: 'Course-corrected. Lean tissue rebuilt (+4 lbs) while fat continued to drop (-7 lbs). Strength back across all lifts.',
-  },
-  {
-    label: 'Scan 7',
-    time: 'Month 12',
-    lean: 125,
-    fat: 25,
-    training: 'Strength training 4x/week. Transitioned to maintenance phase. Deload week before final scan.',
-    nutrition: 'Final aggressive push: deficit deepened for the last 6 lbs of fat. Protein held at 155g.',
-    insight: 'Goal reached. 17% body fat. +13 lbs lean tissue and -35 lbs fat from baseline. Final aggressive cut cost 1 lb of lean — accepted trade-off to hit the target. Beginning reverse diet to lock in results.',
+    time: 'Month 7',
+    lean: 112.0,
+    fat: 43.2,
+    vat: 17.5,
+    almi: 88,
+    training: 'Hitting 7K daily steps consistently. Strength still climbing: barbell bench 85 x 10, front squat 145 x 8, trap-bar deadlift 165 x 8, reverse-grip pulldowns up to 120 lb. Working toward her first strict pull-up. Started creatine.',
+    nutrition: 'Held the foundation: protein floor + sustainable deficit. Coaching tournaments slotted into the routine without disrupting the rhythm.',
+    insight: 'First true recomp scan. +1.5 lbs lean (legs evened out the prior 2 lb imbalance), -3.4 lbs fat. Body fat 28.6 → 26.9%. Visceral fat 33 → 17.5 cm² — coach Sophie called it "one of the lowest I\'ve ever seen." 6.5 months in: -13 lbs weight, -19 lbs fat, +6.4 lbs lean, body fat down 9 points.',
   },
 ]
 
@@ -453,21 +456,29 @@ function DexaChart() {
     return () => observer.disconnect()
   }, [])
 
-  const pad = { top: 40, right: 30, bottom: 60, left: 55 }
+  const pad = { top: 40, right: 60, bottom: 60, left: 55 }
   const w = 560, h = 380
   const innerW = w - pad.left - pad.right
   const innerH = h - pad.top - pad.bottom
 
-  const yMin = 15, yMax = 140
+  // Left axis: lean & fat in lbs, range 40–120
+  const yMin = 40, yMax = 120
   const yRange = yMax - yMin
+  // Right axis: visceral fat in cm², range 0–100
+  const vatMin = 0, vatMax = 100
+  const vatRange = vatMax - vatMin
 
   const toX = (i: number) => pad.left + (i / (scanData.length - 1)) * innerW
   const toY = (val: number) => pad.top + innerH - ((val - yMin) / yRange) * innerH
+  const toVatY = (val: number) => pad.top + innerH - ((val - vatMin) / vatRange) * innerH
 
   const leanPoints = scanData.map((s, i) => `${toX(i)},${toY(s.lean)}`).join(' ')
   const fatPoints = scanData.map((s, i) => `${toX(i)},${toY(s.fat)}`).join(' ')
+  const vatPoints = scanData.map((s, i) => `${toX(i)},${toVatY(s.vat)}`).join(' ')
 
-  const yTicks = [40, 60, 80, 100, 120, 140]
+  // Aligned tick pairs: left lbs / right cm²
+  const yTicks = [40, 60, 80, 100, 120]
+  const vatTicks = [0, 25, 50, 75, 100]
 
   return (
     <div ref={chartRef} className="bg-white rounded-3xl border border-warm-border p-6 md:p-8 relative">
@@ -480,9 +491,13 @@ function DexaChart() {
           <line key={tick} x1={pad.left} y1={toY(tick)} x2={w - pad.right} y2={toY(tick)} stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
         ))}
 
-        {/* Y-axis labels */}
+        {/* Y-axis labels — left (lbs) */}
         {yTicks.map(tick => (
-          <text key={tick} x={pad.left - 10} y={toY(tick) + 4} textAnchor="end" fill="rgba(255,255,255,0.35)" style={{ fontSize: '11px' }}>{tick} lbs</text>
+          <text key={`l-${tick}`} x={pad.left - 10} y={toY(tick) + 4} textAnchor="end" fill="rgba(255,255,255,0.35)" style={{ fontSize: '11px' }}>{tick} lbs</text>
+        ))}
+        {/* Y-axis labels — right (cm²) */}
+        {vatTicks.map(tick => (
+          <text key={`r-${tick}`} x={w - pad.right + 10} y={toVatY(tick) + 4} textAnchor="start" fill="rgba(245,158,11,0.55)" style={{ fontSize: '11px' }}>{tick} cm²</text>
         ))}
 
         {/* X-axis labels */}
@@ -495,7 +510,21 @@ function DexaChart() {
 
         {/* Axes */}
         <line x1={pad.left} y1={pad.top} x2={pad.left} y2={h - pad.bottom} stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" />
+        <line x1={w - pad.right} y1={pad.top} x2={w - pad.right} y2={h - pad.bottom} stroke="rgba(245,158,11,0.2)" strokeWidth="1.5" />
         <line x1={pad.left} y1={h - pad.bottom} x2={w - pad.right} y2={h - pad.bottom} stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" />
+
+        {/* Visceral fat line */}
+        <polyline
+          points={vatPoints}
+          fill="none"
+          stroke="#f59e0b"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeDasharray="1000"
+          strokeDashoffset={animated ? 0 : 1000}
+          style={{ transition: 'stroke-dashoffset 2s ease-out 0.3s' }}
+        />
 
         {/* Fat line */}
         <polyline
@@ -565,6 +594,12 @@ function DexaChart() {
               </text>
             )}
 
+            {/* VAT dot (visceral fat) */}
+            <circle cx={toX(i)} cy={toVatY(s.vat)} r={animated ? (hoveredScan === i ? 6 : 4) : 0} fill="#f59e0b"
+              style={{ transition: `r 0.3s ease-out ${0.4 + i * 0.3}s` }} />
+            <circle cx={toX(i)} cy={toVatY(s.vat)} r={animated ? (hoveredScan === i ? 12 : 8) : 0} fill="#f59e0b" opacity="0.18"
+              style={{ transition: `r 0.3s ease-out ${0.4 + i * 0.3}s` }} />
+
             {/* Invisible hover target (wider hit area) */}
             <rect
               x={toX(i) - 25} y={pad.top} width={50} height={innerH}
@@ -578,9 +613,11 @@ function DexaChart() {
 
         {/* Legend */}
         <circle cx={pad.left + 10} cy={pad.top - 22} r="4" fill="var(--color-accent)" />
-        <text x={pad.left + 20} y={pad.top - 18} fill="rgba(255,255,255,0.6)" style={{ fontSize: '11px', fontWeight: 600 }}>Lean tissue</text>
-        <circle cx={pad.left + 110} cy={pad.top - 22} r="4" fill="#ef4444" />
-        <text x={pad.left + 120} y={pad.top - 18} fill="rgba(255,255,255,0.6)" style={{ fontSize: '11px', fontWeight: 600 }}>Fat tissue</text>
+        <text x={pad.left + 20} y={pad.top - 18} fill="rgba(255,255,255,0.6)" style={{ fontSize: '11px', fontWeight: 600 }}>Lean tissue (lbs)</text>
+        <circle cx={pad.left + 140} cy={pad.top - 22} r="4" fill="#ef4444" />
+        <text x={pad.left + 150} y={pad.top - 18} fill="rgba(255,255,255,0.6)" style={{ fontSize: '11px', fontWeight: 600 }}>Fat tissue (lbs)</text>
+        <circle cx={pad.left + 260} cy={pad.top - 22} r="4" fill="#f59e0b" />
+        <text x={pad.left + 270} y={pad.top - 18} fill="rgba(255,255,255,0.6)" style={{ fontSize: '11px', fontWeight: 600 }}>Visceral fat (cm²)</text>
       </svg>
 
       {/* Hover tooltip card */}
@@ -597,7 +634,7 @@ function DexaChart() {
             <p className="text-[11px] text-white/40">{scanData[hoveredScan].time}</p>
           </div>
 
-          <div className="flex gap-4 mb-4">
+          <div className="grid grid-cols-2 gap-y-2 gap-x-4 mb-4">
             <div className="flex items-center gap-1.5">
               <div className="w-2 h-2 rounded-full bg-accent" />
               <p className="text-[12px] text-white/70">Lean: <span className="text-white font-semibold">{scanData[hoveredScan].lean} lbs</span></p>
@@ -607,8 +644,16 @@ function DexaChart() {
               <p className="text-[12px] text-white/70">Fat: <span className="text-white font-semibold">{scanData[hoveredScan].fat} lbs</span></p>
             </div>
             <div className="flex items-center gap-1.5">
+              <div className="w-2 h-2 rounded-full bg-[#f59e0b]" />
+              <p className="text-[12px] text-white/70">Visceral fat: <span className="text-white font-semibold">{scanData[hoveredScan].vat} cm²</span></p>
+            </div>
+            <div className="flex items-center gap-1.5">
               <div className="w-2 h-2 rounded-full bg-white/30" />
-              <p className="text-[12px] text-white/70">Body fat: <span className="text-white font-semibold">{Math.round(scanData[hoveredScan].fat / (scanData[hoveredScan].lean + scanData[hoveredScan].fat) * 100)}%</span></p>
+              <p className="text-[12px] text-white/70">Body fat: <span className="text-white font-semibold">{(scanData[hoveredScan].fat / (scanData[hoveredScan].lean + scanData[hoveredScan].fat) * 100).toFixed(1)}%</span></p>
+            </div>
+            <div className="flex items-center gap-1.5 col-span-2">
+              <div className="w-2 h-2 rounded-full bg-white/30" />
+              <p className="text-[12px] text-white/70">ALMI: <span className="text-white font-semibold">{scanData[hoveredScan].almi}th percentile</span></p>
             </div>
           </div>
 
