@@ -7,6 +7,7 @@ Self-contained HTML/CSS/JS exports of interactive components from the Kalos site
 | `projection-calculator.html` | 4-week projection quiz → capture → results |
 | `framework-triangle.html` | Interactive Kalos Framework triangle + three hover info boxes |
 | `pyramids.html` | 80-16-3-1 prioritization pyramids (Nutrition + Exercise) |
+| `dexa-progress-chart.html` | 12-month DEXA progress chart with hover tooltips per scan |
 | `icons/` | All Lucide icons used on the site, as individual `.svg` files |
 | `HANDOFF.md` | Install + ActiveCampaign integration steps for the designer |
 

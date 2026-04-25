@@ -1,0 +1,485 @@
+<!--
+  Kalos DEXA Progress Chart — Webflow Embed
+  ==========================================
+  Drop this entire file into a Webflow "Embed" element (HTML Embed component).
+  Self-contained: no external JS, no external CSS, no build step.
+
+  - Animated lean / fat trajectory across 7 scans over 12 months
+  - Hover any scan dot to see the training, nutrition, and analyst insight
+  - Animates in on scroll
+
+  All styles are scoped under .kalos-chart so they will not conflict
+  with Webflow's page styles.
+-->
+
+<div class="kalos-chart">
+  <div class="kc-card">
+    <div class="kc-badge-row">
+      <span class="kc-badge">Real Kalos results</span>
+    </div>
+
+    <svg class="kc-svg" viewBox="0 0 560 380" xmlns="http://www.w3.org/2000/svg" fill="none">
+      <!-- Grid lines, axes, legend, polylines, dots — all populated by JS -->
+      <g class="kc-grid"></g>
+      <g class="kc-y-labels"></g>
+      <g class="kc-x-labels"></g>
+
+      <line x1="55" y1="40"  x2="55"  y2="320" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+      <line x1="55" y1="320" x2="530" y2="320" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+
+      <polyline class="kc-line kc-line-fat"  fill="none" stroke="#ef4444"  stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline class="kc-line kc-line-lean" fill="none" stroke="#4A4AF4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+      <g class="kc-points"></g>
+
+      <!-- Legend -->
+      <circle cx="65"  cy="18" r="4" fill="#4A4AF4"/>
+      <text   x="75"  y="22" fill="rgba(255,255,255,0.6)" style="font: 600 11px 'Inter', sans-serif;">Lean tissue</text>
+      <circle cx="165" cy="18" r="4" fill="#ef4444"/>
+      <text   x="175" y="22" fill="rgba(255,255,255,0.6)" style="font: 600 11px 'Inter', sans-serif;">Fat tissue</text>
+    </svg>
+
+    <!-- Hover tooltip (positioned by JS) -->
+    <div class="kc-tooltip" hidden>
+      <div class="kc-tip-head">
+        <p class="kc-tip-label" data-tip="label"></p>
+        <p class="kc-tip-time" data-tip="time"></p>
+      </div>
+      <div class="kc-tip-stats">
+        <div class="kc-stat"><span class="kc-dot kc-dot-lean"></span><p>Lean: <strong data-tip="lean"></strong></p></div>
+        <div class="kc-stat"><span class="kc-dot kc-dot-fat"></span><p>Fat: <strong data-tip="fat"></strong></p></div>
+        <div class="kc-stat"><span class="kc-dot kc-dot-bf"></span><p>Body fat: <strong data-tip="bf"></strong></p></div>
+      </div>
+      <div class="kc-tip-body">
+        <div class="kc-tip-section">
+          <p class="kc-tip-section-h">Training</p>
+          <p class="kc-tip-section-p" data-tip="training"></p>
+        </div>
+        <div class="kc-tip-section">
+          <p class="kc-tip-section-h">Nutrition</p>
+          <p class="kc-tip-section-p" data-tip="nutrition"></p>
+        </div>
+        <div class="kc-tip-insight">
+          <p data-tip="insight"></p>
+        </div>
+      </div>
+    </div>
+
+    <p class="kc-hint" data-hint>Hover over each scan to see the story behind the numbers</p>
+  </div>
+</div>
+
+<style>
+  /* ─── Kalos DEXA Progress Chart (scoped) ─── */
+  .kalos-chart {
+    --kc-accent: #4A4AF4;
+    --kc-red: #ef4444;
+    --kc-text: #fff;
+    --kc-text-muted: rgba(255, 255, 255, 0.6);
+    --kc-text-dim: rgba(255, 255, 255, 0.35);
+    --kc-border: rgba(255, 255, 255, 0.1);
+
+    /* Self-contained dark wrapper */
+    background: #000;
+    padding: 32px 24px;
+    border-radius: 16px;
+
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--kc-text);
+    max-width: 1100px;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+  .kalos-chart *,
+  .kalos-chart *::before,
+  .kalos-chart *::after { box-sizing: border-box; }
+
+  .kalos-chart .kc-card {
+    position: relative;
+    background: #0A0A0A;
+    border: 1px solid var(--kc-border);
+    border-radius: 24px;
+    padding: 24px;
+  }
+
+  .kalos-chart .kc-badge-row { margin-bottom: 16px; }
+  .kalos-chart .kc-badge {
+    display: inline-block;
+    background: rgba(74, 74, 244, 0.15);
+    color: var(--kc-accent);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 4px 12px;
+    border-radius: 9999px;
+  }
+
+  .kalos-chart .kc-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    overflow: visible;
+  }
+
+  .kalos-chart .kc-line {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    transition: stroke-dashoffset 2s ease-out 0.3s;
+  }
+  .kalos-chart[data-animated="true"] .kc-line { stroke-dashoffset: 0; }
+
+  .kalos-chart .kc-dot { transition: r 0.3s ease-out; }
+
+  /* Hover tooltip card */
+  .kalos-chart .kc-tooltip {
+    position: absolute;
+    z-index: 20;
+    width: 340px;
+    background: #1a1a1a;
+    border: 1px solid var(--kc-border);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+    top: 15%;
+  }
+  .kalos-chart .kc-tooltip[hidden] { display: none; }
+
+  .kalos-chart .kc-tip-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .kalos-chart .kc-tip-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--kc-text);
+    margin: 0;
+  }
+  .kalos-chart .kc-tip-time {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.4);
+    margin: 0;
+  }
+
+  .kalos-chart .kc-tip-stats {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .kalos-chart .kc-stat {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .kalos-chart .kc-stat p {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+  }
+  .kalos-chart .kc-stat strong {
+    color: var(--kc-text);
+    font-weight: 600;
+  }
+  .kalos-chart .kc-dot-lean,
+  .kalos-chart .kc-dot-fat,
+  .kalos-chart .kc-dot-bf {
+    width: 8px;
+    height: 8px;
+    border-radius: 9999px;
+    display: inline-block;
+  }
+  .kalos-chart .kc-dot-lean { background: var(--kc-accent); }
+  .kalos-chart .kc-dot-fat  { background: var(--kc-red); }
+  .kalos-chart .kc-dot-bf   { background: rgba(255, 255, 255, 0.3); }
+
+  .kalos-chart .kc-tip-body {
+    border-top: 1px solid var(--kc-border);
+    padding-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .kalos-chart .kc-tip-section-h {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--kc-accent);
+    margin: 0 0 4px;
+  }
+  .kalos-chart .kc-tip-section-p {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.6;
+    margin: 0;
+  }
+  .kalos-chart .kc-tip-insight {
+    border-top: 1px solid var(--kc-border);
+    padding-top: 8px;
+  }
+  .kalos-chart .kc-tip-insight p {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+    font-style: italic;
+    margin: 0;
+  }
+
+  .kalos-chart .kc-hint {
+    text-align: center;
+    font-size: 12px;
+    color: var(--kc-text-dim);
+    font-style: italic;
+    margin: 8px 0 0;
+  }
+  .kalos-chart[data-hovered="true"] [data-hint] { visibility: hidden; }
+  .kalos-chart[data-animated="false"] [data-hint] { visibility: hidden; }
+
+  @media (max-width: 640px) {
+    .kalos-chart { padding: 20px 12px; }
+    .kalos-chart .kc-card { padding: 16px; }
+    .kalos-chart .kc-tooltip { width: calc(100% - 32px); left: 16px !important; }
+  }
+</style>
+
+<script>
+(function() {
+  var root = document.currentScript.parentElement.querySelector('.kalos-chart');
+  if (!root) return;
+
+  // ── Real Kalos member journey: 7 scans over 12 months
+  var scanData = [
+    { label: 'Scan 1', time: 'Baseline',  lean: 112, fat: 60,
+      training: 'No structured program. Occasional gym sessions, mostly machines.',
+      nutrition: 'No tracking. Estimated ~2,400 cal/day with inconsistent protein (~80g).',
+      insight: 'Starting point. DEXA reveals higher body fat than expected and muscle imbalances between left and right side.' },
+    { label: 'Scan 2', time: 'Month 2',   lean: 117, fat: 56,
+      training: 'Started 4x/week push-pull-legs. Progressive overload on compound lifts.',
+      nutrition: 'Tracking calories at 2,200/day. Protein increased to 140g. Cut alcohol to weekends only.',
+      insight: 'Newbie gains phase. +5 lbs lean, -4 lbs fat. Strength up across the board. Squat went from 135 to 185.' },
+    { label: 'Scan 3', time: 'Month 4',   lean: 121, fat: 52,
+      training: '4x/week with dedicated leg day. Added Romanian deadlifts and hip thrusts.',
+      nutrition: 'Bumped to 2,500 cal for lean bulk. Protein at 150g. Added creatine.',
+      insight: 'Steady recomp. +4 lbs lean, -4 lbs fat. Lower body catching up to upper body symmetry.' },
+    { label: 'Scan 4', time: 'Month 6',   lean: 124, fat: 48,
+      training: 'Switched to upper/lower split 5x/week. Introduced periodization with deload weeks.',
+      nutrition: '2,600 cal/day. Protein at 155g. Meal prepping consistently.',
+      insight: 'Lean tissue building steadily. +3 lbs lean, -4 lbs fat. Visceral fat dropped from 1.8 to 1.2 lbs.' },
+    { label: 'Scan 5', time: 'Month 8',   lean: 122, fat: 38,
+      training: 'Strength training 3x/week. Added 2x HIIT sessions and strategic zone 2 cardio.',
+      nutrition: 'Cut phase begins: 2,100 cal/day deficit. Protein maintained at 145g. High volume greens and fiber.',
+      insight: 'Cut phase begins. Aggressive deficit cost 2 lbs of lean tissue, but fat dropped significantly (-10 lbs). Decision: dial back the deficit slightly and bump protein to better preserve muscle.' },
+    { label: 'Scan 6', time: 'Month 10',  lean: 126, fat: 31,
+      training: 'Strength training 4x/week. HIIT reduced to 1x. Added 3x zone 2 cardio (30 min walks).',
+      nutrition: '2,000 cal/day. Protein at 150g. Refeed day every 10 days to manage fatigue.',
+      insight: 'Course-corrected. Lean tissue rebuilt (+4 lbs) while fat continued to drop (-7 lbs). Strength back across all lifts.' },
+    { label: 'Scan 7', time: 'Month 12',  lean: 125, fat: 25,
+      training: 'Strength training 4x/week. Transitioned to maintenance phase. Deload week before final scan.',
+      nutrition: 'Final aggressive push: deficit deepened for the last 6 lbs of fat. Protein held at 155g.',
+      insight: 'Goal reached. 17% body fat. +13 lbs lean tissue and -35 lbs fat from baseline. Final aggressive cut cost 1 lb of lean — accepted trade-off to hit the target. Beginning reverse diet to lock in results.' }
+  ];
+
+  // ── Chart geometry (matches viewBox)
+  var pad   = { top: 40, right: 30, bottom: 60, left: 55 };
+  var w = 560, h = 380;
+  var innerW = w - pad.left - pad.right;
+  var innerH = h - pad.top - pad.bottom;
+  var yMin = 15, yMax = 140;
+  var yRange = yMax - yMin;
+  var toX = function(i) { return pad.left + (i / (scanData.length - 1)) * innerW; };
+  var toY = function(v) { return pad.top + innerH - ((v - yMin) / yRange) * innerH; };
+  var yTicks = [40, 60, 80, 100, 120, 140];
+
+  var svgNS = 'http://www.w3.org/2000/svg';
+  function el(tag, attrs) {
+    var n = document.createElementNS(svgNS, tag);
+    for (var k in attrs) n.setAttribute(k, attrs[k]);
+    return n;
+  }
+  function txt(tag, attrs, content) {
+    var n = el(tag, attrs);
+    n.textContent = content;
+    return n;
+  }
+
+  // Grid
+  var gGrid = root.querySelector('.kc-grid');
+  yTicks.forEach(function(t) {
+    gGrid.appendChild(el('line', {
+      x1: pad.left, y1: toY(t), x2: w - pad.right, y2: toY(t),
+      stroke: 'rgba(255,255,255,0.06)', 'stroke-width': '1'
+    }));
+  });
+
+  // Y-axis labels
+  var gY = root.querySelector('.kc-y-labels');
+  yTicks.forEach(function(t) {
+    var n = txt('text', {
+      x: pad.left - 10, y: toY(t) + 4,
+      'text-anchor': 'end', fill: 'rgba(255,255,255,0.35)',
+      style: "font: 11px 'Inter', sans-serif;"
+    }, t + ' lbs');
+    gY.appendChild(n);
+  });
+
+  // X-axis labels
+  var gX = root.querySelector('.kc-x-labels');
+  scanData.forEach(function(s, i) {
+    gX.appendChild(txt('text', {
+      x: toX(i), y: h - 22, 'text-anchor': 'middle',
+      fill: 'rgba(255,255,255,0.5)',
+      style: "font: 600 11px 'Inter', sans-serif;"
+    }, s.label));
+    gX.appendChild(txt('text', {
+      x: toX(i), y: h - 8, 'text-anchor': 'middle',
+      fill: 'rgba(255,255,255,0.3)',
+      style: "font: 9px 'Inter', sans-serif;"
+    }, s.time));
+  });
+
+  // Polylines
+  var leanPts = scanData.map(function(s, i) { return toX(i) + ',' + toY(s.lean); }).join(' ');
+  var fatPts  = scanData.map(function(s, i) { return toX(i) + ',' + toY(s.fat);  }).join(' ');
+  root.querySelector('.kc-line-lean').setAttribute('points', leanPts);
+  root.querySelector('.kc-line-fat').setAttribute('points', fatPts);
+
+  // Scan dots, value labels, hover targets
+  var gPoints = root.querySelector('.kc-points');
+  var dotsByIndex = [];
+  scanData.forEach(function(s, i) {
+    var x = toX(i);
+    var leanY = toY(s.lean), fatY = toY(s.fat);
+
+    // Vertical connector (dashed)
+    var connector = el('line', {
+      x1: x, y1: leanY, x2: x, y2: fatY,
+      stroke: 'rgba(255,255,255,0.08)', 'stroke-width': '1', 'stroke-dasharray': '4 3',
+      opacity: '0',
+      style: 'transition: opacity 0.4s ease-out ' + (0.5 + i * 0.3) + 's, stroke 0.2s;'
+    });
+    gPoints.appendChild(connector);
+
+    // Halo + dot for lean
+    var leanHalo = el('circle', { cx: x, cy: leanY, r: '0', fill: '#4A4AF4', opacity: '0.15',
+      style: 'transition: r 0.3s ease-out ' + (0.4 + i * 0.3) + 's;' });
+    var leanDot  = el('circle', { cx: x, cy: leanY, r: '0', fill: '#4A4AF4',
+      style: 'transition: r 0.3s ease-out ' + (0.4 + i * 0.3) + 's;' });
+    gPoints.appendChild(leanHalo);
+    gPoints.appendChild(leanDot);
+
+    // Lean label
+    var leanLabel = txt('text', {
+      x: x, y: leanY - 14, 'text-anchor': 'middle', fill: '#4A4AF4',
+      style: "font: 700 10px 'Inter', sans-serif;",
+      opacity: '0'
+    }, s.lean + ' lbs');
+    gPoints.appendChild(leanLabel);
+
+    // Halo + dot for fat
+    var fatHalo = el('circle', { cx: x, cy: fatY, r: '0', fill: '#ef4444', opacity: '0.15',
+      style: 'transition: r 0.3s ease-out ' + (0.4 + i * 0.3) + 's;' });
+    var fatDot  = el('circle', { cx: x, cy: fatY, r: '0', fill: '#ef4444',
+      style: 'transition: r 0.3s ease-out ' + (0.4 + i * 0.3) + 's;' });
+    gPoints.appendChild(fatHalo);
+    gPoints.appendChild(fatDot);
+
+    var fatLabel = txt('text', {
+      x: x, y: fatY + 22, 'text-anchor': 'middle', fill: '#ef4444',
+      style: "font: 700 10px 'Inter', sans-serif;",
+      opacity: '0'
+    }, s.fat + ' lbs');
+    gPoints.appendChild(fatLabel);
+
+    // Invisible hover target
+    var hit = el('rect', {
+      x: x - 25, y: pad.top, width: '50', height: innerH,
+      fill: 'transparent', style: 'cursor: pointer;'
+    });
+    hit.addEventListener('mouseenter', function() { showTooltip(i); });
+    hit.addEventListener('mouseleave', function() { hideTooltip(); });
+    hit.addEventListener('click',      function() { showTooltip(i); });
+    gPoints.appendChild(hit);
+
+    dotsByIndex.push({ leanDot: leanDot, leanHalo: leanHalo, leanLabel: leanLabel, fatDot: fatDot, fatHalo: fatHalo, fatLabel: fatLabel, connector: connector });
+  });
+
+  // Animate in on scroll
+  function animateIn() {
+    root.dataset.animated = 'true';
+    dotsByIndex.forEach(function(d) {
+      d.leanDot.setAttribute('r', '5');
+      d.leanHalo.setAttribute('r', '10');
+      d.fatDot.setAttribute('r', '5');
+      d.fatHalo.setAttribute('r', '10');
+      d.leanLabel.setAttribute('opacity', '0.6');
+      d.fatLabel.setAttribute('opacity', '0.6');
+      d.connector.setAttribute('opacity', '1');
+    });
+  }
+
+  // Hover state
+  var tooltip = root.querySelector('.kc-tooltip');
+  function showTooltip(i) {
+    var s = scanData[i];
+    root.dataset.hovered = 'true';
+    tooltip.removeAttribute('hidden');
+    tooltip.querySelector('[data-tip="label"]').textContent = s.label;
+    tooltip.querySelector('[data-tip="time"]').textContent  = s.time;
+    tooltip.querySelector('[data-tip="lean"]').textContent  = s.lean + ' lbs';
+    tooltip.querySelector('[data-tip="fat"]').textContent   = s.fat + ' lbs';
+    tooltip.querySelector('[data-tip="bf"]').textContent    = Math.round(s.fat / (s.lean + s.fat) * 100) + '%';
+    tooltip.querySelector('[data-tip="training"]').textContent  = s.training;
+    tooltip.querySelector('[data-tip="nutrition"]').textContent = s.nutrition;
+    tooltip.querySelector('[data-tip="insight"]').textContent   = s.insight;
+
+    // Position: left side if hovering scans 4-7, right side if 1-3
+    tooltip.style.left = (i <= 2) ? '60%' : '10%';
+
+    // Emphasize the hovered dot
+    dotsByIndex.forEach(function(d, idx) {
+      var r = (idx === i) ? '7' : '5';
+      var haloR = (idx === i) ? '14' : '10';
+      d.leanDot.setAttribute('r', r);
+      d.leanHalo.setAttribute('r', haloR);
+      d.fatDot.setAttribute('r', r);
+      d.fatHalo.setAttribute('r', haloR);
+      d.leanLabel.setAttribute('opacity', idx === i ? '1' : '0.6');
+      d.fatLabel.setAttribute('opacity',  idx === i ? '1' : '0.6');
+      d.connector.setAttribute('stroke', idx === i ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.08)');
+    });
+  }
+  function hideTooltip() {
+    delete root.dataset.hovered;
+    tooltip.setAttribute('hidden', '');
+    dotsByIndex.forEach(function(d) {
+      d.leanDot.setAttribute('r', '5');
+      d.leanHalo.setAttribute('r', '10');
+      d.fatDot.setAttribute('r', '5');
+      d.fatHalo.setAttribute('r', '10');
+      d.leanLabel.setAttribute('opacity', '0.6');
+      d.fatLabel.setAttribute('opacity', '0.6');
+      d.connector.setAttribute('stroke', 'rgba(255,255,255,0.08)');
+    });
+  }
+
+  // IntersectionObserver kicks off the animation when the chart enters view
+  root.dataset.animated = 'false';
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          animateIn();
+          obs.unobserve(root);
+        }
+      });
+    }, { threshold: 0.3 });
+    obs.observe(root);
+  } else {
+    animateIn();
+  }
+})();
+</script>
