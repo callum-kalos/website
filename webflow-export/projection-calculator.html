@@ -390,13 +390,35 @@
   var root = document.currentScript.parentElement.querySelector('.kalos-projection');
   if (!root) return;
 
-  // ─── CONFIG ────────────────────────────────────────────────────────
-  // Replace with your webhook URL. Two common options:
-  //   1. A Zapier/Make/n8n catch-hook URL (then map fields → ActiveCampaign in the Zap)
-  //   2. ActiveCampaign's native form action URL (proc.php, from the form's "Manual HTML" view)
-  // Leave as the placeholder below to disable the webhook (form will still
-  // show results — submission just won't be sent anywhere).
-  var WEBHOOK_URL = '<<REPLACE_WITH_WEBHOOK_URL>>';
+  // ─── ACTIVECAMPAIGN CONFIG ─────────────────────────────────────────
+  // Submissions POST directly to ActiveCampaign's form action URL (no
+  // third party). Fill in the values below from your AC form's
+  // "Integrate" tab → "Manual HTML" view.
+  //
+  // Any value left as '<<REPLACE>>' (or any string starting with '<<')
+  // is treated as unset. If actionUrl is unset the form still works —
+  // submissions just log to the browser console for debugging.
+  var AC_CONFIG = {
+    // From the <form action="..."> in AC's Manual HTML
+    actionUrl: '<<REPLACE_WITH_AC_FORM_ACTION_URL>>',
+    // From <input name="u" value="..."> and <input name="f" value="...">
+    uId:    '<<REPLACE_WITH_U_VALUE>>',
+    formId: '<<REPLACE_WITH_F_VALUE>>',
+    // Custom field IDs — the numbers inside `field[N]` in the Manual HTML.
+    // Look at the inputs whose name is field[N] and match them to the
+    // custom field you created in AC. Leave any one as '<<...>>' to skip.
+    fields: {
+      gender:       '<<REPLACE_GENDER_FIELD_ID>>',
+      ageBucket:    '<<REPLACE_AGE_FIELD_ID>>',
+      trainingDays: '<<REPLACE_DAYS_FIELD_ID>>',
+      utm_source:   '<<REPLACE_UTM_SOURCE_FIELD_ID>>',
+      utm_medium:   '<<REPLACE_UTM_MEDIUM_FIELD_ID>>',
+      utm_campaign: '<<REPLACE_UTM_CAMPAIGN_FIELD_ID>>',
+      utm_content:  '<<REPLACE_UTM_CONTENT_FIELD_ID>>',
+      utm_term:     '<<REPLACE_UTM_TERM_FIELD_ID>>'
+    }
+  };
+  function acIsSet(v) { return v && (typeof v !== 'string' || v.indexOf('<<') !== 0); }
   // ───────────────────────────────────────────────────────────────────
 
   // ── Auto-populate hidden UTM fields from the page URL on load
@@ -497,44 +519,61 @@
     if (t.dataset.action === 'reset')      { showView('quiz');    return; }
   });
 
-  // Form submit
+  // Form submit — POSTs form-encoded data to ActiveCampaign's proc.php.
+  // Fire-and-forget: the user sees their results immediately, regardless
+  // of whether the network call succeeds.
   root.querySelector('form[data-view="capture"]').addEventListener('submit', function(e) {
     e.preventDefault();
     var form = e.target;
-    var payload = {
-      firstName: form.firstName.value,
-      lastName:  form.lastName.value,
-      email:     form.email.value,
-      phone:     form.phone.value,
-      // Quiz state
-      gender: state.gender,
-      age:    state.age,
-      days:   state.days,
-      // UTMs (auto-captured from page URL on load)
-      utm_source:   form.utm_source.value,
-      utm_medium:   form.utm_medium.value,
-      utm_campaign: form.utm_campaign.value,
-      utm_content:  form.utm_content.value,
-      utm_term:     form.utm_term.value,
-      // Context for downstream tools
-      submitted_at: new Date().toISOString(),
-      page_url:     window.location.href
-    };
 
-    // Fire-and-forget POST to the webhook. We don't block the UI on the
-    // network request — the user sees their results immediately.
-    if (WEBHOOK_URL && WEBHOOK_URL.indexOf('<<') !== 0) {
+    if (acIsSet(AC_CONFIG.actionUrl)) {
+      var body = new FormData();
+      // AC standard form fields
+      body.append('u',   AC_CONFIG.uId);
+      body.append('f',   AC_CONFIG.formId);
+      body.append('s',   '');
+      body.append('c',   '0');
+      body.append('m',   '0');
+      body.append('act', 'sub');
+      body.append('v',   '2');
+
+      // Standard contact fields
+      body.append('firstname', form.firstName.value);
+      body.append('lastname',  form.lastName.value);
+      body.append('email',     form.email.value);
+      body.append('phone',     form.phone.value);
+
+      // Custom fields — only append the ones with a configured field ID
+      function addField(key, value) {
+        var id = AC_CONFIG.fields[key];
+        if (acIsSet(id)) body.append('field[' + id + ']', value || '');
+      }
+      addField('gender',       state.gender);
+      addField('ageBucket',    state.age);
+      addField('trainingDays', state.days);
+      addField('utm_source',   form.utm_source.value);
+      addField('utm_medium',   form.utm_medium.value);
+      addField('utm_campaign', form.utm_campaign.value);
+      addField('utm_content',  form.utm_content.value);
+      addField('utm_term',     form.utm_term.value);
+
       try {
-        fetch(WEBHOOK_URL, {
+        fetch(AC_CONFIG.actionUrl, {
           method: 'POST',
           mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
+          body: body,
           keepalive: true
         }).catch(function() { /* swallow — never block UX */ });
       } catch (err) { /* ignore */ }
     } else {
-      console.log('[Kalos projection] WEBHOOK_URL not configured — payload:', payload);
+      console.log('[Kalos projection] AC_CONFIG.actionUrl not set — payload:', {
+        firstName: form.firstName.value, lastName: form.lastName.value,
+        email: form.email.value, phone: form.phone.value,
+        gender: state.gender, age: state.age, days: state.days,
+        utm_source: form.utm_source.value, utm_medium: form.utm_medium.value,
+        utm_campaign: form.utm_campaign.value, utm_content: form.utm_content.value,
+        utm_term: form.utm_term.value
+      });
     }
 
     renderResults();

@@ -3,14 +3,14 @@
 Two things to do:
 
 1. **Install the calculator in Webflow.**
-2. **Wire submissions into ActiveCampaign** by setting one webhook URL.
+2. **Hook submissions up to ActiveCampaign** (direct — no Zapier).
 
 ---
 
 ## 1. Install in Webflow
 
 **The file**: [`projection-calculator.html`](./projection-calculator.html)
-(on GitHub — click **Raw** then **Save As…** to download)
+(on GitHub — click **Raw** then **Save As…** to download, or just select-all and copy)
 
 **Steps:**
 
@@ -26,70 +26,124 @@ The "Book Now" CTA on the results step already points at `https://www.livekalos.
 
 ---
 
-## 2. Hook submissions up to ActiveCampaign
+## 2. Hook submissions into ActiveCampaign
 
-When a user fills in their details and clicks **Get My Results**, the embed POSTs a JSON payload to a webhook URL. You set that URL once at the top of the script. The user sees their results immediately — the network call is fire-and-forget.
+Submissions POST directly to your AC form's action URL (`proc.php`). No Zapier, no API key, no backend. The user sees their results immediately — the network call is fire-and-forget.
 
-### What gets POSTed
+### Step A — Set up custom fields in AC
 
-```json
-{
-  "firstName":    "Jane",
-  "lastName":     "Doe",
-  "email":        "jane@example.com",
-  "phone":        "5551234567",
-  "gender":       "female",
-  "age":          "25-34",
-  "days":         "4",
-  "utm_source":   "instagram",
-  "utm_medium":   "social",
-  "utm_campaign": "spring2026",
-  "utm_content":  "story-link",
-  "utm_term":     "",
-  "submitted_at": "2026-04-26T14:32:11.000Z",
-  "page_url":     "https://livekalos.com/projection?utm_source=instagram&utm_medium=social&..."
-}
-```
+In ActiveCampaign, go to **Contacts → Manage fields → Add a field** and create eight Text custom fields:
 
-UTM fields are auto-captured from the page URL on load — no manual setup needed.
+- `Gender`
+- `Age bucket`
+- `Training days per week`
+- `UTM Source`
+- `UTM Medium`
+- `UTM Campaign`
+- `UTM Content`
+- `UTM Term`
 
-### Pick one of two webhook flavors
+### Step B — Create the AC form
 
-**Option A — Zapier / Make / n8n (recommended; easiest)**
-1. Create a new Zap → trigger: **Webhooks by Zapier → Catch Hook**.
-2. Copy the **catch URL** Zapier gives you.
-3. Add a second step: **ActiveCampaign → Create or Update Contact**. Map the JSON fields to AC fields (Email → Email, FirstName → First name, gender → custom field, etc.).
-4. Add a third step if you want to apply a tag (e.g. `projection-calculator`) or add to a list.
-5. Turn the Zap on.
+1. **Forms → New form** → pick **Inline form**.
+2. Add these fields to the form:
+   - First name, Last name, Email, Phone (the standard contact fields)
+   - All eight custom fields you just created
+3. Pick the list submissions should land on (e.g. *"Projection calculator leads"*) and any tag you want auto-applied (e.g. `projection-calculator`).
+4. Save the form.
+5. On the **Integrate** tab, click **Manual HTML**. AC shows you a raw `<form>` snippet — keep this open in a tab, you'll need values out of it in the next step.
 
-**Option B — ActiveCampaign's native form action URL (no third party)**
-1. In AC: Forms → New form → **Inline form** → add fields for First name, Last name, Email, Phone, plus custom fields for Gender / Age bucket / Training days. Save.
-2. Open the form's **Integrate** tab → click **Manual HTML**.
-3. Copy the `action="…"` URL (looks like `https://kalos.activehosted.com/proc.php`).
-4. Note: with this option, AC expects form-encoded data with specific field names like `field[1]`, `field[2]`. The embed currently sends JSON, so you'd need to either tweak the script to use `FormData` (small edit, ping Callum if you want this), or use Option A which handles the field mapping for you in Zapier's UI.
+### Step C — Pull these values out of the Manual HTML
 
-### Set the webhook URL in the embed
+Open the Manual HTML view and grab:
 
-Open the pasted Embed in Webflow and find this line near the top of the `<script>` block:
+| What | Looks like in the HTML | Where to find it |
+| --- | --- | --- |
+| Action URL | `<form action="https://kalos.activehosted.com/proc.php" ...>` | Top of the snippet |
+| `u` value | `<input type="hidden" name="u" value="1">` | One of the hidden inputs |
+| `f` value | `<input type="hidden" name="f" value="3">` | One of the hidden inputs (this is the form ID) |
+| Custom field IDs | `<input ... name="field[12]" ...>` | Each custom field appears as `field[N]` — note which N belongs to which field |
+
+For each custom field, AC's HTML will show the field's label nearby (or you can hover the field input to see its name). Match each custom field to its `N`:
+
+| Custom field | `field[N]` value |
+| --- | --- |
+| Gender | _____ |
+| Age bucket | _____ |
+| Training days per week | _____ |
+| UTM Source | _____ |
+| UTM Medium | _____ |
+| UTM Campaign | _____ |
+| UTM Content | _____ |
+| UTM Term | _____ |
+
+### Step D — Paste those values into the embed
+
+Open the pasted Embed in Webflow and find this config block near the top of the `<script>` (it's the very first thing in the script):
 
 ```js
-var WEBHOOK_URL = '<<REPLACE_WITH_WEBHOOK_URL>>';
+var AC_CONFIG = {
+  actionUrl: '<<REPLACE_WITH_AC_FORM_ACTION_URL>>',
+  uId:       '<<REPLACE_WITH_U_VALUE>>',
+  formId:    '<<REPLACE_WITH_F_VALUE>>',
+  fields: {
+    gender:       '<<REPLACE_GENDER_FIELD_ID>>',
+    ageBucket:    '<<REPLACE_AGE_FIELD_ID>>',
+    trainingDays: '<<REPLACE_DAYS_FIELD_ID>>',
+    utm_source:   '<<REPLACE_UTM_SOURCE_FIELD_ID>>',
+    utm_medium:   '<<REPLACE_UTM_MEDIUM_FIELD_ID>>',
+    utm_campaign: '<<REPLACE_UTM_CAMPAIGN_FIELD_ID>>',
+    utm_content:  '<<REPLACE_UTM_CONTENT_FIELD_ID>>',
+    utm_term:     '<<REPLACE_UTM_TERM_FIELD_ID>>'
+  }
+};
 ```
 
-Replace the placeholder with the URL from whichever option above you chose. Save & publish. Submit a test. The contact should appear in AC within a few seconds.
+Replace each `<<REPLACE...>>` with the values from Step C. Quotes stay. Example of what it should look like once filled in:
 
-### How UTMs work
+```js
+var AC_CONFIG = {
+  actionUrl: 'https://kalos.activehosted.com/proc.php',
+  uId:       '1',
+  formId:    '7',
+  fields: {
+    gender:       '12',
+    ageBucket:    '13',
+    trainingDays: '14',
+    utm_source:   '15',
+    utm_medium:   '16',
+    utm_campaign: '17',
+    utm_content:  '18',
+    utm_term:     '19'
+  }
+};
+```
 
-The form has five hidden inputs (Source / Medium / Campaign / Content / Term). On page load, the script reads `?utm_source=...&utm_medium=...` etc. from the page URL and populates those inputs automatically. They get included in the POST payload.
+Save & publish Webflow.
 
-To test: append `?utm_source=test&utm_medium=test&utm_campaign=test` to the page URL, submit the form, and check the webhook (Zapier shows it instantly in the Zap's history).
+### Step E — Test it
 
-### Gotchas to know about
+1. Add UTM params to the page URL: `https://livekalos.com/your-page?utm_source=test&utm_medium=test&utm_campaign=test&utm_content=test&utm_term=test`
+2. Fill out the calculator and submit.
+3. Within a few seconds, a new contact should appear in AC with all the fields populated.
 
-- **`mode: 'no-cors'`** is set on the fetch call. Most webhook services don't send CORS headers, so the browser can't read the response. That's fine — the POST still reaches them; we just can't confirm receipt from the client side. Use Zapier's task history (or AC's contact list) to verify.
-- **Don't expose your AC API key** — never paste an API key into the embed. Both options above avoid this. Zapier auths with AC server-side; AC's `proc.php` is a public endpoint that just creates contacts.
+---
+
+## How UTMs work
+
+The form has five hidden `<input>` elements (Source / Medium / Campaign / Content / Term). On page load, the script reads `?utm_source=...&utm_medium=...` etc. from the page URL and populates those inputs automatically. They get included in the POST to AC alongside the rest of the form data.
+
+No setup needed for the UTMs themselves beyond creating the matching custom fields in AC (Step A) and mapping their IDs (Step D).
+
+---
+
+## Gotchas to know about
+
+- **`mode: 'no-cors'`** is set on the fetch call. AC's `proc.php` doesn't send CORS headers, so the browser can't read the response. The POST still reaches AC; we just can't confirm receipt from the client side. Use AC's contact list to verify.
 - If AC has **double-opt-in** turned on for the destination list, the contact won't be marked "active" until they click the confirmation email. Turn it off under the form's options if you want instant lead capture.
-- The form **always shows the results page** to the user, even if the webhook fails. This is intentional — the worst outcome is a missing lead, not a confused user.
+- AC's spam protection sometimes requires a `__utmz` tracking cookie. If submissions get flagged, enable **Site Tracking** in AC (Settings → Tracking → enable, whitelist `livekalos.com`). It drops the cookie automatically.
+- The form **always shows the results page** to the user, even if the AC POST fails. This is intentional — the worst outcome is a missing lead, not a confused user.
+- If you don't want to capture a particular custom field, leave its ID as `<<REPLACE...>>` and the script will skip it.
 
 ---
 
