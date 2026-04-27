@@ -483,7 +483,7 @@ function DexaChart() {
   return (
     <div ref={chartRef} className="bg-white rounded-3xl border border-warm-border p-6 md:p-8 relative">
       <div className="flex items-center gap-2 mb-4">
-        <span className="inline-block bg-accent/15 text-accent text-[11px] font-bold uppercase tracking-[0.1em] px-3 py-1 rounded-full">Kalos member highlight: Maicie</span>
+        <span className="inline-block bg-accent/15 text-accent text-[11px] font-bold uppercase tracking-[0.1em] px-3 py-1 rounded-full">Kalos member highlight</span>
       </div>
       <svg viewBox={`0 0 ${w} ${h}`} className="w-full" fill="none">
         {/* Grid lines */}
