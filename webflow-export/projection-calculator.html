@@ -78,6 +78,13 @@
       </div>
     </div>
 
+    <!-- Hidden UTM fields — auto-populated from the page URL on load -->
+    <input type="hidden" name="utm_source"   data-utm="utm_source"/>
+    <input type="hidden" name="utm_medium"   data-utm="utm_medium"/>
+    <input type="hidden" name="utm_campaign" data-utm="utm_campaign"/>
+    <input type="hidden" name="utm_content"  data-utm="utm_content"/>
+    <input type="hidden" name="utm_term"     data-utm="utm_term"/>
+
     <div class="kp-actions">
       <button type="button" class="kp-secondary" data-action="back">Back</button>
       <button type="submit" class="kp-cta kp-cta-flex">
@@ -119,8 +126,8 @@
 
     <p class="kp-fineprint">Based on results from over 1,000+ Kalos members. Individual results vary based on nutrition, sleep, and adherence.</p>
 
-    <a href="#pricing" class="kp-cta kp-cta-a">
-      Book My Scan
+    <a href="https://www.livekalos.com/book-now" class="kp-cta kp-cta-a">
+      Book Now
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
     </a>
   </div>
@@ -383,6 +390,25 @@
   var root = document.currentScript.parentElement.querySelector('.kalos-projection');
   if (!root) return;
 
+  // ─── CONFIG ────────────────────────────────────────────────────────
+  // Replace with your webhook URL. Two common options:
+  //   1. A Zapier/Make/n8n catch-hook URL (then map fields → ActiveCampaign in the Zap)
+  //   2. ActiveCampaign's native form action URL (proc.php, from the form's "Manual HTML" view)
+  // Leave as the placeholder below to disable the webhook (form will still
+  // show results — submission just won't be sent anywhere).
+  var WEBHOOK_URL = '<<REPLACE_WITH_WEBHOOK_URL>>';
+  // ───────────────────────────────────────────────────────────────────
+
+  // ── Auto-populate hidden UTM fields from the page URL on load
+  (function captureUtms() {
+    try {
+      var params = new URLSearchParams(window.location.search);
+      root.querySelectorAll('input[data-utm]').forEach(function(input) {
+        input.value = params.get(input.dataset.utm) || '';
+      });
+    } catch (err) { /* ignore — no URLSearchParams in some old browsers */ }
+  })();
+
   // ── Real Kalos 4-week member outcomes, averaged by sex × age bucket
   // (n ≈ 830). Values are the cohort baseline, before frequency multiplier.
   var baseline = {
@@ -477,16 +503,40 @@
     var form = e.target;
     var payload = {
       firstName: form.firstName.value,
-      lastName: form.lastName.value,
-      email: form.email.value,
-      phone: form.phone.value,
+      lastName:  form.lastName.value,
+      email:     form.email.value,
+      phone:     form.phone.value,
+      // Quiz state
       gender: state.gender,
-      age: state.age,
-      days: state.days
+      age:    state.age,
+      days:   state.days,
+      // UTMs (auto-captured from page URL on load)
+      utm_source:   form.utm_source.value,
+      utm_medium:   form.utm_medium.value,
+      utm_campaign: form.utm_campaign.value,
+      utm_content:  form.utm_content.value,
+      utm_term:     form.utm_term.value,
+      // Context for downstream tools
+      submitted_at: new Date().toISOString(),
+      page_url:     window.location.href
     };
-    // TODO: wire this to your CRM / backend. Example:
-    // fetch('/api/projections', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) });
-    console.log('[Kalos projection] submit', payload);
+
+    // Fire-and-forget POST to the webhook. We don't block the UI on the
+    // network request — the user sees their results immediately.
+    if (WEBHOOK_URL && WEBHOOK_URL.indexOf('<<') !== 0) {
+      try {
+        fetch(WEBHOOK_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          keepalive: true
+        }).catch(function() { /* swallow — never block UX */ });
+      } catch (err) { /* ignore */ }
+    } else {
+      console.log('[Kalos projection] WEBHOOK_URL not configured — payload:', payload);
+    }
+
     renderResults();
     showView('results');
   });
