@@ -1,5 +1,5 @@
 <!--
-  Kalos 4-Week Projection Calculator — Webflow Embed
+  Kalos 4-Week Projection Calculator, Webflow Embed
   ===================================================
   Drop this entire file into a Webflow "Embed" element (HTML Embed component).
   Self-contained: no external JS, no external CSS, no build step.
@@ -78,7 +78,7 @@
       </div>
     </div>
 
-    <!-- Hidden UTM fields — auto-populated from the page URL on load -->
+    <!-- Hidden UTM fields, auto-populated from the page URL on load -->
     <input type="hidden" name="utm_source"   data-utm="utm_source"/>
     <input type="hidden" name="utm_medium"   data-utm="utm_medium"/>
     <input type="hidden" name="utm_campaign" data-utm="utm_campaign"/>
@@ -396,7 +396,7 @@
   // "Integrate" tab → "Manual HTML" view.
   //
   // Any value left as '<<REPLACE>>' (or any string starting with '<<')
-  // is treated as unset. If actionUrl is unset the form still works —
+  // is treated as unset. If actionUrl is unset the form still works -
   // submissions just log to the browser console for debugging.
   var AC_CONFIG = {
     // From the <form action="..."> in AC's Manual HTML
@@ -404,7 +404,7 @@
     // From <input name="u" value="..."> and <input name="f" value="...">
     uId:    '<<REPLACE_WITH_U_VALUE>>',
     formId: '<<REPLACE_WITH_F_VALUE>>',
-    // Custom field IDs — the numbers inside `field[N]` in the Manual HTML.
+    // Custom field IDs, the numbers inside `field[N]` in the Manual HTML.
     // Look at the inputs whose name is field[N] and match them to the
     // custom field you created in AC. Leave any one as '<<...>>' to skip.
     fields: {
@@ -428,7 +428,7 @@
       root.querySelectorAll('input[data-utm]').forEach(function(input) {
         input.value = params.get(input.dataset.utm) || '';
       });
-    } catch (err) { /* ignore — no URLSearchParams in some old browsers */ }
+    } catch (err) { /* ignore, no URLSearchParams in some old browsers */ }
   })();
 
   // ── Real Kalos 4-week member outcomes, averaged by sex × age bucket
@@ -519,7 +519,7 @@
     if (t.dataset.action === 'reset')      { showView('quiz');    return; }
   });
 
-  // Form submit — POSTs form-encoded data to ActiveCampaign's proc.php.
+  // Form submit, POSTs form-encoded data to ActiveCampaign's proc.php.
   // Fire-and-forget: the user sees their results immediately, regardless
   // of whether the network call succeeds.
   root.querySelector('form[data-view="capture"]').addEventListener('submit', function(e) {
@@ -543,7 +543,7 @@
       body.append('email',     form.email.value);
       body.append('phone',     form.phone.value);
 
-      // Custom fields — only append the ones with a configured field ID
+      // Custom fields, only append the ones with a configured field ID
       function addField(key, value) {
         var id = AC_CONFIG.fields[key];
         if (acIsSet(id)) body.append('field[' + id + ']', value || '');
@@ -563,10 +563,10 @@
           mode: 'no-cors',
           body: body,
           keepalive: true
-        }).catch(function() { /* swallow — never block UX */ });
+        }).catch(function() { /* swallow, never block UX */ });
       } catch (err) { /* ignore */ }
     } else {
-      console.log('[Kalos projection] AC_CONFIG.actionUrl not set — payload:', {
+      console.log('[Kalos projection] AC_CONFIG.actionUrl not set, payload:', {
         firstName: form.firstName.value, lastName: form.lastName.value,
         email: form.email.value, phone: form.phone.value,
         gender: state.gender, age: state.age, days: state.days,

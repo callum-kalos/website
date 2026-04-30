@@ -374,8 +374,8 @@ const scanData = [
     vat: 85.9,
     almi: 75,
     training: 'Former D1 softball player. Comfortable with compounds. Currently bikes 4–7x/week, coaches softball, weekend slow-pitch. Starting 2x/week recomp lifts (Tuesday + Friday).',
-    nutrition: '~2,000 cal/day, 145g protein floor. Protein-forward meals — eggs, chicken, Greek yogurt, Fairlife. Going dry through the upcoming D.C. wedding with strict drink caps.',
-    insight: 'Strong baseline — bone Z-score +1.7, ALMI 75th percentile. Body fat 36% and visceral fat elevated at 86 cm² (above the 80 threshold). Goal: aesthetics. Plan: steady fat loss while maintaining or slightly adding muscle.',
+    nutrition: '~2,000 cal/day, 145g protein floor. Protein-forward meals, eggs, chicken, Greek yogurt, Fairlife. Going dry through the upcoming D.C. wedding with strict drink caps.',
+    insight: 'Strong baseline, bone Z-score +1.7, ALMI 75th percentile. Body fat 36% and visceral fat elevated at 86 cm² (above the 80 threshold). Goal: aesthetics. Plan: steady fat loss while maintaining or slightly adding muscle.',
   },
   {
     label: 'Scan 2',
@@ -396,7 +396,7 @@ const scanData = [
     vat: 34.9,
     almi: 82,
     training: '18 of 18 primary workouts since the last scan. Strength climbing fast: leg press 240 x 10, lat pulldown 100 x 8, estimated squat 1RM ~185.',
-    nutrition: 'Reintroduced alcohol mindfully (Halloween, football weekend, Thanksgiving — never more than 5 drinks across a day). Got creative with protein recipes. Brought in nutrition specialist Sophie for a women\'s-health deep-dive.',
+    nutrition: 'Reintroduced alcohol mindfully (Halloween, football weekend, Thanksgiving). Never more than 5 drinks across a day. Got creative with protein recipes. Brought in nutrition specialist Sophie for a women\'s-health deep-dive.',
     insight: 'Held the line through the hardest period of the year. Body fat 32.4 → 30.8%. Visceral fat 55 → 35 cm² (now in healthy range). ALMI percentile 76 → 82.',
   },
   {
@@ -408,7 +408,7 @@ const scanData = [
     almi: 86,
     training: 'Didn\'t miss a single weightlifting session through the holidays. Strength climbing: incline DB press 70 lb x 10 for 4 sets, leg press 260 x 12. Coach adding more anti-rotational core work.',
     nutrition: 'Held protein religiously through the holidays + a ski weekend + multiple work parties. Limited alcohol (half a White Claw at Christmas, max 3 drinks/day at New Year\'s). Adding fiber focus (~25g/day) and Locale meal delivery for vitamins/micros.',
-    insight: '-2.2 lbs total, all fat. Body fat 30.8 → 29.9%. Visceral fat 35 → 27 cm². ALMI percentile 82 → 86. Lean held flat — small trunk drop attributed to water/bloat, but appendicular muscle is still growing.',
+    insight: '-2.2 lbs total, all fat. Body fat 30.8 → 29.9%. Visceral fat 35 → 27 cm². ALMI percentile 82 → 86. Lean held flat (small trunk drop attributed to water/bloat) but appendicular muscle is still growing.',
   },
   {
     label: 'Scan 5',
@@ -419,7 +419,7 @@ const scanData = [
     almi: 87,
     training: 'Switched barbell deadlifts to trap-bar after some lower-back tightness. Added CorePower hot yoga sculpt 1–2x/week as a paired cardio modality. Strength still climbing: 70 lb dumbbell bench press confirmed.',
     nutrition: 'Held the line through D.C. and Chicago travel. Brought protein powder when staying with friends. Alcohol limited to a glass of wine here and there, mindful nighttime drinking only.',
-    insight: '-3.6 lbs total, of which -3.3 lbs fat. Lean held (small trunk drop attributed to water — both arms and legs gained muscle). 16 lbs total fat lost from baseline. Body fat 29.9 → 28.6%. ALMI percentile 87. VAT ticked up slightly from sleep / red-eye flights, still in healthy range.',
+    insight: '-3.6 lbs total, of which -3.3 lbs fat. Lean held: small trunk drop attributed to water, while both arms and legs gained muscle. 16 lbs total fat lost from baseline. Body fat 29.9 → 28.6%. ALMI percentile 87. VAT ticked up slightly from sleep and red-eye flights, still in healthy range.',
   },
   {
     label: 'Scan 6',
@@ -430,7 +430,7 @@ const scanData = [
     almi: 88,
     training: 'Hitting 7K daily steps consistently. Strength still climbing: barbell bench 85 x 10, front squat 145 x 8, trap-bar deadlift 165 x 8, reverse-grip pulldowns up to 120 lb. Working toward her first strict pull-up. Started creatine.',
     nutrition: 'Held the foundation: protein floor + sustainable deficit. Coaching tournaments slotted into the routine without disrupting the rhythm.',
-    insight: 'First true recomp scan. +1.5 lbs lean (legs evened out the prior 2 lb imbalance), -3.4 lbs fat. Body fat 28.6 → 26.9%. Visceral fat 33 → 17.5 cm² — coach Sophie called it "one of the lowest I\'ve ever seen." 6.5 months in: -13 lbs weight, -19 lbs fat, +6.4 lbs lean, body fat down 9 points.',
+    insight: 'First true recomp scan. +1.5 lbs lean (legs evened out the prior 2 lb imbalance), -3.4 lbs fat. Body fat 28.6 → 26.9%. Visceral fat 33 → 17.5 cm². Coach Sophie called it "one of the lowest I\'ve ever seen." 6.5 months in: -13 lbs weight, -19 lbs fat, +6.4 lbs lean, body fat down 9 points.',
   },
 ]
 
@@ -491,11 +491,11 @@ function DexaChart() {
           <line key={tick} x1={pad.left} y1={toY(tick)} x2={w - pad.right} y2={toY(tick)} stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
         ))}
 
-        {/* Y-axis labels — left (lbs) */}
+        {/* Y-axis labels, left (lbs) */}
         {yTicks.map(tick => (
           <text key={`l-${tick}`} x={pad.left - 10} y={toY(tick) + 4} textAnchor="end" fill="rgba(255,255,255,0.35)" style={{ fontSize: '11px' }}>{tick} lbs</text>
         ))}
-        {/* Y-axis labels — right (cm²) */}
+        {/* Y-axis labels, right (cm²) */}
         {vatTicks.map(tick => (
           <text key={`r-${tick}`} x={w - pad.right + 10} y={toVatY(tick) + 4} textAnchor="start" fill="rgba(245,158,11,0.55)" style={{ fontSize: '11px' }}>{tick} cm²</text>
         ))}

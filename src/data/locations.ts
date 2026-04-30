@@ -28,7 +28,7 @@ export interface LocationData {
     attribution: string
   }
   serviceArea: string[]
-  /** Map-style gradient fallback color pair — used until real photos land */
+  /** Map-style gradient fallback color pair, used until real photos land */
   colorSwatch: [string, string]
   /** Optional image paths (relative to /public). Omit for placeholders. */
   images?: {

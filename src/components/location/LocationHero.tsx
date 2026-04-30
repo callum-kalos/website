@@ -10,7 +10,7 @@ interface Props {
  * transparent Navigation transitions look right.
  *
  * PLACEHOLDER: The background is a dark gradient with an image-placeholder
- * overlay. Replace with a real video or photo — see the inline note for
+ * overlay. Replace with a real video or photo, see the inline note for
  * suggested content and filename.
  */
 export default function LocationHero({ location }: Props) {

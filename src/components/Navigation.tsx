@@ -69,7 +69,7 @@ export default function Navigation() {
       }`}
     >
       <div className="w-full max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16 flex items-center justify-between h-[76px]">
-        {/* Logo — always links home */}
+        {/* Logo, always links home */}
         <Link to="/" className="block">
           <img
             src="/Logo - BLACK (1).svg"

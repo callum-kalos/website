@@ -9,9 +9,9 @@ All icons used across the Kalos site, exported as individual `.svg` files. Sourc
 
 All icons use `stroke="currentColor"` so they automatically inherit the color of whatever parent element they sit inside.
 
-## Icon mapping — where each one is used on the site
+## Icon mapping, where each one is used on the site
 
-### "How It Works" — three-step section
+### "How It Works", three-step section
 
 | Label | File |
 | --- | --- |
@@ -19,7 +19,7 @@ All icons use `stroke="currentColor"` so they automatically inherit the color of
 | Understand | `users.svg` |
 | Decide | `compass.svg` |
 
-### "What we measure" — body composition metric tiles
+### "What we measure", body composition metric tiles
 
 | Label | File |
 | --- | --- |
@@ -59,7 +59,7 @@ All icons use `stroke="currentColor"` so they automatically inherit the color of
 
 ## Need a different icon?
 
-Full Lucide icon library: **https://lucide.dev** — 1,500+ free icons, same visual style. Your designer can search there and download any additional `.svg` directly.
+Full Lucide icon library: **https://lucide.dev**, 1,500+ free icons, same visual style. Your designer can search there and download any additional `.svg` directly.
 
 ## Recoloring
 

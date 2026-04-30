@@ -11,19 +11,19 @@ interface Props {
  * One large feature tile + four supporting tiles. All tiles render as
  * styled placeholders until real photos land.
  *
- * IMAGE BRIEF — drop these into /public/Locations/<slug>/ and wire up the
+ * IMAGE BRIEF, drop these into /public/Locations/<slug>/ and wire up the
  * <img> tags at the spots marked PLACEHOLDER below:
  *
- *   1. feature.jpg (4:5 portrait) — The DEXA scan room. Subject lying on
+ *   1. feature.jpg (4:5 portrait), The DEXA scan room. Subject lying on
  *      the bed with an analyst beside them, warm ambient lighting. This
- *      is the money shot — the photo people remember.
- *   2. consultation.jpg (4:3) — An analyst walking a member through their
+ *      is the money shot, the photo people remember.
+ *   2. consultation.jpg (4:3), An analyst walking a member through their
  *      results on the screen / printout. Two people, leaning in, engaged.
- *   3. lobby.jpg (4:3) — Reception / lounge area. Warm wood, greenery,
+ *   3. lobby.jpg (4:3), Reception / lounge area. Warm wood, greenery,
  *      daylight. No people or one person reading.
- *   4. exterior.jpg (4:3) — Street-level shot of the building. Signage
+ *   4. exterior.jpg (4:3), Street-level shot of the building. Signage
  *      visible. Golden hour if possible.
- *   5. detail.jpg (1:1) — A closeup detail shot. Options: a coffee being
+ *   5. detail.jpg (1:1), A closeup detail shot. Options: a coffee being
  *      poured, a printed scan report on a desk, the DEXA machine close-up,
  *      or an analyst's hands pointing at a chart. Adds texture.
  */
@@ -108,7 +108,7 @@ export default function LocationGallery({ location }: Props) {
               {tile.src ? (
                 <img
                   src={tile.src}
-                  alt={`${tile.label} — Kalos ${location.city}`}
+                  alt={`${tile.label}, Kalos ${location.city}`}
                   className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700"
                   style={tile.objectPosition ? { objectPosition: tile.objectPosition } : undefined}
                 />

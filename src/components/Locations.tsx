@@ -26,7 +26,7 @@ export default function Locations() {
             >
               <div className="aspect-[16/10] bg-gradient-to-b from-cream to-cream-dark flex items-center justify-center relative">
                 <MapPin size={40} className="text-text-primary/8" />
-                {/* PLACEHOLDER: replace with /Locations/<slug>/card.jpg — 16:10 exterior/interior */}
+                {/* PLACEHOLDER: replace with /Locations/<slug>/card.jpg, 16:10 exterior/interior */}
               </div>
               <div className="p-8 lg:p-10">
                 <h3 className="text-[22px] font-heading font-bold mb-4">{loc.city}</h3>

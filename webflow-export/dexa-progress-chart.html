@@ -1,5 +1,5 @@
 <!--
-  Kalos DEXA Progress Chart — Webflow Embed
+  Kalos DEXA Progress Chart, Webflow Embed
   ==========================================
   Drop this entire file into a Webflow "Embed" element (HTML Embed component).
   Self-contained: no external JS, no external CSS, no build step.
@@ -22,7 +22,7 @@
     </div>
 
     <svg class="kc-svg" viewBox="0 0 560 380" xmlns="http://www.w3.org/2000/svg" fill="none">
-      <!-- Grid lines, axes, legend, polylines, dots — all populated by JS -->
+      <!-- Grid lines, axes, legend, polylines, dots, all populated by JS -->
       <g class="kc-grid"></g>
       <g class="kc-y-labels"></g>
       <g class="kc-y-labels-right"></g>
@@ -269,28 +269,28 @@
   var scanData = [
     { label: 'Scan 1', time: 'Baseline', lean: 105.6, fat: 62.6, vat: 85.9, almi: 75,
       training: 'Former D1 softball player. Comfortable with compounds. Currently bikes 4–7x/week, coaches softball, weekend slow-pitch. Starting 2x/week recomp lifts (Tuesday + Friday).',
-      nutrition: '~2,000 cal/day, 145g protein floor. Protein-forward meals — eggs, chicken, Greek yogurt, Fairlife. Going dry through the upcoming D.C. wedding with strict drink caps.',
-      insight: 'Strong baseline — bone Z-score +1.7, ALMI 75th percentile. Body fat 36% and visceral fat elevated at 86 cm² (above the 80 threshold). Goal: aesthetics. Plan: steady fat loss while maintaining or slightly adding muscle.' },
+      nutrition: '~2,000 cal/day, 145g protein floor. Protein-forward meals, eggs, chicken, Greek yogurt, Fairlife. Going dry through the upcoming D.C. wedding with strict drink caps.',
+      insight: 'Strong baseline, bone Z-score +1.7, ALMI 75th percentile. Body fat 36% and visceral fat elevated at 86 cm² (above the 80 threshold). Goal: aesthetics. Plan: steady fat loss while maintaining or slightly adding muscle.' },
     { label: 'Scan 2', time: 'Month 1', lean: 111.6, fat: 56.2, vat: 55.3, almi: 76,
       training: '18 of 18 primary workouts completed. Coach pushed intensity: every last rep of every set must be challenging, not just the last set. Squat working sets bumped 125 → 135.',
       nutrition: 'Tracked every meal in MyFitnessPal. Hit 145g protein daily. Calories naturally landed 1,000–1,500 (below the 2,000 target). Zero alcohol pre-wedding.',
       insight: 'Massive recomp month. +6 lbs lean, -6.4 lbs fat. Body fat 36 → 32.4%. Visceral fat cut by 36% (86 → 55 cm²). Committed to this 6-month membership.' },
     { label: 'Scan 3', time: 'Month 3', lean: 111.3, fat: 52.1, vat: 34.9, almi: 82,
       training: '18 of 18 primary workouts since the last scan. Strength climbing fast: leg press 240 x 10, lat pulldown 100 x 8, estimated squat 1RM ~185.',
-      nutrition: 'Reintroduced alcohol mindfully (Halloween, football weekend, Thanksgiving — never more than 5 drinks across a day). Got creative with protein recipes. Brought in nutrition specialist Sophie for a women\u2019s-health deep-dive.',
+      nutrition: 'Reintroduced alcohol mindfully (Halloween, football weekend, Thanksgiving). Never more than 5 drinks across a day. Got creative with protein recipes. Brought in nutrition specialist Sophie for a women\u2019s-health deep-dive.',
       insight: 'Held the line through the hardest period of the year. Body fat 32.4 → 30.8%. Visceral fat 55 → 35 cm² (now in healthy range). ALMI percentile 76 → 82.' },
     { label: 'Scan 4', time: 'Month 4', lean: 111.0, fat: 49.9, vat: 27.4, almi: 86,
       training: 'Didn\u2019t miss a single weightlifting session through the holidays. Strength climbing: incline DB press 70 lb x 10 for 4 sets, leg press 260 x 12. Coach adding more anti-rotational core work.',
       nutrition: 'Held protein religiously through the holidays + a ski weekend + multiple work parties. Limited alcohol (half a White Claw at Christmas, max 3 drinks/day at New Year\u2019s). Adding fiber focus (~25g/day) and Locale meal delivery for vitamins/micros.',
-      insight: '-2.2 lbs total, all fat. Body fat 30.8 → 29.9%. Visceral fat 35 → 27 cm². ALMI percentile 82 → 86. Lean held flat — small trunk drop attributed to water/bloat, but appendicular muscle is still growing.' },
+      insight: '-2.2 lbs total, all fat. Body fat 30.8 → 29.9%. Visceral fat 35 → 27 cm². ALMI percentile 82 → 86. Lean held flat (small trunk drop attributed to water/bloat) but appendicular muscle is still growing.' },
     { label: 'Scan 5', time: 'Month 5', lean: 110.5, fat: 46.6, vat: 32.6, almi: 87,
       training: 'Switched barbell deadlifts to trap-bar after some lower-back tightness. Added CorePower hot yoga sculpt 1–2x/week as a paired cardio modality. Strength still climbing: 70 lb dumbbell bench press confirmed.',
       nutrition: 'Held the line through D.C. and Chicago travel. Brought protein powder when staying with friends. Alcohol limited to a glass of wine here and there, mindful nighttime drinking only.',
-      insight: '-3.6 lbs total, of which -3.3 lbs fat. Lean held (small trunk drop attributed to water — both arms and legs gained muscle). 16 lbs total fat lost from baseline. Body fat 29.9 → 28.6%. ALMI percentile 87. VAT ticked up slightly from sleep / red-eye flights, still in healthy range.' },
+      insight: '-3.6 lbs total, of which -3.3 lbs fat. Lean held: small trunk drop attributed to water, while both arms and legs gained muscle. 16 lbs total fat lost from baseline. Body fat 29.9 → 28.6%. ALMI percentile 87. VAT ticked up slightly from sleep and red-eye flights, still in healthy range.' },
     { label: 'Scan 6', time: 'Month 7', lean: 112.0, fat: 43.2, vat: 17.5, almi: 88,
       training: 'Hitting 7K daily steps consistently. Strength still climbing: barbell bench 85 x 10, front squat 145 x 8, trap-bar deadlift 165 x 8, reverse-grip pulldowns up to 120 lb. Working toward her first strict pull-up. Started creatine.',
       nutrition: 'Held the foundation: protein floor + sustainable deficit. Coaching tournaments slotted into the routine without disrupting the rhythm.',
-      insight: 'First true recomp scan. +1.5 lbs lean (legs evened out the prior 2 lb imbalance), -3.4 lbs fat. Body fat 28.6 → 26.9%. Visceral fat 33 → 17.5 cm² — coach Sophie called it "one of the lowest I\u2019ve ever seen." 6.5 months in: -13 lbs weight, -19 lbs fat, +6.4 lbs lean, body fat down 9 points.' }
+      insight: 'First true recomp scan. +1.5 lbs lean (legs evened out the prior 2 lb imbalance), -3.4 lbs fat. Body fat 28.6 → 26.9%. Visceral fat 33 → 17.5 cm². Coach Sophie called it "one of the lowest I\u2019ve ever seen." 6.5 months in: -13 lbs weight, -19 lbs fat, +6.4 lbs lean, body fat down 9 points.' }
   ];
 
   // ── Chart geometry (matches viewBox)
@@ -333,7 +333,7 @@
     }));
   });
 
-  // Y-axis labels — left (lbs)
+  // Y-axis labels, left (lbs)
   var gY = root.querySelector('.kc-y-labels');
   yTicks.forEach(function(t) {
     gY.appendChild(txt('text', {
@@ -343,7 +343,7 @@
     }, t + ' lbs'));
   });
 
-  // Y-axis labels — right (cm²)
+  // Y-axis labels, right (cm²)
   var gYR = root.querySelector('.kc-y-labels-right');
   vatTicks.forEach(function(t) {
     gYR.appendChild(txt('text', {
@@ -422,7 +422,7 @@
     }, s.fat + ' lbs');
     gPoints.appendChild(fatLabel);
 
-    // Halo + dot for VAT (no inline label — kept clean, value shown on hover)
+    // Halo + dot for VAT (no inline label, kept clean, value shown on hover)
     var vatHalo = el('circle', { cx: x, cy: vatY, r: '0', fill: '#f59e0b', opacity: '0.18',
       style: 'transition: r 0.3s ease-out ' + (0.4 + i * 0.3) + 's;' });
     var vatDot  = el('circle', { cx: x, cy: vatY, r: '0', fill: '#f59e0b',

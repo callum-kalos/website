@@ -25,11 +25,11 @@ Both embeds render with the Kalos dark/blue theme out of the box. All CSS is sco
 ## `projection-calculator.html`
 
 **What it contains:**
-- **Quiz step** — sex, training days per week, age range.
-- **Capture step** — first name, last name, email, phone (optional).
-- **Results step** — Lean Mass (+lbs), Body Fat (-lbs), Body Fat % (change), Visceral Fat (-g). Includes a headline tailored to the cohort plus a "Book My Scan" CTA.
+- **Quiz step**, sex, training days per week, age range.
+- **Capture step**, first name, last name, email, phone (optional).
+- **Results step**, Lean Mass (+lbs), Body Fat (-lbs), Body Fat % (change), Visceral Fat (-g). Includes a headline tailored to the cohort plus a "Book My Scan" CTA.
 
-The CTA currently links to `#pricing` — change it in the HTML if the Webflow page uses a different anchor or URL.
+The CTA currently links to `#pricing`, change it in the HTML if the Webflow page uses a different anchor or URL.
 
 ### Wiring up the form submit
 
@@ -57,11 +57,11 @@ Cohort averages are baked into the `baseline` object in the script. They come fr
 - Three numbered information cards on the right. **Hovering** (or tapping on mobile) a card animates the inner triangle to the shape for that stage.
 
 The three stages are:
-1. *Where most people start* — small triangle
-2. *After your first four weeks* — mid-size triangle
-3. *Where Kalos takes you* — large triangle
+1. *Where most people start*, small triangle
+2. *After your first four weeks*, mid-size triangle
+3. *Where Kalos takes you*, large triangle
 
-There is no form, no submission logic, no CTA — this is a pure interactive visual.
+There is no form, no submission logic, no CTA, this is a pure interactive visual.
 
 **Size:** ~7 KB.
 

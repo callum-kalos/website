@@ -45,7 +45,7 @@ const steps: Step[] = [
     duration: '20 min',
     shortDesc: 'A real conversation with your analyst. Not a PDF. Not AI.',
     longDesc:
-      'You sit with a Kalos performance analyst — years of coaching and sport-science experience — who walks you through every number on your scan. What it means, what to prioritize, and how it stacks up against your goals.',
+      'You sit with a Kalos performance analyst (years of coaching and sport-science experience) who walks you through every number on your scan. What it means, what to prioritize, and how it stacks up against your goals.',
     bullets: [
       'Every metric explained in plain English',
       'Personalized priorities for you',
@@ -73,7 +73,7 @@ const steps: Step[] = [
     ],
     icon: Dumbbell,
     optional: true,
-    imageBrief: 'Member training in a gym (compound lift) — coach providing form feedback in background.',
+    imageBrief: 'Member training in a gym (compound lift), coach providing form feedback in background.',
     image: null,
   },
   {
@@ -124,7 +124,7 @@ export default function JourneyTimeline() {
           {/* ── Horizontal stepper (desktop) ──────────────────────── */}
           <div className="hidden md:block">
             <div className="relative max-w-[1000px] mx-auto mb-16">
-              {/* Connecting line — solid under steps 1-2, dashed under steps 3-4 */}
+              {/* Connecting line, solid under steps 1-2, dashed under steps 3-4 */}
               <div className="absolute top-7 left-[calc(12.5%)] right-[calc(12.5%)] flex items-center" aria-hidden="true">
                 {/* solid segment 1→2 */}
                 <div className="h-[2px] flex-1 bg-accent/40" />
@@ -195,7 +195,7 @@ export default function JourneyTimeline() {
             </div>
           </div>
 
-          {/* ── Mobile vertical stepper (just the labels — content panel below shows the active one) ── */}
+          {/* ── Mobile vertical stepper (just the labels, content panel below shows the active one) ── */}
           <div className="md:hidden mb-8">
             <div className="flex justify-between items-center gap-2">
               {steps.map((step, i) => {
