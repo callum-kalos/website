@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useFadeIn } from '../hooks/useFadeIn'
-import { ScanLine, Users, Dumbbell, Trophy, Camera, ArrowRight } from 'lucide-react'
+import { ScanLine, Users, Trophy, Camera, ArrowRight } from 'lucide-react'
 
 interface Step {
   id: string
@@ -58,27 +58,8 @@ const steps: Step[] = [
     image: '/journey-analysis.jpg',
   },
   {
-    id: 'program',
-    num: 3,
-    title: '4-Week Program',
-    duration: 'Optional',
-    shortDesc: 'Personalized training and nutrition plan. Rescan at week 4.',
-    longDesc:
-      'Your analyst builds a 4-week training and nutrition plan based on your scan, goals, and lifestyle. Weekly check-ins keep you on track. You rescan at week 4 to measure real change.',
-    bullets: [
-      'Custom training program',
-      'Nutrition + protein targets',
-      'Weekly check-ins',
-      '4-week follow-up scan',
-    ],
-    icon: Dumbbell,
-    optional: true,
-    imageBrief: 'Member training in a gym (compound lift), coach providing form feedback in background.',
-    image: null,
-  },
-  {
     id: 'coaching',
-    num: 4,
+    num: 3,
     title: 'Long-Term Coaching',
     duration: 'Optional',
     shortDesc: 'Monthly scans, ongoing coaching, compounding results.',
@@ -124,19 +105,19 @@ export default function JourneyTimeline() {
           {/* ── Horizontal stepper (desktop) ──────────────────────── */}
           <div className="hidden md:block">
             <div className="relative max-w-[1000px] mx-auto mb-16">
-              {/* Connecting line, solid under steps 1-2, dashed under steps 3-4 */}
-              <div className="absolute top-7 left-[calc(12.5%)] right-[calc(12.5%)] flex items-center" aria-hidden="true">
+              {/* Connecting line, solid 1→2, dashed 2→3 with "Optional" label */}
+              <div className="absolute top-7 left-[16.67%] right-[16.67%] flex items-center" aria-hidden="true">
                 {/* solid segment 1→2 */}
-                <div className="h-[2px] flex-1 bg-accent/40" />
-                {/* fork label between 2 and 3 */}
+                <div className="h-[2px] flex-[3] bg-accent/40" />
+                {/* optional label between 2 and 3 */}
                 <div className="px-4 shrink-0">
                   <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-text-tertiary whitespace-nowrap">
-                    Choose your path →
+                    Optional →
                   </p>
                 </div>
-                {/* dashed segment 3→4 */}
+                {/* dashed segment 2→3 */}
                 <div
-                  className="h-[2px] flex-1"
+                  className="h-[2px] flex-[1]"
                   style={{
                     backgroundImage:
                       'linear-gradient(to right, currentColor 50%, transparent 50%)',
@@ -147,7 +128,7 @@ export default function JourneyTimeline() {
               </div>
 
               {/* Step circles */}
-              <div className="grid grid-cols-4 relative">
+              <div className="grid grid-cols-3 relative">
                 {steps.map((step, i) => {
                   const isActive = activeIndex === i
                   return (
