@@ -35,7 +35,7 @@ const steps: Step[] = [
     icon: ScanLine,
     optional: false,
     imageBrief: 'Member lying on the DEXA bed, warm lighting, KALOS signage in frame.',
-    image: null,
+    image: '/journey-scan.jpg',
     cta: { text: 'Book My DEXA Scan', href: 'https://www.livekalos.com/book-now' },
   },
   {
@@ -55,7 +55,7 @@ const steps: Step[] = [
     icon: Users,
     optional: false,
     imageBrief: 'Analyst + member seated at a table, scan results on screen / printout, both leaning in.',
-    image: null,
+    image: '/journey-analysis.jpg',
   },
   {
     id: 'program',
