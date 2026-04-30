@@ -1,6 +1,7 @@
 import Navigation from './components/Navigation'
 import Hero from './components/Hero'
 import SocialProofBar from './components/SocialProofBar'
+import JourneyTimeline from './components/JourneyTimeline'
 import HowItWorks from './components/HowItWorksA'
 import Philosophy from './components/PhilosophyV1'
 import Results from './components/Results'
@@ -20,6 +21,7 @@ export default function App() {
       <Navigation />
       <Hero />
       <SocialProofBar />
+      <JourneyTimeline />
       <HowItWorks />
       <Philosophy />
       <Results />
