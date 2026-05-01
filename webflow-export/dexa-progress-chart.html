@@ -485,8 +485,15 @@
     tooltip.querySelector('[data-tip="nutrition"]').textContent = s.nutrition;
     tooltip.querySelector('[data-tip="insight"]').textContent   = s.insight;
 
-    // Position: tooltip anchors right when hovering early scans, left for late scans
-    tooltip.style.left = (i <= 2) ? '60%' : '10%';
+    // Position: anchor early scans (1-3) to the right edge, later scans (4-6) to the left edge.
+    // Anchoring with right:5% guarantees the 340px tooltip can never spill past the chart's right side.
+    if (i <= 2) {
+      tooltip.style.left  = 'auto';
+      tooltip.style.right = '5%';
+    } else {
+      tooltip.style.left  = '5%';
+      tooltip.style.right = 'auto';
+    }
 
     // Emphasize the hovered dot
     dotsByIndex.forEach(function(d, idx) {

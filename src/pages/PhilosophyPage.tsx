@@ -625,7 +625,9 @@ function DexaChart() {
         <div
           className="absolute z-20 bg-[#1a1a1a] border border-white/10 rounded-2xl p-5 shadow-[0_12px_40px_rgba(0,0,0,0.4)] w-[340px] pointer-events-none"
           style={{
-            left: hoveredScan <= 2 ? '60%' : '10%',
+            ...(hoveredScan <= 2
+              ? { right: '5%', left: 'auto' }
+              : { left: '5%', right: 'auto' }),
             top: '15%',
           }}
         >
